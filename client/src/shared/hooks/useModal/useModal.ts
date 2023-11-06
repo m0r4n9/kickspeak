@@ -30,13 +30,13 @@ export function useModal(props: UseModalProps) {
 
     useEffect(() => {
         if (isOpen) {
+            document.body.style.overflow = 'hidden';
             setIsMounted(true);
         }
-    }, [isOpen]);
 
-    useEffect(() => {
         return () => {
             clearTimeout(timeRef.current);
+            document.body.style.overflow = 'auto';
         };
     }, [isOpen]);
 
