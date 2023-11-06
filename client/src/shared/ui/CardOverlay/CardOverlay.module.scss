@@ -1,0 +1,11 @@
+.CardOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, height 0.2s ease;
+    z-index: 2;
+    height: 100%;
+}

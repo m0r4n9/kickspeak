@@ -1,0 +1,13 @@
+.ProductDetails {
+  position: relative;
+  max-width: var(--max-content-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 20px 36px;
+}
+
+.wrapperContent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}

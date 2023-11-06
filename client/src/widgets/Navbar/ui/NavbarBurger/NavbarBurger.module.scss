@@ -1,0 +1,60 @@
+.NavbarBurger {
+    display: flex;
+    z-index: inherit;
+}
+
+.toggleButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: black;
+    transition: background-color .3s ease, color .3s ease;
+}
+
+.burger {
+    position: relative;
+    height: 100vh;
+
+    .burgerTitle {
+        min-height: 4rem;
+        font-size: 12px;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--primary-40);
+    }
+
+    .burgerBody {
+        width: 100%;
+        overflow: hidden;
+        align-items: flex-start;
+        padding: 0 2rem;
+
+        .icon {
+            transform: rotate(180deg);
+        }
+
+        .wrapperLink {
+            .icon {
+                width: 48px;
+                height: 48px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .burgerFooter {
+        position: absolute;
+        left: 2rem;
+        bottom: 10rem;
+    }
+}
+
+@media (min-width: 991px) {
+    .NavbarBurger, .wrapperBurger {
+        display: none !important;
+    }
+}

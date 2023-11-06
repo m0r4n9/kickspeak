@@ -1,0 +1,34 @@
+.leftBar {
+    position: relative;
+    display: flex;
+    align-items: start;
+    flex-direction: row;
+    flex: 1 1 50rem;
+}
+.swiper {
+    position: sticky;
+    top: var(--navbar-height);
+}
+.wrapperPreviewImage {
+    display: flex;
+    flex-direction: column;
+}
+
+.previewImage {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.wrapperMainImage {
+    width: auto;
+    flex: 0 1 40rem;
+    margin: 0 auto;
+    padding: 0 2.4rem
+}
+
+.mainImage {
+    max-width: 640px;
+    object-fit: cover;
+    width: 100%;
+}

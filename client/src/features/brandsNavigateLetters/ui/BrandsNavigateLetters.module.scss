@@ -1,0 +1,38 @@
+.BrandsNavigateLettersContainer {
+    position: sticky;
+    top: 50px;
+    z-index: var(--brands-z-index);
+}
+
+.BrandsNavigateLetters {
+    position: sticky;
+    display: flex;
+    align-items: center;
+    top: auto;
+    background: white;
+    z-index: var(--brands-z-index);
+    height: 100px;
+}
+
+.listLetters {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--primary-10);
+}
+
+.listLetterItem {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    font-size: var(--font-size-l);
+}
+
+.disabled {
+    color: var(--primary-40);
+    cursor: default;
+}

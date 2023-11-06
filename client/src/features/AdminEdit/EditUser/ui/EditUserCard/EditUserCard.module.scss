@@ -1,0 +1,39 @@
+.wrapper {
+    position: relative;
+    height: 100%;
+
+    background-color: white;
+    border-radius: 4px;
+
+    font-size: 16px;
+
+    .header {
+        padding: 20px 20px 10px;
+
+        .subTitle {
+            margin-top: 20px;
+        }
+    }
+
+    .wrapperInput {
+        position: relative;
+        padding: 15px 20px; 
+        border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+    }
+
+    .blockTitle {
+        width: 100%;
+        background-color: orange;
+        padding: 10px 20px;
+    }
+
+    .Label {
+        width: 250px;
+    }
+
+    .Input {
+        outline: none;
+        width: 400px;
+        padding: 5px;
+    }
+}

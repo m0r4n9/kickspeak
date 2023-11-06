@@ -1,0 +1,17 @@
+@mixin listLinksUser {
+    position: relative;
+    padding: 24px 0;
+    width: 100%;
+    border: none;
+    text-align: start;
+    background: none;
+    outline: none;
+    color: var(--text-color);
+    cursor: pointer;
+    border-bottom: 1px solid var(--primary-10);
+    transition: color .2s ease;
+
+    &:hover {
+        color: var(--primary-40);
+    }
+}

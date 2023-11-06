@@ -1,0 +1,39 @@
+.accountItem {
+    max-width: 34rem;
+}
+
+.accountDesc {
+    color: var(--primary-40);
+    font-size: 12px;
+}
+
+.accountItem:not(:first-child) {
+    padding-top: 5rem;
+}
+
+// BLOCK NAME/SURNAME
+.avatar {
+    width: 64px;
+    height: 64px;
+    background-color: var(--primary-05);
+    border-radius: 50%;
+
+    .avatarData {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: var(--primary-40);
+        font-size: var(--font-size-l);
+    }
+}
+
+// BLOCK EMAIL
+.wrapperEmailInput {
+    width: inherit;
+}
+
+.Input {
+    padding: 13px 52px 13px 16px;
+}

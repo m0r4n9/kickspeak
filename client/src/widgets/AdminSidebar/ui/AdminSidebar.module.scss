@@ -1,0 +1,29 @@
+.AdminSidebar {
+    width: 16rem;
+    height: 80vh;
+
+    padding: 20px 10px;
+
+    background-color: white;
+    border-radius: 4px;
+
+
+    .sidebarTitle {
+        margin-bottom: 1.2rem;
+    }
+
+    .sidebarList {
+        font-size: 16px;
+    }
+
+    .sideBarItem {
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--primary-10);
+    }
+
+    .active {
+        -webkit-box-shadow: -10px 0px 15px 0px rgba(0, 136, 240, 0.2) inset;
+        -moz-box-shadow: -10px 0px 15px 0px rgba(0, 136, 240, 0.2) inset;
+        box-shadow: -10px 0px 15px 0px rgba(0, 136, 240, 0.2) inset;
+    }
+}

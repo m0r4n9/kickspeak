@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_2" data-name="Слой 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 63.41 63.38" width="24" height="24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #1d1d1b;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="_Слой_1-2">
+    <line class="cls-1" x1=".35" y1=".35" x2="61.55" y2="61.55"/>
+    <line class="cls-1" x1="63.06" y1=".35" x2=".35" y2="63.02"/>
+  </g>
+</svg>

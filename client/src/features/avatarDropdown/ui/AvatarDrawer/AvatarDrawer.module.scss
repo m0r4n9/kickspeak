@@ -1,0 +1,29 @@
+@import "@/shared/mixins/mixins";
+
+.drawerContent {
+    position: relative;
+    padding-top: 5rem;
+}
+
+.drawerList {
+    width: 65%;
+}
+
+.item {
+    @include listLinksUser;
+    padding: 0;
+}
+
+.content {
+    padding: 24px 0;
+}
+
+.redColor {
+    color: red;
+    transition: opacity .2s ease;
+
+    &:hover {
+        opacity: 0.5;
+        color: red;
+    }
+}

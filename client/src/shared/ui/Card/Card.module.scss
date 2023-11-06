@@ -1,0 +1,63 @@
+.Card {
+  position: relative;
+}
+
+.normal {
+  background: var(--card-bg);
+}
+
+.white {
+  background: white;
+}
+
+.clear {
+  background: none;
+}
+
+.withoutPaddings {
+  padding: 0;
+}
+
+.partial {
+  border-radius: 20px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.gap_0 {
+  gap: 0;
+}
+
+.gap_4 {
+  gap: 4px;
+}
+
+.gap_8 {
+  gap: 8px;
+}
+
+.gap_16 {
+  gap: 16px;
+}
+
+.gap_24 {
+  gap: 24px
+}
+
+.none {
+  border-radius: 0;
+}
+
+.normal {
+  border-radius: 4px;
+}
+
+.top {
+  border-radius: 4px 4px 0 0;
+}
+
+.bottom {
+  border-radius: 0 0 4px 4px;
+}

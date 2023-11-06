@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_2" data-name="Слой 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.68 56.62" width="24" height="24">
+  <defs>
+    <style>
+      .filterIcon {
+        fill: none;
+        stroke: black;
+        stroke-miterlimit: 10;
+        stroke-width: 8px;
+      }
+    </style>
+  </defs>
+  <g id="_Слой_1-2" >
+    <g>
+      <line class="filterIcon" y1="6.5" x2="82.68" y2="6.5"/>
+      <line class="filterIcon" x1="13" y1="30.05" x2="69.69" y2="30.05"/>
+      <line class="filterIcon" x1="27.17" y1="50.12" x2="55.52" y2="50.12"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,103 @@
+.contentSizes {
+    position: relative;
+}
+
+.sizeBody {
+    position: absolute;
+    top: -3.3rem;
+    left: 0;
+    right: 0;
+    padding: 10px 0 20px;
+    z-index: 1;
+    background-color: var(--card-bg);
+}
+
+.sizesPlate {
+    justify-content: center;
+    display: grid;
+    gap: 0.2rem;
+    grid-gap: 0.2rem;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax(3rem, max-content));
+}
+
+
+.wrapperBtn {
+    position: relative;
+    display: flex;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: black;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-10);
+
+    transition: background-color .3s ease, color .3s ease;
+
+
+    .btn {
+        left: 50%;
+        opacity: 0;
+        position: absolute;
+        transform: translateX(-50%);
+        width: 1.6rem;
+    }
+}
+
+
+.sizeName {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.disabled {
+    animation: closeSizeName 2s ease;
+}
+
+.svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    opacity: 0;
+}
+
+.active {
+    animation: appearSvg 2s ease;
+}
+
+@keyframes closeSizeName {
+    0% {
+        opacity: 0.7;
+    }
+    20% {
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes appearSvg {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,127 @@
+.content {
+  margin-bottom: 2rem;
+}
+
+.imgWrapper {
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  background-color: #f2f2f2;
+  border-radius: 0.4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 4rem;
+  overflow: hidden;
+  width: 4rem;
+}
+
+.cartImg {
+  display: block;
+  opacity: 1;
+  padding-top: 89.286%;
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+  width: 5rem;
+}
+
+.ibg {
+  color: transparent;
+  display: block;
+  padding-top: 100%;
+  position: relative;
+}
+
+.cartImg img {
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
+}
+
+.ibg img {
+  left: 50%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.rightItem {
+  margin-left: 1rem;
+}
+
+.cartTitle {
+  flex: 1 1 auto;
+  margin-right: 1rem;
+}
+
+.productName {
+  color: var(--primary-40);
+  font-size: 12px;
+  margin-top: 0.5rem;
+}
+
+.cartActions {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cartPrice {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-bottom: 0;
+  padding-top: 0;
+  text-align: left;
+}
+
+.wrapperPrice {
+  text-align: right;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.counter {
+  -ms-flex: 1 0 10.3rem;
+  flex: 1 0 12.3rem;
+  max-width: 6.4rem;
+}
+
+.counterBtn {
+  border-radius: 50%;
+  background-color: var(--primary-05);
+  height: 2rem;
+  width: 2rem;
+}
+
+.counterNumber {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.size {
+  margin-left: 1.4rem;
+  color: var(--primary-40);
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+}

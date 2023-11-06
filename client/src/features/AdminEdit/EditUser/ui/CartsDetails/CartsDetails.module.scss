@@ -1,0 +1,22 @@
+.CartsDetails {
+
+}
+
+.list {
+    padding: 10px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .item {
+        margin-top: 10px;
+        border: 1px solid gray;
+        padding: 10px;
+
+        p {
+            margin: 4px 0;
+        }
+    }
+}
+

@@ -1,0 +1,30 @@
+.wrapperMenPage {
+    background: var(--bg-color);
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+.MenPage {
+    position: relative;
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+}
+
+.wrapperContent {
+    display: grid;
+    grid-template-areas:
+            'left content';
+    grid-template-columns: min-content 1fr min-content;
+    padding-top: 40px;
+}
+
+.left {
+    grid-area: left;
+    top: calc(var(--navbar-height) + 20px);
+}
+
+.content {
+    grid-area: content;
+    justify-self: center;
+    padding: 0 16px;
+    width: 100%;
+}

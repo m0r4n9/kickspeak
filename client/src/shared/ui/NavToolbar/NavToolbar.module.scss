@@ -1,0 +1,20 @@
+.wrapperNavList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  vertical-align: center;
+}
+
+.navList {
+  display: flex;
+
+  li:not(:first-child)::before {
+    content: "/";
+    color: var(--primary-40);
+    margin: 0 0.5rem;
+  }
+
+  li:last-child a {
+    color: var(--text-color);
+  }
+}

@@ -1,0 +1,19 @@
+.BrandItem {
+    max-width: 280px;
+    align-self: start;
+}
+
+.brandTitle {
+    width: 70px;
+    align-self: start;
+    font-size: var(--font-size-l);
+}
+
+.brandLink {
+    line-height: 1.9rem;
+}
+
+.disabled {
+    color: var(--primary-40);
+    cursor: default;
+}

@@ -1,0 +1,89 @@
+.Navbar {
+    height: var(--navbar-height);
+    width: 100%;
+    background: white;
+    min-height: 40px;
+    margin: 0 auto;
+    padding: 0 36px;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--navbar-z-index);
+}
+
+@media (max-width: 991px) {
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.headerMain {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.wrapper {
+    max-width: var(--max-content-width);
+    height: var(--navbar-height);
+    margin: 0 auto;
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    padding: 0 20px;
+
+    .Logo {
+        width: 36px;
+        height: 44px;
+    }
+}
+
+.wrapperLink {
+    height: var(--navbar-height);
+    padding: 0 20px;
+    transition: background-color 0.2s ease;
+}
+
+.wrapperIcon {
+    position: relative;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+
+    margin: 0;
+    padding: 0;
+
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: var(--primary-10);
+    }
+}
+
+@media (hover: hover) {
+    .wrapperLink:hover {
+        background-color: var(--primary-10);
+    }
+}
+
+@media (max-width: 590px) {
+    .Navbar {
+        padding: 0;
+    }
+
+    .wrapperIcon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .icon {
+        width: 21px;
+        height: 21px;
+    }
+}

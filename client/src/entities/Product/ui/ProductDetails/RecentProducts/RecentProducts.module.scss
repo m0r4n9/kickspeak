@@ -1,0 +1,16 @@
+.RecentProducts {
+
+}
+
+.containerListProducts {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.listProducts {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit,minmax(210px,20%));
+}

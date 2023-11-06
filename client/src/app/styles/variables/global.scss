@@ -1,0 +1,50 @@
+:root {
+    --font-family-title: 'Roboto', sans-serif;
+    //--font-family-text: 'Lato', sans-serif;
+    --font-family-text: 'Open Sans', sans-serif;
+
+    // Маленький размер шрифта
+    --font-size-s: 12px;
+    --font-line-s: 20px;
+    --font-s: var(--font-size-s) / var(--font-line-s) var(--font-family-text);
+
+    // Средний размер шрифта
+    //--font-size-m: 16px;
+    --font-size-m: 14px;
+    --font-line-m: 22px;
+    --font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-text);
+
+    // Большой размер шрифта
+    --font-size-l: 24px;
+    --font-line-l: 32px;
+    --font-l: var(--font-size-xl) / var(--font-line-xl) var(--font-family-title);
+
+    // XL
+    --font-size-xl: 30px;
+    --font-line-xl: 38px;
+    --font-xl: var(--font-size-xl) / var(--font-line-xl) var(--font-family-title);
+
+    // Размеры
+    --navbar-height: 75px;
+    --filter-toolbar: 232px;
+    --max-content-width: 1488px;
+
+    // Z-Index
+    --brands-z-index: 5;
+    --accent-product-z-index: 10;
+    --navbar-z-index: 20;
+    --dropdown-z-index: 30;
+    --modal-z-index: 100;
+    --sidebar-z-index: 150;
+    --popup-z-index: 175;
+
+    // Admin panel
+    --admin-background: #F1F5FF;
+}
+
+@media (max-width: 990px) {
+    :root {
+        --navbar-height: 64px;
+    }
+
+}

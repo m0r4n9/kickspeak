@@ -1,0 +1,18 @@
+.catalogWrapper {
+    flex: 0 1 112.8rem;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.catalog {
+    display: grid;
+    grid-auto-flow: row;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit,minmax(210px,20%));
+}
+
+@media (max-width: 990px) {
+    .catalog {
+        grid-template-columns: repeat(auto-fit,minmax(190px,25%));
+    }
+}

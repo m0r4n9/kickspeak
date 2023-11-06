@@ -1,0 +1,54 @@
+.Popup {
+    display: none;
+    position: fixed;
+    top: 30px;
+    right: 20px ;
+    z-index: var(--popup-z-index);
+
+    color: white;
+    max-width: 300px;
+    padding: 10px;
+
+    border-radius: 4px;
+
+    .content {
+        margin-top: 10px;
+    }
+}
+
+.bgGreen {
+    background-color: rgba(29, 180, 29, 0.75);
+}
+
+.bgRed {
+    background-color: rgba(192, 24, 24, 0.9);
+}
+
+.open {
+    display: block;
+    animation: appearPopup 0.3s ease;
+}
+
+.closing {
+    display: block;
+    animation: closing 0.3s ease;
+}
+
+
+@keyframes appearPopup {
+    0% {
+        transform: translateY(-65px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes closing {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-200px);
+    }
+}

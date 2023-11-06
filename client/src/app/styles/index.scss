@@ -1,0 +1,12 @@
+@import "reset";
+@import "themes/light";
+@import "variables/global";
+
+.app {
+  background: white;
+  font: var(--font-m);
+}
+
+.content-wrapper {
+  height: 100%;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_2" data-name="Слой 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.23 40.02" width="21" height="21">
+  <defs>
+    <style>
+      .arrow {
+        fill: none;
+        stroke: #1d1d1b;
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <g id="_Слой_1-2">
+    <polyline class="arrow" points="26.62 .79 1.64 20.01 26.62 39.23"/>
+  </g>
+</svg>

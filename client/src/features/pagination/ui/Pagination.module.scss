@@ -1,0 +1,36 @@
+.Pagination {
+    height: 2rem;
+    //margin: 10px 0;
+
+    button {
+        padding: 0 8px;
+        border-radius: 4px;
+        transition: background-color 0.1s ease;
+    }
+
+    button:hover {
+        background-color: var(--primary-10);
+    }
+}
+
+.leftSide {
+
+    svg {
+        transform: rotate(90deg);
+    }
+}
+
+.pageNumber {
+    width: 2rem;
+    text-align: center;
+    height: 100%;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rightSide {
+
+    svg {
+        transform: rotate(-90deg);
+    }
+}
