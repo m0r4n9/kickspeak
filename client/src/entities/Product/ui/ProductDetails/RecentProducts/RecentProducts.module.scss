@@ -9,8 +9,16 @@
 
 .listProducts {
     width: 100%;
-    display: grid;
-    grid-auto-flow: row;
-    justify-content: center;
-    grid-template-columns: repeat(auto-fit,minmax(210px,20%));
+    //display: grid;
+    //grid-auto-flow: row;
+    //justify-content: center;
+    //grid-template-columns: repeat(auto-fit, minmax(210px, 25%));
+}
+
+
+@media (max-width: 990px) {
+    .listProducts {
+        display: flex;
+        justify-content: start;
+    }
 }

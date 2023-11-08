@@ -1,4 +1,8 @@
-import {Product, ProductDetailsInfo, ProductDetailsSchema} from '@/entities/Product';
+import {
+    Product,
+    ProductDetailsInfo,
+    ProductDetailsSchema,
+} from '@/entities/Product';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchProductById } from '../services/fetchProductById/fetchProductById.ts';
 
@@ -34,5 +38,5 @@ const productDetailsSlice = createSlice({
 
 export const {
     actions: productDetailsActions,
-    reducer: productDetailsReducer
+    reducer: productDetailsReducer,
 } = productDetailsSlice;

@@ -34,15 +34,18 @@ export const ProductItem = memo((props: ProductItemProps) => {
 
     // Ловим размеры и делаем подсчет
     const heightOverlay = useMemo(() => {
-        if (!elementRef.current || !product.Sizes?.length) return;
+        if (!elementRef.current) return;
         let heightSizes;
+
+        if (!product.Sizes?.length) {
+            return elementRef.current.clientHeight + 24;
+        }
 
         if (elementRef.current.clientWidth <= 190) {
             heightSizes = Math.ceil(product.Sizes.length / 3);
         } else {
             heightSizes = Math.ceil(product.Sizes.length / 4);
         }
-
         return heightSizes * 32 + elementRef.current.clientHeight + 24;
     }, [elementRef.current?.clientWidth]);
 

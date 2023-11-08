@@ -10,3 +10,10 @@
     border-radius: 4px;
     padding: 2rem;
 }
+
+@media (max-width: 990px) {
+    .rightBar {
+        margin: 0 auto 2.4rem;
+        width: 100%;
+    }
+}
