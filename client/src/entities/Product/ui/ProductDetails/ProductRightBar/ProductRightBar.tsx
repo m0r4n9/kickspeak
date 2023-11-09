@@ -13,31 +13,37 @@ interface ProductRightBarProps {
     product?: Product;
 }
 
-export const ProductRightBar = memo(({ product }: ProductRightBarProps) => {
-    const additionalProducts = useSelector(getProductAdditionalProductsData);
+export const ProductRightBar = memo(
+    ({ product }: ProductRightBarProps) => {
+        const additionalProducts = useSelector(
+            getProductAdditionalProductsData,
+        );
 
-    return (
-        <div className={cls.rightBar} id="right-bar">
-            <VStack max gap="24" align="center" className={cls.test}>
-                <Text
-                    title={product?.Brand?.name}
-                    text={product?.name}
-                    color="primary40"
-                    align="center"
-                />
-                <ProductSizeInformation
-                    sizes={product?.Sizes}
-                    price={product?.price}
-                />
-                <ProductsAdditional
-                    additionalProducts={additionalProducts}
-                    idMainProduct={product?.id}
-                />
-                <ProductInformation
-                    code={product?.code}
-                    idProduct={product?.id.toString()}
-                />
-            </VStack>
-        </div>
-    );
-});
+        return (
+            <div className={cls.rightBar} id="right-bar">
+                <VStack max gap="24" align="center" className={cls.test}>
+                    <Text
+                        title={product?.Brand?.name}
+                        text={product?.name}
+                        color="primary40"
+                        align="center"
+                        className={cls.rightBarHeader}
+                    />
+
+                    <ProductSizeInformation
+                        sizes={product?.Sizes}
+                        price={product?.price}
+                    />
+                    <ProductsAdditional
+                        additionalProducts={additionalProducts}
+                        idMainProduct={product?.id}
+                    />
+                    <ProductInformation
+                        code={product?.code}
+                        idProduct={product?.id.toString()}
+                    />
+                </VStack>
+            </div>
+        );
+    },
+);

@@ -7,6 +7,7 @@ import { HStack, VStack } from '@/shared/ui/Stack';
 import { Button } from '@/shared/ui/Button';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { ProductData } from '../../model/types/Cart.ts';
+import {IMG_BASE_URL} from "@/shared/api/api.ts";
 
 interface CartItemProps {
     className?: string;
@@ -31,7 +32,7 @@ export const CartItem = memo((props: CartItemProps) => {
                     <div className={`${cls.cartImg} ${cls.ibg}`}>
                         <picture>
                             <AppImage
-                                src={product?.Images[0].url}
+                                src={IMG_BASE_URL + product?.Images[0].url}
                                 alt={product?.name}
                             />
                         </picture>

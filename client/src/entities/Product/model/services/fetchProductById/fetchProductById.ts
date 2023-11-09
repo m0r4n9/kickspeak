@@ -13,7 +13,6 @@ export const fetchProductById = createAsyncThunk<
         localStorage.getItem('recentProducts') || '[]',
     );
 
-
     try {
         const response = await extra.api.get<ProductDetailsInfo>(
             `/goods/${productId}`,
