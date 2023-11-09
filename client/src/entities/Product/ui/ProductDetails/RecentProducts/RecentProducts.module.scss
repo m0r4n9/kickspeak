@@ -1,5 +1,5 @@
 .RecentProducts {
-
+    max-width: var(--max-content-width);
 }
 
 .containerListProducts {
@@ -9,8 +9,13 @@
 
 .listProducts {
     width: 100%;
-    display: grid;
-    grid-auto-flow: row;
-    justify-content: center;
-    grid-template-columns: repeat(auto-fit,minmax(210px,20%));
+
+}
+
+
+@media (max-width: 990px) {
+    .listProducts {
+        display: flex;
+        justify-content: start;
+    }
 }
