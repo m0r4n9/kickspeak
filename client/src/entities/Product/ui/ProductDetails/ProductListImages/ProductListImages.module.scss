@@ -1,6 +1,7 @@
 .leftBar {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100%;
 }
 
@@ -79,6 +80,7 @@
     }
 
     .swiper {
+        display: block;
         order: 0;
     }
 
@@ -89,18 +91,19 @@
     }
 }
 
-
 // Desktop device
 @media (max-width: 990px) {
-    .swiper {
-        display: flex;
-        justify-content: center;
-    }
-
     .productHeader {
         display: block;
         width: 100%;
         padding: 0.5rem 2rem 1rem;
         background-color: white;
     }
+
+    .wrapperSlide {
+        display: flex;
+        justify-content: center;
+    }
 }
+
+

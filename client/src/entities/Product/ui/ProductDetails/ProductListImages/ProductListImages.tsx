@@ -1,9 +1,9 @@
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import cls from './ProductListImages.module.scss';
 import { Product } from '../../../model/types/product.ts';
 import { AppImage } from '@/shared/ui/AppImage';
 import { Swiper as SwiperType } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { Mousewheel, Thumbs } from 'swiper/modules';
 
 import 'swiper/css';
@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import { useIsMath } from '@/shared/hooks/useIsMath';
 import { IMG_BASE_URL } from '@/shared/api/api.ts';
 import { Text } from '@/shared/ui/Text';
+import { HStack } from '@/shared/ui/Stack';
 
 interface ProductListImages {
     product?: Product;
@@ -21,6 +22,8 @@ export const ProductListImages = memo(({ product }: ProductListImages) => {
     const { isMatch } = useIsMath();
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
     const [active, setActive] = useState(0);
+    const mainSwiper = useRef<SwiperRef>(null);
+    const swiperPreview = useRef<SwiperRef>(null);
 
     return (
         <div className={cls.leftBar}>
@@ -35,13 +38,20 @@ export const ProductListImages = memo(({ product }: ProductListImages) => {
 
             <div className={cls.swiper}>
                 <Swiper
+                    ref={swiperPreview}
                     slidesPerView={6}
-                    spaceBetween={20}
-                    width={300}
-                    height={400}
-                    autoHeight={isMatch}
+                    breakpoints={{
+                        991: {
+                            direction: 'vertical',
+                            height: 500,
+                        },
+                        0: {
+                            direction: 'horizontal',
+                            width: 400,
+                        },
+                    }}
+                    wrapperClass={cls.wrapperSlide}
                     className={cls.leftImages}
-                    direction={isMatch ? 'horizontal' : 'vertical'}
                     modules={[Thumbs]}
                     onSwiper={(swiper) => {
                         setThumbsSwiper(swiper);
@@ -65,12 +75,22 @@ export const ProductListImages = memo(({ product }: ProductListImages) => {
             </div>
 
             <Swiper
-                slidesPerView={1}
+                ref={mainSwiper}
+                breakpoints={{
+                    991: {
+                        slidesPerView: 1,
+                        height: 640,
+                        direction: 'vertical',
+                    },
+                    0: {
+                        slidesPerView: 1,
+                        direction: 'horizontal',
+
+                    },
+                }}
                 thumbs={{ swiper: thumbsSwiper }}
-                height={640}
                 cssMode
                 autoHeight
-                direction={isMatch ? 'horizontal' : 'vertical'}
                 modules={[Thumbs, Mousewheel]}
                 className={cls.wrapperMainImage}
                 onSlideChange={(swiper) => {
