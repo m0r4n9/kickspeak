@@ -7,10 +7,6 @@ const sequelize = require("./db");
 const router = require("./app/routes/reqular");
 const adminRouter = require("./app/routes/admin");
 
-
-// Function for auto create examples data
-const {fillModelData} = require("./app/utils/fillingDatabase");
-
 const PORT = process.env.PORT || 10000;
 
 const app = express();
@@ -21,10 +17,8 @@ app.use(
   cors({
       credentials: true,
       origin: [
-        "http://localhost:5173",
-        "https://kickspeak.onrender.com",
-        "http://localhost:4173",
-        "http://192.168.0.16:5173"
+        process.env.CLIENT_URL,
+        process.env.ANOTHER_CLIENT_URL,
       ]
     }
   ));
@@ -39,7 +33,6 @@ const start = async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({});
-    // await fillModelData();
     app.listen(PORT, () => console.log(`Server started on PORT = ${PORT}`));
   } catch (e) {
     console.log(e);
