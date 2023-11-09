@@ -1,20 +1,21 @@
 import cls from './ProductsAdditional.module.scss';
-import {memo} from 'react';
-import {Text} from "@/shared/ui/Text";
-import {HStack, VStack} from "@/shared/ui/Stack";
-import {AppLink} from "@/shared/ui/AppLink";
-import {getRouteProductDetails} from "@/shared/const/route.ts";
-import {AppImage} from "@/shared/ui/AppImage";
-import {AdditionalProduct} from "../../../../model/types/product.ts";
+import { memo } from 'react';
+import { Text } from '@/shared/ui/Text';
+import { HStack, VStack } from '@/shared/ui/Stack';
+import { AppLink } from '@/shared/ui/AppLink';
+import { getRouteProductDetails } from '@/shared/const/route.ts';
+import { AppImage } from '@/shared/ui/AppImage';
+import { AdditionalProduct } from '../../../../model/types/product.ts';
+import { IMG_BASE_URL } from '@/shared/api/api.ts';
 
 interface ProductsAdditionalProps {
     className?: string;
-    additionalProducts?:  AdditionalProduct[];
+    additionalProducts?: AdditionalProduct[];
     idMainProduct?: number;
 }
 
 export const ProductsAdditional = memo((props: ProductsAdditionalProps) => {
-    const {className, additionalProducts, idMainProduct} = props;
+    const { className, additionalProducts, idMainProduct } = props;
 
     return (
         <VStack max gap="8" align="center">
@@ -26,10 +27,9 @@ export const ProductsAdditional = memo((props: ProductsAdditionalProps) => {
                         to={getRouteProductDetails(color.id.toString())}
                     >
                         <AppImage
-                            src={color.Images[0].url}
+                            src={IMG_BASE_URL + color.Images[0].url}
                             className={`${cls.productsColors} ${
-                                color.id === idMainProduct &&
-                                cls.activeColor
+                                color.id === idMainProduct && cls.activeColor
                             }`}
                         />
                     </AppLink>

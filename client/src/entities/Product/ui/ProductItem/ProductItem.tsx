@@ -11,15 +11,17 @@ import { AppLink } from '@/shared/ui/AppLink';
 import { getRouteProductDetails } from '@/shared/const/route.ts';
 import { ProductSizes } from './ProductSizes/ProductSizes.tsx';
 import { useIsMath } from '@/shared/hooks/useIsMath';
+import { IMG_BASE_URL } from '@/shared/api/api.ts';
 
 interface ProductItemProps {
     className?: string;
     product?: Product;
     addProductCart?: (productId: number, sizeId: number) => void;
+    offSize?: boolean;
 }
 
 export const ProductItem = memo((props: ProductItemProps) => {
-    const { className, product, addProductCart } = props;
+    const { className, product, offSize = false, addProductCart } = props;
     const [hover, setHover] = useState(false);
     const elementRef = useRef() as MutableRefObject<HTMLDivElement>;
     const { isMobile } = useIsMath();
@@ -76,7 +78,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 {/* OVERLAY */}
                 <CardOverlay
                     hover={hover}
-                    isMobile={isMobile}
+                    isMobile={isMobile || offSize}
                     height={heightOverlay}
                 />
 
@@ -106,7 +108,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                             }}
                         >
                             <AppImage
-                                src={product?.Images[0]?.url}
+                                src={IMG_BASE_URL + product?.Images[0]?.url}
                                 className={`${cls.img}  ${cls.positionImg}`}
                             />
                         </div>
@@ -128,11 +130,11 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 </VStack>
             </AppLink>
 
-            {!isMobile && (
+            {!isMobile && !offSize && (
                 <ProductSizes
                     sizes={product?.Sizes}
-                    addProductCart={addProductCart}
                     hover={hover}
+                    addProductCart={addProductCart}
                 />
             )}
         </Card>

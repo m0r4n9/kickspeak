@@ -47,8 +47,14 @@ export const RecentProducts = memo((props: RecentProductsProps) => {
             >
                 <Swiper
                     ref={swiperRef}
-                    slidesPerView={3}
-                    slidesPerGroup={1}
+                    breakpoints={{
+                        990: {
+                            slidesPerView: 6,
+                        },
+                        0: {
+                            slidesPerView: 3,
+                        },
+                    }}
                     autoHeight={true}
                     modules={[Pagination, Navigation]}
                     className={cls.listProducts}
@@ -58,7 +64,7 @@ export const RecentProducts = memo((props: RecentProductsProps) => {
                             <ProductItem
                                 key={product.id}
                                 product={product}
-                                addProductCart={addProductCart}
+                                offSize={true}
                             />
                         </SwiperSlide>
                     ))}
