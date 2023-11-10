@@ -57,7 +57,7 @@ class CartService {
         },
       ],
       attributes: {
-        exclude: ["sex", "code", "colors", "brandId"],
+        exclude: ["sex", "code", "colors", "BrandId"],
       },
     });
 
@@ -107,7 +107,7 @@ class CartService {
         },
       ],
       attributes: {
-        exclude: ["sex", "code", "colors", "brandId"],
+        exclude: ["sex", "code", "colors", "BrandId"],
       },
     });
     const user = await User.findByPk(userId);

@@ -1,19 +1,67 @@
-const BrandAdminService = require("../../services/adminServices/brandAdmin-service");
+const BrandAdminService = require('../../services/adminServices/brandAdmin-service');
 
 class BrandAdminController {
-  async getBrands(req, res, next) {
-    try {
-      const limit = req.query._limit;
-      const page = req.query._page || 1;
+    async getBrands(req, res, next) {
+        try {
+            const limit = req.query._limit || 10;
+            const page = req.query._page || 1;
 
-
-      const brands = await BrandAdminService.getBrands(limit, page);
-      return res.json(brands);
-    } catch (e) {
-      console.log(e);
-      next(e);
+            const brands = await BrandAdminService.getBrands(limit, page);
+            return res.json(brands);
+        } catch (e) {
+            next(e);
+        }
     }
-  }
+
+    async getBrandDetails(req, res, next) {
+        try {
+            const { id } = req.params;
+            const brandData = await BrandAdminService.getBrandDetails(id);
+            return res.json(brandData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async updateBrand(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { data } = req.body;
+            const updatedBrand = await BrandAdminService.updateBrand(id, data);
+            return res.json(updatedBrand);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async createBrand(req, res, next) {
+        try {
+            const { name, foundation, country } = req.body;
+            let pathLogo = req.file?.path;
+
+            console.log(pathLogo);
+
+            const createdBrand = await BrandAdminService.createBrand(
+                name,
+                foundation,
+                country,
+                pathLogo,
+            );
+            return res.json(createdBrand);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteBrand(req, res, next) {
+        try {
+            const { id } = req.params;
+            const deletedBrand = await BrandAdminService.deleteBrand(id);
+            return res.json(deletedBrand);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new BrandAdminController();

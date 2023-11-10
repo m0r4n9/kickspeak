@@ -51,7 +51,7 @@ class ProductService {
         },
       ],
       attributes: {
-        exclude: ["brandId", "code"],
+        exclude: ["BrandId", "code"],
       },
     });
 
@@ -91,7 +91,7 @@ class ProductService {
         name: product.name,
       },
       attributes: {
-        exclude: ["brandId", "colors", "price", "code"],
+        exclude: ["BrandId", "colors", "price", "code"],
       },
       include: [
         {
@@ -140,7 +140,7 @@ class ProductService {
     }
     const products = await Product.findAll({
       attributes: {
-        exclude: ["colors", "code", "sex", "brandId"],
+        exclude: ["colors", "code", "sex", "BrandId"],
       },
       where: {
         [Op.or]: [

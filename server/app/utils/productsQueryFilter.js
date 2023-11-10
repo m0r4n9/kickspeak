@@ -52,7 +52,7 @@ function sexFilter(sex) {
 function brandFilter(brandId) {
   if (!brandId) return {};
   return {
-    brandId: brandId,
+    BrandId: brandId,
   };
 }
 
