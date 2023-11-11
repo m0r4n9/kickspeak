@@ -51,69 +51,71 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
     return (
         <DynamicModuleLoader reducers={reducer}>
             <WrapperAdminPage activeLink="brands">
-                <VStack
-                    max
-                    className={classNames(cls.AdminBrandCreate, {}, [
-                        className,
-                    ])}
-                >
-                    <div className={cls.containerTitle}>
-                        <h1>Добавить бренд</h1>
-                    </div>
-                    <form></form>
-                    <VStack max gap="16" className={cls.form}>
-                        <div>
-                            <label htmlFor="brand-name">
-                                Название компании:{' '}
-                            </label>
-                            <input
-                                id="brand-name"
-                                name="name"
-                                onChange={(e) => onChangeName(e.target.value)}
-                            />
+                <div className={cls.wrapperAdminBrandCreate}>
+                    <VStack
+                        max
+                        className={classNames(cls.AdminBrandCreate, {}, [
+                            className,
+                        ])}
+                    >
+                        <div className={cls.containerTitle}>
+                            <h1>Добавить бренд</h1>
                         </div>
+                        <form></form>
+                        <VStack max gap="16" className={cls.form}>
+                            <div className={cls.wrapperInput}>
+                                <label htmlFor="brand-name">
+                                    Название компании:
+                                </label>
+                                <input
+                                    id="brand-name"
+                                    name="name"
+                                    onChange={(e) => onChangeName(e.target.value)}
+                                />
+                            </div>
 
-                        <div>
-                            <label htmlFor="brand-foundation">
-                                Дата основания:{' '}
-                            </label>
-                            <input
-                                id="brand-foundation"
-                                name="foundation"
-                                type="number"
-                                onChange={(e) =>
-                                    onChangeFoundation(e.target.value)
-                                }
-                            />
-                        </div>
+                            <div className={cls.wrapperInput}>
+                                <label htmlFor="brand-foundation">
+                                    Дата основания:
+                                </label>
+                                <input
+                                    id="brand-foundation"
+                                    name="foundation"
+                                    type="number"
+                                    onChange={(e) =>
+                                        onChangeFoundation(e.target.value)
+                                    }
+                                />
+                            </div>
 
-                        <div>
-                            <label htmlFor="brand-country">Страна: </label>
-                            <input
-                                id="brand-country"
-                                name="country"
-                                onChange={(e) =>
-                                    onChangeCountry(e.target.value)
-                                }
-                            />
-                        </div>
+                            <div className={cls.wrapperInput}>
+                                <label htmlFor="brand-country">Страна:</label>
+                                <input
+                                    id="brand-country"
+                                    name="country"
+                                    onChange={(e) =>
+                                        onChangeCountry(e.target.value)
+                                    }
+                                />
+                            </div>
 
-                        <div>
-                            <label htmlFor="logo">
-                                Choose a profile picture:
-                            </label>
-
-                            <input
-                                type="file"
-                                id="logo"
-                                name="logo"
-                                onChange={(e) => addLogo(e.target.files?.[0])}
-                                accept="image/png, image/jpeg"
-                            />
-                        </div>
+                            <div className={cls.wrapperInput}>
+                                <input
+                                    type="file"
+                                    id="logo"
+                                    name="logo"
+                                    className={cls.fileInput}
+                                    onChange={(e) => addLogo(e.target.files?.[0])}
+                                    accept="image/png, image/jpeg"
+                                />
+                                <label htmlFor="logo">{logo?.name}</label>
+                            </div>
+                        </VStack>
                     </VStack>
+
                     <AdminFooter onUpdate={saveBrand} />
-                </VStack>
+                </div>
+
             </WrapperAdminPage>
         </DynamicModuleLoader>
     );
