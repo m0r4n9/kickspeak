@@ -2,6 +2,7 @@ import { RouteProps } from 'react-router-dom';
 import {
     AppRoutes,
     getRouteAdminAuth,
+    getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
     getRouteAdminBrands,
     getRouteAdminProducts,
@@ -12,7 +13,8 @@ import {
     getRouteCatalog,
     getRouteMain,
     getRouteProductDetails,
-    getRouteProfile, getRouteWishList,
+    getRouteProfile,
+    getRouteWishList,
 } from '../../const/route.ts';
 import { MainPage } from '@/pages/MainPage';
 import { ProductsPage } from '@/pages/ProductsPage';
@@ -20,14 +22,15 @@ import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { BrandsPage } from '@/pages/BrandsPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { UserRole } from '@/entities/User';
-import { AdminUsersPage } from '@/pages/AdminPages/AdminUsersPage';
 import { AdminProductsPage } from '@/pages/AdminPages/AdminProductsPage';
-import { AdminBrandDetailsPage } from '@/pages/AdminPages/AdminBrandDetailsPage';
-import { AdminBrandsPage } from '@/pages/AdminPages/AdminBrandsPage';
 import { AdminLoginPage } from '@/pages/AdminPages/AdminLoginPage';
-import { AdminUserDetailsPage } from '@/pages/AdminPages/AdminUserDetailsPage';
-import {BrandDetailsPage} from "@/pages/BrandDetailsPage";
-import {WishListPage} from "@/pages/WishListPage";
+import { BrandDetailsPage } from '@/pages/BrandDetailsPage';
+import { WishListPage } from '@/pages/WishListPage';
+import { AdminBrandsPage } from '@/pages/AdminPages/Brands/AdminBrandsPage';
+import { AdminBrandDetailsPage } from '@/pages/AdminPages/Brands/AdminBrandDetailsPage';
+import { AdminUsersPage } from '@/pages/AdminPages/Users/AdminUsersPage';
+import { AdminUserDetailsPage } from '@/pages/AdminPages/Users/AdminUserDetailsPage';
+import { AdminBrandCreatePage } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -63,7 +66,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.WISH_LIST]: {
         path: getRouteWishList(),
-        element: <WishListPage/>
+        element: <WishListPage />,
     },
     [AppRoutes.ADMIN_AUTH]: {
         path: getRouteAdminAuth(),
@@ -77,12 +80,19 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         adminPanel: true,
         role: [UserRole.ADMIN],
     },
+    [AppRoutes.ADMIN_BRAND_CREATE]: {
+        path: getRouteAdminBrandCreate(),
+        element: <AdminBrandCreatePage />,
+        authOnly: true,
+        adminPanel: true,
+        role: [UserRole.ADMIN],
+    },
     [AppRoutes.ADMIN_BRAND_DETAILS]: {
         path: getRouteAdminBrandDetails(':id'),
         element: <AdminBrandDetailsPage />,
         authOnly: true,
         adminPanel: true,
-        role: [UserRole.ADMIN]
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_PRODUCTS]: {
         path: getRouteAdminProducts(),
@@ -98,11 +108,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_USER_DETAILS]: {
-        path: getRouteAdminUserDetails(":id"),
-        element: <AdminUserDetailsPage/>,
+        path: getRouteAdminUserDetails(':id'),
+        element: <AdminUserDetailsPage />,
         authOnly: true,
         adminPanel: true,
-        role: [UserRole.ADMIN]
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.NOT_FOUND]: {
         path: '*',

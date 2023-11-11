@@ -16,11 +16,12 @@ import { CartSchema } from '@/entities/Cart';
 import { LoginSchema } from '@/features/Auth/AuthUser';
 import { SearchSchema } from '@/features/Search';
 import { AdminProductsSchema } from '@/pages/AdminPages/AdminProductsPage';
-import { AdminBrandsSchema } from '@/pages/AdminPages/AdminBrandsPage';
-import { AdminUsersSchema } from '@/pages/AdminPages/AdminUsersPage';
-import { AdminUserDetailsSchema } from '@/features/AdminEdit/EditUser';
+import { AdminBrandsSchema } from '../../../../pages/AdminPages/Brands/AdminBrandsPage';
+import { AdminUsersSchema } from '../../../../pages/AdminPages/Users/AdminUsersPage';
+import { AdminUserDetailsSchema } from '@/features/Admin/AdminEdit/EditUser';
 import { BrandDetailsSchema } from '@/pages/BrandDetailsPage';
-import {WishListSchema} from "@/pages/WishListPage";
+import { WishListSchema } from '@/pages/WishListPage';
+import { BrandCreateSchema } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
 
 export interface StateSchema {
     scroll: ScrollSaveSchema;
@@ -40,6 +41,7 @@ export interface StateSchema {
     // Admin
     adminProducts?: AdminProductsSchema;
     adminBrands?: AdminBrandsSchema;
+    adminBrandCreate?: BrandCreateSchema;
     adminUsers?: AdminUsersSchema;
     adminUserDetails?: AdminUserDetailsSchema;
 }

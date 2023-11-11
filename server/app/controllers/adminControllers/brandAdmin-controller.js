@@ -1,4 +1,5 @@
 const BrandAdminService = require('../../services/adminServices/brandAdmin-service');
+const fs = require("fs");
 
 class BrandAdminController {
     async getBrands(req, res, next) {
@@ -39,8 +40,6 @@ class BrandAdminController {
             const { name, foundation, country } = req.body;
             let pathLogo = req.file?.path;
 
-            console.log(pathLogo);
-
             const createdBrand = await BrandAdminService.createBrand(
                 name,
                 foundation,
@@ -49,6 +48,11 @@ class BrandAdminController {
             );
             return res.json(createdBrand);
         } catch (e) {
+            if (e.errors[0] === 'cancel') {
+                fs.unlink(e.errors[1], err => {
+                    console.log(err);
+                });
+            }
             next(e);
         }
     }

@@ -19,9 +19,7 @@ const AppRoute = () => {
     useEffect(() => {
         const check = async () => {
             if (localStorage.getItem('userId')) {
-                await dispatch(
-                    checkAuth(localStorage.getItem('userId') || '-1'),
-                ).then((response) => {
+                await dispatch(checkAuth()).then((response) => {
                     if (response.meta.requestStatus === 'fulfilled') {
                         dispatch(fetchCarts());
                     }
@@ -36,7 +34,6 @@ const AppRoute = () => {
     const renderWithWrapper = useCallback(
         (route: AppRoutesProps) => {
             const element = <Suspense fallback={''}>{route.element}</Suspense>;
-
             let content;
 
             if (route.adminPanel) {

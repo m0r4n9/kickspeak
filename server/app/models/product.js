@@ -9,7 +9,6 @@ const Brand = sequelize.define(
     foundation: { type: DataTypes.SMALLINT },
     country: { type: DataTypes.STRING(100) },
     logo: { type: DataTypes.STRING },
-    data: { type: DataTypes.BLOB },
   },
   {
     timestamps: false,
@@ -22,15 +21,15 @@ const Brand = sequelize.define(
   },
 );
 
-Brand.addHook("afterFind", "countProducts", async (brands) => {
-  if (!Array.isArray(brands)) {
-    brands = [brands];
-  }
-  for (const brand of brands) {
-    const productCount = await Product.count({ where: { BrandId: brand.id } });
-    brand.setDataValue("productCount", productCount);
-  }
-});
+// Brand.addHook("afterFind", "countProducts", async (brands) => {
+//   if (!Array.isArray(brands)) {
+//     brands = [brands];
+//   }
+//   for (const brand of brands) {
+//     const productCount = await Product.count({ where: { BrandId: brand?.id } });
+//     brand.setDataValue("productCount", productCount);
+//   }
+// });
 
 const Product = sequelize.define(
   "Product",
@@ -53,11 +52,6 @@ const Product = sequelize.define(
     ],
   },
 );
-
-// {
-//   unique: false,
-//     fields: ["name"],
-// },
 
 const Image = sequelize.define(
   "Image",

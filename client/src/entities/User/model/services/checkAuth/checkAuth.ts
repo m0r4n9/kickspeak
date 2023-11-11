@@ -3,16 +3,13 @@ import { User } from '../../types/User.ts';
 import { userActions } from '../../silce/userSlice.ts';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 
-export const checkAuth = createAsyncThunk<User, string, ThunkConfig<string>>(
+export const checkAuth = createAsyncThunk<User, void, ThunkConfig<string>>(
     'user/checkAuth',
-    async (userId, thunkAPI) => {
+    async (_, thunkAPI) => {
         const { extra, dispatch, rejectWithValue } = thunkAPI;
+
         try {
-            const response = await extra.api.get<User>('/refresh', {
-                params: {
-                    userId
-                }
-            });
+            const response = await extra.api.get<User>('/refresh');
             dispatch(userActions.setAuthData(response.data));
 
             return response.data;

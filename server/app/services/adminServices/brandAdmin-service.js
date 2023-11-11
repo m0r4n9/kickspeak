@@ -43,6 +43,18 @@ class BrandAdminService {
         if (!name) {
             throw ApiError.BadRequest('Введите название бренда');
         }
+        const candidat = await Brand.findOne({
+            where: {
+                name,
+            },
+        });
+
+        if (candidat) {
+            throw ApiError.BadRequest('Такая компания уже существует', [
+                'cancel',
+                pathLogo,
+            ]);
+        }
 
         const brand = await Brand.build({
             name,

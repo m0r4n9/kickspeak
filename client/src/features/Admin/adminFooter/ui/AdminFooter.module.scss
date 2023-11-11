@@ -1,0 +1,23 @@
+.AdminFooter {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 20px;
+
+    background-color: var(--primary-10);
+    z-index: 2;
+
+    .button {
+        padding: 10px 5px;
+    }
+
+}
+
+.wrapperButton {
+    margin-top: 20px;
+
+    button {
+        padding: 10px;
+    }
+}

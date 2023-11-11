@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Product } from '@/entities/Product';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
-import { ErrorInterface } from '@/shared/interfaces/ErrorInterface.ts';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 import {AxiosError, isAxiosError} from "axios";
 
 export const fetchWishList = createAsyncThunk<
