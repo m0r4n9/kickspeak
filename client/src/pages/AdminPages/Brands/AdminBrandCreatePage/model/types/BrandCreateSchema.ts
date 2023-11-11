@@ -5,7 +5,7 @@ export interface BrandCreateSchema {
     isLoading?: boolean;
 
     name: string;
-    foundation: number;
+    foundation: string;
     country: string;
     error?: ErrorInterface;
 }

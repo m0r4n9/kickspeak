@@ -121,6 +121,7 @@ export const AdminBrandsContent = memo((props: AdminBrandsContentProps) => {
             <AdminRightBar
                 table={table}
                 createRoute={getRouteAdminBrandCreate()}
+                entityName="бренд"
             />
         </HStack>
     );

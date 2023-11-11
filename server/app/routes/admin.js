@@ -10,7 +10,7 @@ const upload = require('../middlewares/uploadImg');
 adminRouter.get('/brands', BrandAdminController.getBrands);
 adminRouter.get('/brand/:id', BrandAdminController.getBrandDetails);
 adminRouter.put('/brand/update/:id', BrandAdminController.updateBrand);
-adminRouter.post('/brand/create', upload.single("logo"),  BrandAdminController.createBrand);
+adminRouter.post('/brand/create', upload.single("logo"), BrandAdminController.createBrand);
 adminRouter.delete('/brand/delete/:id', BrandAdminController.deleteBrand);
 
 // Products

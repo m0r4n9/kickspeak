@@ -7,8 +7,9 @@ import { getBrandCreateFoundation } from '@/pages/AdminPages/Brands/AdminBrandCr
 import { getBrandCreateCountry } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateCountry/getBrandCreateCountry.ts';
 import { getBrandCreateLogo } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateLogo/getBrandCreateLogo.ts';
 
+
 export const createBrand = createAsyncThunk<
-    void,
+    string,
     { logo: File | undefined },
     ThunkConfig<ErrorInterface>
 >('AdminBrandCreate/createBrand', async (data, thunkAPI) => {
@@ -27,11 +28,12 @@ export const createBrand = createAsyncThunk<
     formData.append('country', country);
 
     try {
-        await extra.api.post<void>('/admin/brand/create', formData, {
+        const response = await extra.api.post<string>('/admin/brand/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {
             const serverError = e as AxiosError<ErrorInterface>;

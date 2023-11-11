@@ -7,15 +7,16 @@ import { getRouteMain } from '@/shared/const/route.ts';
 interface CreateEntityProps {
     className?: string;
     createRoute: string;
+    entityName?: string;
 }
 
 export const CreateEntity = memo((props: CreateEntityProps) => {
-    const { className, createRoute } = props;
+    const { className, createRoute, entityName } = props;
 
     return (
         <div className={classNames(cls.CreateEntity, {}, [className])}>
             <AppLink to={createRoute} className={cls.createLink}>
-                Создать пользователя
+                Добавить {entityName}
             </AppLink>
         </div>
     );

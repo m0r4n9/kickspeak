@@ -1,4 +1,5 @@
-const { Brand, Product, Size, Image } = require('../../models/product');
+const { Brand, Product } = require('../../models/product');
+const { Op } = require('sequelize');
 const ApiError = require('../../exceptions/api-error');
 
 class BrandAdminService {
@@ -45,7 +46,9 @@ class BrandAdminService {
         }
         const candidat = await Brand.findOne({
             where: {
-                name,
+                name: {
+                    [Op.iLike]: name,
+                },
             },
         });
 

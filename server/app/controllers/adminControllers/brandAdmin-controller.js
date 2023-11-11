@@ -1,5 +1,5 @@
 const BrandAdminService = require('../../services/adminServices/brandAdmin-service');
-const fs = require("fs");
+const fs = require('fs');
 
 class BrandAdminController {
     async getBrands(req, res, next) {
@@ -46,10 +46,10 @@ class BrandAdminController {
                 country,
                 pathLogo,
             );
-            return res.json(createdBrand);
+            return res.json(createdBrand?.id);
         } catch (e) {
-            if (e.errors[0] === 'cancel') {
-                fs.unlink(e.errors[1], err => {
+            if (e.errors[0] === 'cancel' && fs.existsSync(e.errors[1])) {
+                fs.unlink(e.errors[1], (err) => {
                     console.log(err);
                 });
             }

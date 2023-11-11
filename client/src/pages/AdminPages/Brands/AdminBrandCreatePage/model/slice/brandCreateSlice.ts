@@ -5,7 +5,7 @@ import { createBrand } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/mode
 const initialState: BrandCreateSchema = {
     isLoading: false,
     name: '',
-    foundation: 0,
+    foundation: '',
     country: '',
 };
 
@@ -16,15 +16,14 @@ const brandCreateSlice = createSlice({
         setName: (state, action: PayloadAction<string>) => {
             state.name = action.payload;
         },
-        setFoundation: (state, action: PayloadAction<number>) => {
+        setFoundation: (state, action: PayloadAction<string>) => {
             state.foundation = action.payload;
         },
         setCountry: (state, action: PayloadAction<string>) => {
             state.country = action.payload;
         },
         clearFields: (state) => {
-            state.name = state.country = '';
-            state.foundation = 0;
+            state.name = state.country = state.foundation = '';
         },
     },
     extraReducers: (builder) =>

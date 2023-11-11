@@ -14,10 +14,11 @@ interface AdminRightBarProps<T> {
     createRoute: string;
     query?: string;
     search?: (query: string) => void;
+    entityName?: string;
 }
 
 export function AdminRightBar<T>(props: AdminRightBarProps<T>) {
-    const { className, table, createRoute, query, search } = props;
+    const { className, table, createRoute, entityName, query, search } = props;
 
     return (
         <VStack
@@ -28,7 +29,7 @@ export function AdminRightBar<T>(props: AdminRightBarProps<T>) {
 
             <SearchAdmin query={query} search={search} />
 
-            <CreateEntity createRoute={createRoute} />
+            <CreateEntity createRoute={createRoute} entityName={entityName} />
         </VStack>
     );
 }
