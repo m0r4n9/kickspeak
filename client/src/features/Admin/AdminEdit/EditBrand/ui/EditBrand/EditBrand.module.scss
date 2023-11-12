@@ -1,0 +1,25 @@
+.EditBrand {
+    flex: 1;
+    background-color: white;
+    border-radius: 4px;
+    height: 556px;
+}
+
+.containerEditBrand {
+    padding: 20px 10px;
+    height: 100%;
+    position: relative;
+}
+
+.containerTitle {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--primary-10);
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+}

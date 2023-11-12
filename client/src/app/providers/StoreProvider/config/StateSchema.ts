@@ -22,6 +22,7 @@ import { AdminUserDetailsSchema } from '@/features/Admin/AdminEdit/EditUser';
 import { BrandDetailsSchema } from '@/pages/BrandDetailsPage';
 import { WishListSchema } from '@/pages/WishListPage';
 import { BrandCreateSchema } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
+import {AdminBrandDetailsSchema} from "@/features/Admin/AdminEdit/EditBrand";
 
 export interface StateSchema {
     scroll: ScrollSaveSchema;
@@ -42,6 +43,7 @@ export interface StateSchema {
     adminProducts?: AdminProductsSchema;
     adminBrands?: AdminBrandsSchema;
     adminBrandCreate?: BrandCreateSchema;
+    adminBrandDetails?: AdminBrandDetailsSchema;
     adminUsers?: AdminUsersSchema;
     adminUserDetails?: AdminUserDetailsSchema;
 }

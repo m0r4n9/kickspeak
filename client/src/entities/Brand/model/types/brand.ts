@@ -1,11 +1,11 @@
 import {Product} from "@/entities/Product";
 
 export interface Brand {
-    id: number;
-    name: string;
-    foundation: string;
-    country: string;
-    logo: string;
+    id?: string;
+    name?: string;
+    foundation?: string;
+    country?: string;
+    logo?: string;
 
     productCount?: number;
 }

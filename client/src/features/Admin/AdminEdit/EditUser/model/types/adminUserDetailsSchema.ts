@@ -1,7 +1,6 @@
-import {Profile} from "@/entities/Profile";
-import {ErrorInterface} from "@/shared/interfaces/ApiError";
-import {CartFields} from "@/entities/Cart";
-import {SizeProduct} from "@/entities/Product/model/types/product.ts";
+import { Profile } from '@/entities/Profile';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
+import { SizeProduct } from '@/entities/Product/model/types/product.ts';
 
 export interface AdminCart {
     id?: string;

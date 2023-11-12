@@ -36,7 +36,7 @@ class BrandAdminService {
 
     async updateBrand(id, data) {
         const brand = await Brand.findByPk(id);
-        await brand.update(data);
+        await brand?.update(data);
         return brand;
     }
 

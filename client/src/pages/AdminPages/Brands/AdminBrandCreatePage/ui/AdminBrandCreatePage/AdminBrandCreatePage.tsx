@@ -6,7 +6,7 @@ import {
     brandCreateActions,
     brandCreateReducer,
 } from '../../model/slice/brandCreateSlice.ts';
-import { VStack } from '@/shared/ui/Stack';
+import {HStack, VStack} from '@/shared/ui/Stack';
 import { WrapperAdminPage } from '@/widgets/WrapperAdminPage';
 import { AdminFooter } from '@/features/Admin/adminFooter';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
@@ -71,13 +71,9 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
         dispatch(brandCreateActions.setCountry(value));
     }, []);
 
-    const addLogo = useCallback((logo?: File) => {
-        if (logo) setLogo(logo);
-    }, []);
 
     const saveBrand = useCallback(() => {
         dispatch(createBrand({ logo })).then((res) => {
-            console.log(res.meta);
             if (res.meta.requestStatus === 'fulfilled') {
                 navigate(getRouteAdminBrandDetails(res.payload as string));
             }
@@ -103,7 +99,7 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                         </div>
                         {errors && <div style={{color: "red"}}>{errors.message}</div>}
                         <VStack max gap="16" className={cls.form}>
-                            <div className={cls.wrapperInput}>
+                            <HStack justify="between" className={cls.wrapperInput}>
                                 <label htmlFor="brand-name">
                                     Название компании:
                                 </label>
@@ -116,9 +112,9 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                         onChangeName(e.target.value)
                                     }
                                 />
-                            </div>
+                            </HStack>
 
-                            <div className={cls.wrapperInput}>
+                            <HStack justify="between" className={cls.wrapperInput}>
                                 <label htmlFor="brand-foundation">
                                     Дата основания:
                                 </label>
@@ -133,9 +129,9 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                         onChangeFoundation(e.target.value)
                                     }
                                 />
-                            </div>
+                            </HStack>
 
-                            <div className={cls.wrapperInput}>
+                            <HStack justify="between" className={cls.wrapperInput}>
                                 <label htmlFor="brand-country">Страна:</label>
                                 <input
                                     id="brand-country"
@@ -146,7 +142,7 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                         onChangeCountry(e.target.value)
                                     }
                                 />
-                            </div>
+                            </HStack>
 
                             <div className={cls.containerDragAndDrop}>
                                 <div
