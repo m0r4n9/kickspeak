@@ -4,6 +4,7 @@ import { User } from '@/entities/User';
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const IMG_BASE_URL = import.meta.env.VITE_IMG_URL;
 
+
 export const $api = axios.create({
     withCredentials: true,
     baseURL: BASE_URL,

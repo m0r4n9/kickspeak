@@ -27,10 +27,11 @@ export const createBrand = createAsyncThunk<
     formData.append('foundation', foundation);
     formData.append('country', country);
 
+
     try {
         const response = await extra.api.post<string>('/admin/brand/create', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+
             },
         });
         return response.data;

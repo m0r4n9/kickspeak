@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './EditBrand.module.scss';
 import { fetchBrandById } from '../../model/services/fetchBrandById.ts';
 import {
@@ -31,6 +31,10 @@ export const EditBrand = memo((props: EditBrandProps) => {
     const dispatch = useAppDispatch();
     const brandData = useSelector(getAdminBrandDetailsData);
     const brandForm = useSelector(getAdminBrandDetailsForm);
+    const [brandLogo, setBrandLogo] = useState<File>();
+
+    console.log('state');
+    console.log(brandLogo);
 
     useEffect(() => {
         if (id) dispatch(fetchBrandById({ id }));
@@ -41,8 +45,16 @@ export const EditBrand = memo((props: EditBrandProps) => {
     }, []);
 
     const onUpdateBrand = useCallback(() => {
-        dispatch(updateBrand());
-    }, []);
+        if (brandLogo) {
+            dispatch(
+                updateBrand({
+                    logo: brandLogo,
+                }),
+            );
+            return;
+        }
+        dispatch(updateBrand({}));
+    }, [brandLogo]);
 
     const handleEditName = useCallback((value: string) => {
         dispatch(
@@ -82,6 +94,9 @@ export const EditBrand = memo((props: EditBrandProps) => {
                         name={brandForm?.name}
                         foundation={brandForm?.foundation}
                         country={brandForm?.country}
+                        urlLogo={brandData?.logo}
+                        logo={brandLogo}
+                        setLogo={setBrandLogo}
                         onChangeName={handleEditName}
                         onChangeFoundation={handleEditFoundation}
                         onChangeCounty={handleEditCountry}

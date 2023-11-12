@@ -27,16 +27,17 @@ class BrandAdminService {
                     exclude: ['BrandId', 'colors', 'sex'],
                 },
             },
-            attributes: {
-                exclude: ['logo', 'data'],
-            },
         });
         return brand;
     }
 
-    async updateBrand(id, data) {
+    async updateBrand(id, data, pathLogo) {
         const brand = await Brand.findByPk(id);
-        await brand?.update(data);
+        const newData = {
+            ...data,
+            logo: pathLogo
+        }
+        await brand?.update(newData);
         return brand;
     }
 

@@ -1,17 +1,25 @@
-import { memo } from 'react';
+import { ChangeEvent, memo, useRef, useState } from 'react';
 import cls from './EditBrandCard.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { HStack, VStack } from '@/shared/ui/Stack';
+import { AppImage } from '@/shared/ui/AppImage';
+import { IMG_BASE_URL } from '@/shared/api/api.ts';
+import { DragAndDrop } from '@/shared/ui/DragAndDrop';
+import { useDragAndDrop } from '@/shared/hooks/useDragAndDrop';
+import {Button} from "@/shared/ui/Button";
 
 interface EditBrandCardProps {
     className?: string;
     name?: string;
     foundation?: string;
     country?: string;
+    urlLogo?: string;
+    logo?: File;
 
     onChangeName?: (value: string) => void;
     onChangeFoundation?: (value: string) => void;
     onChangeCounty?: (value: string) => void;
+    setLogo?: (file: File) => void;
 }
 
 export const EditBrandCard = memo((props: EditBrandCardProps) => {
@@ -20,10 +28,19 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
         name,
         foundation,
         country,
+        urlLogo,
+        logo,
         onChangeName,
         onChangeFoundation,
         onChangeCounty,
+        setLogo,
     } = props;
+
+    const { previewUrl, handleOndragOver, handleFile, handleOndrop, reset } =
+        useDragAndDrop({
+            setFile: setLogo,
+        });
+    const refFileInput = useRef<HTMLInputElement | null>(null);
 
     return (
         <VStack
@@ -62,6 +79,39 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
                     onChange={(e) => onChangeCounty?.(e.target.value)}
                 />
             </HStack>
+
+            <HStack
+                justify="between"
+                className={cls.wrapperLogo}
+                onDragOver={handleOndragOver}
+                onDrop={handleOndrop}
+            >
+                <div>
+                    <p>Логотип: </p>
+                    <Button onClick={reset}>
+                        Вернуть изображение
+                    </Button>
+                </div>
+                <AppImage
+                    src={previewUrl ? previewUrl : urlLogo}
+                    onClick={() => refFileInput.current?.click()}
+                    alt={name}
+                    serverImages={!Boolean(previewUrl)}
+                    style={{
+                        objectFit: 'cover',
+                        width: '100%',
+                    }}
+                />
+                <input
+                    type="file"
+                    ref={refFileInput}
+                    hidden
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        if (e.target.files) handleFile(e?.target?.files?.[0]);
+                    }}
+                />
+            </HStack>
+
         </VStack>
     );
 });

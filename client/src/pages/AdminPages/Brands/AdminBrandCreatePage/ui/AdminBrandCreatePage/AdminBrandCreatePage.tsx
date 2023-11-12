@@ -6,20 +6,21 @@ import {
     brandCreateActions,
     brandCreateReducer,
 } from '../../model/slice/brandCreateSlice.ts';
-import {HStack, VStack} from '@/shared/ui/Stack';
+import { HStack, VStack } from '@/shared/ui/Stack';
 import { WrapperAdminPage } from '@/widgets/WrapperAdminPage';
 import { AdminFooter } from '@/features/Admin/adminFooter';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { createBrand } from '../../model/services/createBrand.ts';
 import { useSelector } from 'react-redux';
 import { getBrandCreateName } from '../../model/selectors/getBrandCreateName/getBrandCreateName.ts';
 import { getBrandCreateFoundation } from '../../model/selectors/getBrandCreateFoundation/getBrandCreateFoundation.ts';
 import { getBrandCreateCountry } from '../../model/selectors/getBrandCreateCountry/getBrandCreateCountry.ts';
 import { ReactComponent as DnDIcon } from '@/shared/assets/icons/drag-drop.svg';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getRouteAdminBrandDetails } from '@/shared/const/route.ts';
 import { getBrandCreateErrors } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateErrors/getBrandCreateErrors.ts';
+import { DragAndDrop } from '@/shared/ui/DragAndDrop';
 
 interface AdminBrandCreateProps {
     className?: string;
@@ -36,26 +37,8 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
     const foundation = useSelector(getBrandCreateFoundation) || '';
     const country = useSelector(getBrandCreateCountry) || '';
     const errors = useSelector(getBrandCreateErrors);
-    const fileInput = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
     const [logo, setLogo] = useState<File>();
-    const [previewUrl, setPreviewUrl] = useState('');
-
-    const handleOndragOver = (event: any) => {
-        event.preventDefault();
-    };
-
-    const handleFile = (file: File) => {
-        setLogo(file);
-        setPreviewUrl(URL.createObjectURL(file));
-    };
-
-    const handleOndrop = (event: any) => {
-        event.preventDefault();
-        event.stopPropagation();
-        let imageFile = event.dataTransfer.files[0];
-        handleFile(imageFile);
-    };
 
     const onChangeName = useCallback((value: string) => {
         dispatch(brandCreateActions.setName(value));
@@ -70,7 +53,6 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
     const onChangeCountry = useCallback((value: string) => {
         dispatch(brandCreateActions.setCountry(value));
     }, []);
-
 
     const saveBrand = useCallback(() => {
         dispatch(createBrand({ logo })).then((res) => {
@@ -97,9 +79,14 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                         <div className={cls.containerTitle}>
                             <h1>Добавить бренд</h1>
                         </div>
-                        {errors && <div style={{color: "red"}}>{errors.message}</div>}
+                        {errors && (
+                            <div style={{ color: 'red' }}>{errors.message}</div>
+                        )}
                         <VStack max gap="16" className={cls.form}>
-                            <HStack justify="between" className={cls.wrapperInput}>
+                            <HStack
+                                justify="between"
+                                className={cls.wrapperInput}
+                            >
                                 <label htmlFor="brand-name">
                                     Название компании:
                                 </label>
@@ -114,7 +101,10 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                 />
                             </HStack>
 
-                            <HStack justify="between" className={cls.wrapperInput}>
+                            <HStack
+                                justify="between"
+                                className={cls.wrapperInput}
+                            >
                                 <label htmlFor="brand-foundation">
                                     Дата основания:
                                 </label>
@@ -131,7 +121,10 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                 />
                             </HStack>
 
-                            <HStack justify="between" className={cls.wrapperInput}>
+                            <HStack
+                                justify="between"
+                                className={cls.wrapperInput}
+                            >
                                 <label htmlFor="brand-country">Страна:</label>
                                 <input
                                     id="brand-country"
@@ -143,42 +136,11 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                     }
                                 />
                             </HStack>
-
-                            <div className={cls.containerDragAndDrop}>
-                                <div
-                                    className={cls.dnd}
-                                    onClick={() => fileInput.current?.click()}
-                                    onDragOver={handleOndragOver}
-                                    onDrop={handleOndrop}
-                                >
-                                    <DnDIcon />
-                                    <div>
-                                        <input
-                                            type="file"
-                                            ref={fileInput}
-                                            hidden
-                                            onChange={(
-                                                e: ChangeEvent<HTMLInputElement>,
-                                            ) => {
-                                                if (e.target.files)
-                                                    handleFile(
-                                                        e?.target?.files?.[0],
-                                                    );
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                                {previewUrl && (
-                                    <div className={cls.wrapperPreviewImage}>
-                                        <img
-                                            src={previewUrl}
-                                            alt={logo?.name}
-                                            className={cls.previewImage}
-                                        />
-                                        <span>{logo?.name}</span>
-                                    </div>
-                                )}
-                            </div>
+                            <DragAndDrop
+                                image={logo}
+                                setImage={setLogo}
+                                svg={<DnDIcon />}
+                            />
                         </VStack>
                     </VStack>
 

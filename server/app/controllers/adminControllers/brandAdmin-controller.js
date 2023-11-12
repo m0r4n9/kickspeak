@@ -27,9 +27,10 @@ class BrandAdminController {
     async updateBrand(req, res, next) {
         try {
             const { id } = req.params;
-            const data  = req.body;
+            const data  = req.body.brand;
+            const pathLogo = req.file?.path;
             console.log(data);
-            const updatedBrand = await BrandAdminService.updateBrand(id, data);
+            const updatedBrand = await BrandAdminService.updateBrand(id, data, pathLogo);
             return res.json(updatedBrand);
         } catch (e) {
             next(e);
