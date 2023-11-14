@@ -9,7 +9,7 @@ export interface BrandProducts {
 }
 
 export interface AdminBrandDetails extends Brand {
-    products: BrandProducts[];
+    Products: BrandProducts[];
 }
 
 export interface AdminBrandDetailsSchema {

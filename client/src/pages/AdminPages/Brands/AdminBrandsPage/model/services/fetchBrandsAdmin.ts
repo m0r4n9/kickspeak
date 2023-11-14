@@ -2,13 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { getBrandsAdminPage } from '../selectors/adminBrandsSelectors.ts';
 import { BrandsData } from '../types/AdminBrandsSchema.ts';
+import { AxiosError, isAxiosError } from 'axios';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 
 export const fetchBrandsAdmin = createAsyncThunk<
     BrandsData,
     void,
-    ThunkConfig<string>
+    ThunkConfig<ErrorInterface>
 >('AdminPage/fetchBrandsAdmin', async (_, thunkAPI) => {
     const { extra, rejectWithValue, getState } = thunkAPI;
+
     const page = getBrandsAdminPage(getState());
 
     try {
@@ -20,6 +23,12 @@ export const fetchBrandsAdmin = createAsyncThunk<
         });
         return response.data;
     } catch (e) {
-        return rejectWithValue('Произошла ошибка при получении брендов');
+        if (isAxiosError(e)) {
+            const serverError = e as AxiosError<ErrorInterface>;
+            if (serverError.response && serverError) {
+                return rejectWithValue(serverError.response.data);
+            }
+        }
+        return rejectWithValue({ message: 'Произошла непредвиденная ошибка' });
     }
 });

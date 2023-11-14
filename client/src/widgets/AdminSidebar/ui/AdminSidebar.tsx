@@ -31,7 +31,7 @@ const items: itemProps[] = [
     {
         id: 'products',
         name: 'Продукты',
-        url: '#',
+        url: getRouteAdminProducts(),
     },
     {
         id: 'users',

@@ -1,12 +1,10 @@
-import { ChangeEvent, memo, useRef, useState } from 'react';
+import { ChangeEvent, memo, useRef } from 'react';
 import cls from './EditBrandCard.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { AppImage } from '@/shared/ui/AppImage';
-import { IMG_BASE_URL } from '@/shared/api/api.ts';
-import { DragAndDrop } from '@/shared/ui/DragAndDrop';
 import { useDragAndDrop } from '@/shared/hooks/useDragAndDrop';
-import {Button} from "@/shared/ui/Button";
+import { Button } from '@/shared/ui/Button';
 
 interface EditBrandCardProps {
     className?: string;
@@ -47,7 +45,7 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
             gap="16"
             className={classNames(cls.EditBrandCard, {}, [className])}
         >
-            <HStack justify="between" className={cls.wrapperInput}>
+            <HStack  justify="between" className={cls.wrapperInput}>
                 <label htmlFor="brand-name">Название:</label>
                 <input
                     type="text"

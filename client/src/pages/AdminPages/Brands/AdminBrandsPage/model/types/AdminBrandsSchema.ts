@@ -1,4 +1,5 @@
-import {Brand} from "@/entities/Brand";
+import { Brand } from '@/entities/Brand';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 
 export interface BrandsData {
     brands: Brand[];
@@ -8,6 +9,7 @@ export interface BrandsData {
 export interface AdminBrandsSchema {
     isLoading: boolean;
     data?: BrandsData;
+    query: string;
     page: number;
-    error?: string;
+    error?: ErrorInterface;
 }

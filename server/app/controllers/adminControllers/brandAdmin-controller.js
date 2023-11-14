@@ -27,10 +27,14 @@ class BrandAdminController {
     async updateBrand(req, res, next) {
         try {
             const { id } = req.params;
-            const data  = req.body.brand;
+            const data = req.body.brand;
             const pathLogo = req.file?.path;
             console.log(data);
-            const updatedBrand = await BrandAdminService.updateBrand(id, data, pathLogo);
+            const updatedBrand = await BrandAdminService.updateBrand(
+                id,
+                data,
+                pathLogo,
+            );
             return res.json(updatedBrand);
         } catch (e) {
             next(e);
@@ -64,6 +68,16 @@ class BrandAdminController {
             const { id } = req.params;
             const deletedBrand = await BrandAdminService.deleteBrand(id);
             return res.json(deletedBrand);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async searchBrands(req, res, next) {
+        try {
+            const { query, _limit } = req.query;
+            const brands = await BrandAdminService.searchBrands(query, _limit);
+            return res.json(brands);
         } catch (e) {
             next(e);
         }

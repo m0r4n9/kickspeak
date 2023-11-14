@@ -1,6 +1,7 @@
 const { Brand, Product } = require('../../models/product');
 const { Op } = require('sequelize');
 const ApiError = require('../../exceptions/api-error');
+const { User } = require('../../models/user');
 
 class BrandAdminService {
     async getBrands(limit, page) {
@@ -35,8 +36,8 @@ class BrandAdminService {
         const brand = await Brand.findByPk(id);
         const newData = {
             ...data,
-            logo: pathLogo
-        }
+            logo: pathLogo,
+        };
         await brand?.update(newData);
         return brand;
     }
@@ -75,6 +76,32 @@ class BrandAdminService {
         const brand = await Brand.findByPk(id);
         await brand.destroy();
         return brand;
+    }
+
+    async searchBrands(query, _limit) {
+        const brands = await Brand.findAll({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.iLike]: '%' + query + '%' } },
+                    { country: { [Op.iLike]: '%' + query + '%' } },
+                ],
+            },
+        });
+
+        const amount = await Brand.count({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.iLike]: '%' + query + '%' } },
+                    { country: { [Op.iLike]: '%' + query + '%' } },
+                ],
+            },
+        });
+
+        const hasMore = _limit < amount;
+        return {
+            brands,
+            hasMore,
+        };
     }
 }
 

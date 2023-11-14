@@ -11,7 +11,7 @@ interface SearchAdminProps {
 
 export const SearchAdmin = memo((props: SearchAdminProps) => {
     const { className, search, query } = props;
-
+    
     return (
         <div className={classNames(cls.searchItems, {}, [className])}>
             <Input

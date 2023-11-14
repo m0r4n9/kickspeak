@@ -8,10 +8,13 @@ export enum AppRoutes {
     WISH_LIST = 'wish_list',
 
     ADMIN_AUTH = 'admin_auth',
+
     ADMIN_BRANDS = 'admin_brands',
     ADMIN_BRAND_CREATE = 'admin_brand_create',
     ADMIN_BRAND_DETAILS = 'admin_brand_details',
+
     ADMIN_PRODUCTS = 'admin_products',
+
     ADMIN_USERS = 'admin_users',
     ADMIN_USER_DETAILS = 'admin_user_details',
 
@@ -29,12 +32,17 @@ export const getRouteWishList = () => '/wishlist';
 
 
 export const getRouteAdminAuth = () => '/admin/auth';
+
 export const getRouteAdminBrands = () => '/admin/brands';
 export const getRouteAdminBrandCreate = () => '/admin/brand/create';
 export const getRouteAdminBrandDetails = (id: string) => `/admin/brands/${id}`;
+
 export const getRouteAdminProducts = () => '/admin/products';
+
+
 export const getRouteAdminUsers = () => '/admin/users';
 export const getRouteAdminUserDetails = (id: string) => `/admin/users/${id}`;
+
 
 export const AppRouteByPathPatters: Record<string, AppRoutes> = {
     [getRouteMain()]: AppRoutes.MAIN,

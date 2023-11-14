@@ -10,14 +10,14 @@ import {
 import { Profile } from '@/entities/Profile';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
-import { getUsersData } from '@/pages/AdminPages/Users/AdminUsersPage/model/selectors/getUsersData/getUsersData.ts';
-import { getUsersAdminPage } from '@/pages/AdminPages/Users/AdminUsersPage/model/selectors/getUsersAdminPage/getUsersAdminPage.ts';
-import { getUsersDataMore } from '@/pages/AdminPages/Users/AdminUsersPage/model/selectors/getUsersDataMore/getUsersDataMore.ts';
-import { getUsersAdminIsLoading } from '@/pages/AdminPages/Users/AdminUsersPage/model/selectors/getUsersAdminIsLoading/getUsersAdminIsLoading.ts';
+import { getUsersData } from '../../model/selectors/getUsersData/getUsersData.ts';
+import { getUsersAdminPage } from '../../model/selectors/getUsersAdminPage/getUsersAdminPage.ts';
+import { getUsersDataMore } from '../../model/selectors/getUsersDataMore/getUsersDataMore.ts';
+import { getUsersAdminIsLoading } from '../../model/selectors/getUsersAdminIsLoading/getUsersAdminIsLoading.ts';
 import { useNavigate } from 'react-router-dom';
-import { fetchUsersAdmin } from '@/pages/AdminPages/Users/AdminUsersPage/model/services/fetchUsersAdmin.ts';
-import { adminUsersActions } from '@/pages/AdminPages/Users/AdminUsersPage/model/slice/adminUsersSlice.ts';
-import { searchUsers } from '@/pages/AdminPages/Users/AdminUsersPage/model/services/searchUsers.ts';
+import { fetchUsersAdmin } from '../../model/services/fetchUsersAdmin.ts';
+import { adminUsersActions } from '../../model/slice/adminUsersSlice.ts';
+import { searchUsers } from '../../model/services/searchUsers.ts';
 import {
     getRouteAdminUserDetails,
     getRouteMain,

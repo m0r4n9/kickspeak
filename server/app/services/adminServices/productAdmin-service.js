@@ -10,7 +10,11 @@ class ProductAdminService {
             attributes: ['id', 'name', 'code', 'price'],
         });
 
-        return products;
+        const amount = await Product.count();
+
+        const hasMore = page * limit < amount;
+
+        return {products, hasMore, page};
     }
 
     async getProductDetails(id) {

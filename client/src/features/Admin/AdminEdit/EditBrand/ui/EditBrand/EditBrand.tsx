@@ -33,9 +33,6 @@ export const EditBrand = memo((props: EditBrandProps) => {
     const brandForm = useSelector(getAdminBrandDetailsForm);
     const [brandLogo, setBrandLogo] = useState<File>();
 
-    console.log('state');
-    console.log(brandLogo);
-
     useEffect(() => {
         if (id) dispatch(fetchBrandById({ id }));
     }, []);
@@ -86,7 +83,7 @@ export const EditBrand = memo((props: EditBrandProps) => {
         <DynamicModuleLoader reducers={reducer}>
             <VStack className={classNames(cls.EditBrand, {}, [className])}>
                 <div className={cls.containerEditBrand}>
-                    <VStack gap="16" className={cls.containerTitle}>
+                    <VStack gap="16" max className={cls.containerTitle}>
                         <h1>Изменение компании</h1>
                         <h2>Индификатор: {brandData?.id}</h2>
                     </VStack>
@@ -102,6 +99,7 @@ export const EditBrand = memo((props: EditBrandProps) => {
                         onChangeCounty={handleEditCountry}
                     />
                 </div>
+
                 <AdminFooter
                     onUpdate={onUpdateBrand}
                     onCancelEdit={cancelEdit}

@@ -22,7 +22,6 @@ import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { BrandsPage } from '@/pages/BrandsPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { UserRole } from '@/entities/User';
-import { AdminProductsPage } from '@/pages/AdminPages/AdminProductsPage';
 import { AdminLoginPage } from '@/pages/AdminPages/AdminLoginPage';
 import { BrandDetailsPage } from '@/pages/BrandDetailsPage';
 import { WishListPage } from '@/pages/WishListPage';
@@ -31,6 +30,7 @@ import { AdminBrandDetailsPage } from '@/pages/AdminPages/Brands/AdminBrandDetai
 import { AdminUsersPage } from '@/pages/AdminPages/Users/AdminUsersPage';
 import { AdminUserDetailsPage } from '@/pages/AdminPages/Users/AdminUserDetailsPage';
 import { AdminBrandCreatePage } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
+import {AdminProductsPage} from "@/pages/AdminPages/Products/AdminProductsPage";
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -98,7 +98,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         path: getRouteAdminProducts(),
         authOnly: true,
         adminPanel: true,
-        element: <AdminProductsPage />,
+        element: <AdminProductsPage/>,
     },
     [AppRoutes.ADMIN_USERS]: {
         path: getRouteAdminUsers(),

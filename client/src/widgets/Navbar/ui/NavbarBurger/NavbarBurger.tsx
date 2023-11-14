@@ -42,10 +42,7 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
             <Button
                 variant="clear"
                 className={cls.toggleButton}
-                onClick={() => {
-                    console.log('kfds');
-                    setSidebarOpen(true);
-                }}
+                onClick={() => setSidebarOpen(true)}
             >
                 <BurgerIcon />
             </Button>
