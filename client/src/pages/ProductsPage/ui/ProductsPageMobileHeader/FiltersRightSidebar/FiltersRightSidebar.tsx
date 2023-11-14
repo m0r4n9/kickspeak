@@ -1,35 +1,26 @@
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 import cls from './FiltersRightSidebar.module.scss';
 import { Button } from '@/shared/ui/Button';
 import { RightSidebar } from '@/shared/ui/RightSidebar';
 import { ReactComponent as FilterIcon } from '@/shared/assets/icons/filter-icon.svg';
+import { useCycle } from 'framer-motion';
 
-interface FiltersRightSidebarProps {
-    className?: string;
-}
-
-export const FiltersRightSidebar = memo((props: FiltersRightSidebarProps) => {
-    const { className } = props;
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
-    const onClose = useCallback(() => {
-        setSidebarOpen(false);
-    }, []);
+export const FiltersRightSidebar = memo(() => {
+    const [isOpen, cycleOpen] = useCycle(false, true);
 
     return (
         <>
             <Button
                 variant="clear"
-                onClick={() => setSidebarOpen(true)}
+                onClick={() => cycleOpen()}
                 className={cls.btn}
             >
                 <FilterIcon /> Фильтрация
             </Button>
-            {sidebarOpen && (
-                <RightSidebar isOpen={sidebarOpen} onClose={onClose}>
-                    Фильтрация
-                </RightSidebar>
-            )}
+
+            <RightSidebar isOpen={isOpen} onClose={cycleOpen}>
+                Фильтрация
+            </RightSidebar>
         </>
     );
 });

@@ -14,14 +14,27 @@
 
 .burger {
     position: relative;
-    height: 100vh;
+    height: 100lvh;
 
     .burgerTitle {
+        position: relative;
         min-height: 4rem;
         font-size: 12px;
         letter-spacing: 1.6px;
         text-transform: uppercase;
         color: var(--primary-40);
+
+
+        .exitBtn {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            height: 100%;
+
+            button {
+                height: 100%;
+            }
+        }
     }
 
     .burgerBody {
@@ -48,8 +61,17 @@
 
     .burgerFooter {
         position: absolute;
-        left: 2rem;
-        bottom: 10rem;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+
+        .authBtn {
+            color: white;
+            text-align: center;
+            padding: 14px 60px;
+            background-color: black;
+            border-radius: 4px;
+        }
     }
 }
 

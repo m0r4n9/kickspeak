@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import cls from './Navbar.module.scss';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import {
     getRouteBrands,
@@ -19,6 +19,7 @@ import { Button } from '@/shared/ui/Button';
 import { AppLink } from '@/shared/ui/AppLink';
 import { ReactComponent as UserIcon } from '@/shared/assets/icons/user-icon-m.svg';
 import { ReactComponent as StarIcon } from '@/shared/assets/icons/star-icon-m.svg';
+import { useCycle } from 'framer-motion';
 
 export interface ItemsCatalogProps {
     content: string;
@@ -46,18 +47,10 @@ const itemsCatalog: ItemsCatalogProps[] = [
 
 export const Navbar = memo((props: NavbarProps) => {
     const { className } = props;
-    const [isAuthModal, setIsAuthModal] = useState(false);
     const { isMatch } = useIsMath();
     const authData = useSelector(getUserAuthData);
+    const [isOpen, cycleOpen] = useCycle(false, true);
     const isLoading = useSelector(getUserIsLoading);
-
-    const onCloseModal = useCallback(() => {
-        setIsAuthModal(false);
-    }, []);
-
-    const onShowModal = useCallback(() => {
-        setIsAuthModal(true);
-    }, []);
 
     return (
         <header className={classNames(cls.Navbar, {}, [className])}>
@@ -72,8 +65,7 @@ export const Navbar = memo((props: NavbarProps) => {
                     isLoading={isLoading}
                     isMatch={isMatch}
                     itemsCatalog={itemsCatalog}
-                    onShowModal={onShowModal}
-                    userIcon={<UserIcon />}
+                    onShowModal={cycleOpen}
                 />
                 <div className={cls.logo}>
                     <AppLink to={getRouteMain()}>KickLogo</AppLink>
@@ -117,7 +109,7 @@ export const Navbar = memo((props: NavbarProps) => {
                         ) : (
                             <Button
                                 variant="clear"
-                                onClick={onShowModal}
+                                onClick={() => cycleOpen()}
                                 disabled={isLoading}
                                 className={cls.wrapperIcon}
                             >
@@ -126,9 +118,7 @@ export const Navbar = memo((props: NavbarProps) => {
                         ))}
                 </HStack>
             </HStack>
-            {isAuthModal && (
-                <LoginModal isOpen={isAuthModal} onClose={onCloseModal} />
-            )}
+            <LoginModal isOpen={isOpen} onClose={cycleOpen} />
         </header>
     );
 });

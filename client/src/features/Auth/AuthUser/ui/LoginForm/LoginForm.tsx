@@ -69,7 +69,7 @@ export const LoginForm = (props: LoginFormProps) => {
     const content = loginContent ? (
         <>
             <Text title="Авторизация" />
-            {error && <p style={{color: 'red'}}>{error.message}</p>}
+            {error && <p style={{ color: 'red' }}>{error.message}</p>}
             <Input
                 value={email}
                 placeholder="Введите почтовый адресс"
@@ -111,7 +111,7 @@ export const LoginForm = (props: LoginFormProps) => {
     ) : (
         <>
             <Text title="Регистрация" />
-            {error && <p style={{color: 'red'}}>{error.message}</p>}
+            {error && <p style={{ color: 'red' }}>{error.message}</p>}
             <Input
                 value={email}
                 placeholder="Введите почтовый адресс"
