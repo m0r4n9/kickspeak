@@ -1,9 +1,9 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import cls from './RightSidebar.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { useModal } from '@/shared/hooks/useModal';
 import { Overlay } from '@/shared/ui/Overlay';
 import { Portal } from '@/shared/ui/Portal';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type variatnSizeOpen = 'leftSide' | 'rightSide';
 
@@ -23,39 +23,30 @@ export const RightSidebar = (props: RightSidebarProps) => {
         children,
         variant = 'rightSide',
     } = props;
-    const { isClosing, close } = useModal({
-        onClose,
-        isOpen,
-        animationDelay: 300,
-    });
-
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return () => {
-            document.body.style.overflow = 'auto';
-        }
-    }, [isOpen]);
 
     return (
         <Portal element={document.getElementById('app') ?? document.body}>
-            <div
-                className={classNames(
-                    cls.rightSidebar,
-                    {
-                        [cls.opened]: isOpen,
-                    },
-                    [cls[variant], className],
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 500, opacity: 1 }}
+                        exit={{
+                            opacity: 1,
+                            width: 0,
+                            transition: {
+                                duration: 0.3,
+                            },
+                        }}
+                        className={cls.rightSidebar}
+                    >
+                        <Overlay onClick={onClose} className={cls.overlay} />
+                        <motion.div className={classNames(cls.container, {})}>
+                            {children}
+                        </motion.div>
+                    </motion.div>
                 )}
-            >
-                <Overlay onClick={close} className={cls.overlay} />
-                <div
-                    className={classNames(cls.container, {
-                        [cls.closing]: isClosing,
-                    })}
-                >
-                    {children}
-                </div>
-            </div>
+            </AnimatePresence>
         </Portal>
     );
 };

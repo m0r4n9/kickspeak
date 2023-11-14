@@ -2,9 +2,9 @@ import { ReactNode } from 'react';
 import cls from './Drawer.module.scss';
 import { Portal } from '@/shared/ui/Portal';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { useModal } from '@/shared/hooks/useModal';
 import { Button } from '@/shared/ui/Button';
 import { ReactComponent as CrossIcon } from '@/shared/assets/icons/cross-icon.svg';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface DrawerProps {
     children?: ReactNode;
@@ -14,37 +14,49 @@ interface DrawerProps {
 
 export const Drawer = (props: DrawerProps) => {
     const { children, isOpen, onClose } = props;
-    const { isClosing, close } = useModal({
-        onClose,
-        isOpen,
-        animationDelay: 300,
-    });
 
     return (
-        <Portal element={document.getElementById('app') ?? document.body}>
-            <div
-                className={classNames(
-                    cls.drawer,
-                    {
-                        [cls.opened]: isOpen,
-                        [cls.closing]: isClosing,
-                    },
-                    [],
-                )}
-            >
-                <div className={classNames(cls.container, {})}>
-                    <div>
-                        <Button
-                            variant="clear"
-                            className={cls.exitBtn}
-                            onClick={close}
-                        >
-                            <CrossIcon />
-                        </Button>
-                    </div>
-                    {children}
-                </div>
-            </div>
-        </Portal>
+        <AnimatePresence>
+            {isOpen && (
+                <Portal
+                    element={document.getElementById('app') ?? document.body}
+                >
+                    <motion.div
+                        initial={{
+                            y: 200,
+                            opacity: 0,
+                        }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.3,
+                            },
+                        }}
+                        exit={{
+                            y: 200,
+                            opacity: 0,
+                            transition: {
+                                duration: 0.3,
+                            },
+                        }}
+                        className={classNames(cls.drawer, {}, [])}
+                    >
+                        <div className={classNames(cls.container, {})}>
+                            <div>
+                                <Button
+                                    variant="clear"
+                                    className={cls.exitBtn}
+                                    onClick={onClose}
+                                >
+                                    <CrossIcon />
+                                </Button>
+                            </div>
+                            {children}
+                        </div>
+                    </motion.div>
+                </Portal>
+            )}
+        </AnimatePresence>
     );
 };

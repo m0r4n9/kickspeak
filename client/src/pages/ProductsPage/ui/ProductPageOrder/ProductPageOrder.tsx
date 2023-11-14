@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import cls from './ProductPageOrder.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { ListBox } from '@/shared/ui/ListBox';
