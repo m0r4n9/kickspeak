@@ -1,8 +1,7 @@
-import { memo, ReactNode } from 'react';
+import { memo } from 'react';
 import cls from './NavbarBurger.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { Button } from '@/shared/ui/Button';
-import { RightSidebar } from '@/shared/ui/RightSidebar';
 import { HStack } from '@/shared/ui/Stack';
 import { AppLink } from '@/shared/ui/AppLink';
 import { AvatarDropdown } from '@/features/avatarDropdown';
@@ -11,6 +10,7 @@ import { ReactComponent as ArrowIcon } from '@/shared/assets/icons/arrow.svg';
 import { ItemsCatalogProps } from '../Navbar/Navbar.tsx';
 import { motion, useCycle } from 'framer-motion';
 import { ReactComponent as CrossIcon } from '@/shared/assets/icons/cross-icon.svg';
+import {Sidebar} from "@/shared/ui/Sidebar";
 
 interface NavbarBurgerProps {
     className?: string;
@@ -44,30 +44,15 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
                 <BurgerIcon />
             </Button>
 
-            <RightSidebar
+            <Sidebar
                 isOpen={isOpenRightBar}
                 onClose={toggleRightBar}
                 className={cls.wrapperBurger}
                 variant="leftSide"
             >
-                <motion.div
+                <div
                     className={cls.burger}
-                    initial={{
-                        opacity: 0,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        transition: {
-                            delay: 0.2,
-                            duration: 0.3,
-                        },
-                    }}
-                    exit={{
-                        opacity: 0,
-                        transition: {
-                            duration: 0.1,
-                        },
-                    }}
+
                 >
                     <HStack max justify="center" className={cls.burgerTitle}>
                         <div>каталог</div>
@@ -122,8 +107,8 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
                             </Button>
                         )}
                     </HStack>
-                </motion.div>
-            </RightSidebar>
+                </div>
+            </Sidebar>
         </div>
     );
 });

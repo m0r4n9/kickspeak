@@ -110,7 +110,7 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
             className={classNames(cls.ProductsFitler, {}, [className])}
         >
             {sex?.length || colors?.length ? (
-                <div onClick={handleClearFilters}>Очистить фильтры</div>
+                <div onClick={handleClearFilters} style={{cursor: 'pointer'}}>Очистить фильтры</div>
             ) : null}
             <Text title="Фильтр" size="m" />
             <ProductFilterPrice

@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import cls from './ProductsPage.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import { productsPageReducer } from '../../model/slice/productsPageSlice.ts';
@@ -17,7 +17,7 @@ import {
 } from '@/shared/lib/components/DynamicModuleLoader.tsx';
 import { ProductPageFilters } from '../ProductPageFilters/ProductPageFilters.tsx';
 import { ProductPageOrder } from '../ProductPageOrder/ProductPageOrder.tsx';
-import { ProductsPageMobileHeader } from '@/pages/ProductsPage/ui/ProductsPageMobileHeader/ProductsPageMobileHeader.tsx';
+import { ProductsPageMobileHeader } from '../ProductsPageMobileHeader/ProductsPageMobileHeader.tsx';
 import { useIsMath } from '@/shared/hooks/useIsMath';
 
 interface ProductsPageProps {

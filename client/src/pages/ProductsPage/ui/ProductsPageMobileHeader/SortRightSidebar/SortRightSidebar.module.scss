@@ -4,3 +4,41 @@
 
     gap: 8px;
 }
+
+
+.productSorts {
+    font-size: 16px;
+    padding: 22px 20px;
+
+    .header {
+        position: relative;
+
+        .wrapperExitBtn {
+            position: absolute;
+            left: 0;
+        }
+    }
+}
+
+.content {
+    margin-top: 16px;
+
+
+    .list {
+
+    }
+
+    .listItem {
+        display: flex;
+        align-items: center;
+    }
+
+    .listItem:not(:first-child) {
+        border-top: 1px solid var(--primary-05);
+    }
+
+    .sortLabel {
+        cursor: pointer;
+        padding: 10px 20px;
+    }
+}
