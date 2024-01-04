@@ -7,7 +7,8 @@ const initialState: AdminProductsSchema = {
     products: undefined,
     query: '',
     page: 1,
-    hasMore: false,
+    limit: 10,
+
 };
 
 const adminProductsSlice = createSlice({
@@ -15,7 +16,7 @@ const adminProductsSlice = createSlice({
     initialState,
     reducers: {
         setPage: (state, action: PayloadAction<number>) => {
-            state.page +=  action.payload;
+            state.page =  action.payload;
 }
     },
     extraReducers: (builder) =>
@@ -28,7 +29,7 @@ const adminProductsSlice = createSlice({
                 state.isLoading = false;
                 state.products = action.payload.products;
                 state.page = action.payload.page;
-                state.hasMore = action.payload.hasMore;
+                state.totalCount = action.payload.totalCount;
             })
             .addCase(fetchProductsAdmin.rejected, (state, action) => {
                 state.isLoading = false;

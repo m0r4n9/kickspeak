@@ -21,8 +21,12 @@ import { AdminUserDetailsSchema } from '@/features/Admin/AdminEdit/EditUser';
 import { BrandDetailsSchema } from '@/pages/BrandDetailsPage';
 import { WishListSchema } from '@/pages/WishListPage';
 import { BrandCreateSchema } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
-import { AdminBrandDetailsSchema } from '@/features/Admin/AdminEdit/EditBrand';
+import { AdminBrandDetailsSchema } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
 import {AdminProductsSchema} from "@/pages/AdminPages/Products/AdminProductsPage";
+import {ProductCreateSchema} from "@/pages/AdminPages/Products/AdminProductCreatePage";
+import {AdminProductDetailsSchema} from "@/pages/AdminPages/Products/AdminProductEditPage";
+
+// TODO: исправить пути на абсолютные
 
 export interface StateSchema {
     scroll: ScrollSaveSchema;
@@ -40,12 +44,13 @@ export interface StateSchema {
     wishList?: WishListSchema;
 
     // Admin
-
     adminBrands?: AdminBrandsSchema;
     adminBrandCreate?: BrandCreateSchema;
     adminBrandDetails?: AdminBrandDetailsSchema;
 
     adminProducts?: AdminProductsSchema;
+    adminProductCreate?: ProductCreateSchema;
+    adminProductDetails?: AdminProductDetailsSchema;
 
     adminUsers?: AdminUsersSchema;
     adminUserDetails?: AdminUserDetailsSchema;

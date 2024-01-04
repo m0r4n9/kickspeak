@@ -4,11 +4,20 @@ const fs = require('fs');
 class BrandAdminController {
     async getBrands(req, res, next) {
         try {
-            const limit = req.query._limit || 10;
+            const limit = req.query._limit ?? 10;
             const page = req.query._page || 1;
 
             const brands = await BrandAdminService.getBrands(limit, page);
             return res.json(brands);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getListName(req, res, next) {
+        try {
+            const brandsList = await BrandAdminService.getListName();
+            return res.json(brandsList);
         } catch (e) {
             next(e);
         }

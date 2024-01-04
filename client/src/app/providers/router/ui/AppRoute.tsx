@@ -38,7 +38,13 @@ const AppRoute = () => {
 
             if (route.adminPanel) {
                 if (!route.authOnly) {
-                    content = element;
+                    return (
+                        <Route
+                            key={route.path}
+                            path={route.path}
+                            element={element}
+                        />
+                    );
                 }
 
                 if (!complete) {

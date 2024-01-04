@@ -6,14 +6,22 @@ import {searchBrands} from "@/pages/AdminPages/Brands/AdminBrandsPage/model/serv
 const initialState: AdminBrandsSchema = {
     isLoading: false,
     page: 1,
+    limit: 10,
     data: undefined,
-    query: ''
+    query: '',
+    sort: {
+        value: 'id',
+        name: 'ASC'
+    }
 };
 
 const adminBrandSlice = createSlice({
     name: "AdminBrandsSlice",
     initialState,
     reducers: {
+        setSort: (state, action: PayloadAction<{value: string, name: string}>) => {
+            state.sort = action.payload
+        },
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         },

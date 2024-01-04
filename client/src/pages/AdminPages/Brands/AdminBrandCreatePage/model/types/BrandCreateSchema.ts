@@ -1,5 +1,4 @@
 import { ErrorInterface } from '@/shared/interfaces/ApiError';
-import {Brand} from "@/entities/Brand";
 
 export interface BrandCreateSchema {
     isLoading?: boolean;

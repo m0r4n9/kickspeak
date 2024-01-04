@@ -1,9 +1,9 @@
 import { memo, useCallback, useState } from 'react';
 import cls from './AdminFooter.module.scss';
 import { HStack } from '@/shared/ui/Stack';
-import { Button } from '@/shared/ui/Button';
 import { Modal } from '@/shared/ui/Modal';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
+import { Button, Flex } from 'antd';
 
 interface AdminFooterProps {
     className?: string;
@@ -20,7 +20,7 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
         setModalOpen(false);
     }, []);
 
-    const handleDeleteUser = () => {
+    const handleDeleteItem = () => {
         onDelete?.();
         setModalOpen(false);
     };
@@ -36,7 +36,7 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
                     <Modal isOpen={modalOpen} onClose={onCloseModal}>
                         <div className={cls.modalContent}>
                             <h3 className={cls.modalTitle}>
-                                Вы уверены, что хотите удалить пользователя?
+                                Вы уверены, что хотите удалить объект?
                             </h3>
                             <HStack
                                 justify="center"
@@ -44,13 +44,13 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
                                 className={cls.wrapperButton}
                             >
                                 <Button
-                                    onClick={handleDeleteUser}
-                                    style={{ borderColor: 'red' }}
-                                    variant="border"
+                                    type="primary"
+                                    danger
+                                    onClick={handleDeleteItem}
                                 >
                                     Удалить
                                 </Button>
-                                <Button onClick={onCloseModal} variant="border">
+                                <Button onClick={onCloseModal} type="dashed">
                                     Отмена
                                 </Button>
                             </HStack>
@@ -59,7 +59,8 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
                 )}
                 {onDelete && (
                     <Button
-                        variant="border"
+                        type="primary"
+                        danger
                         onClick={() => setModalOpen(true)}
                         className={cls.button}
                     >
@@ -67,9 +68,9 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
                     </Button>
                 )}
             </div>
-            <div>
+            <Flex align="flex-start">
                 <Button
-                    variant="border"
+                    type="primary"
                     onClick={onUpdate}
                     className={cls.button}
                     style={{ borderColor: 'green' }}
@@ -77,14 +78,14 @@ export const AdminFooter = memo((props: AdminFooterProps) => {
                     Сохранить
                 </Button>
                 <Button
-                    variant="border"
+                    danger
                     onClick={onCancelEdit}
                     className={cls.button}
                     style={{ borderColor: 'red', marginLeft: 20 }}
                 >
                     Отменить
                 </Button>
-            </div>
+            </Flex>
         </HStack>
     );
 });

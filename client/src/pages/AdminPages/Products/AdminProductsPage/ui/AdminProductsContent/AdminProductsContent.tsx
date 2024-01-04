@@ -1,90 +1,133 @@
 import { useSelector } from 'react-redux';
-import {memo, useCallback, useEffect} from 'react';
-import { AdminPage } from '@/widgets/AdminPage';
+import { memo, useCallback, useEffect } from 'react';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { getAdminProducts } from '../../model/selectors/getAdminProducts/getAdminProducts.ts';
 import { getAdminProductsPage } from '../../model/selectors/getAdminProductsPage/getAdminProductsPage.ts';
-import { AdminProductsData } from '../../model/types/AdminProductsSchema.ts';
-import { ColumnDef } from '@tanstack/react-table';
+import { getAdminProductsTotal } from '../../model/selectors/getAdminProductsHasMore/getAdminProductsHasMore.ts';
+import { adminProductsActions } from '../../model/slice/adminProductsSlice.ts';
+import { fetchProductsAdmin } from '../../model/services/fetchProductsAdmin.ts';
+import { getAdminProductsLimit } from '../../model/selectors/getAdminProductsLimit/getAdminProductsLimit.ts';
+import { AdminPage } from '@/widgets/AdminPage';
+import { AppLink } from '@/shared/ui/AppLink';
 import {
-    getAdminProductsHasMore
-} from "../../model/selectors/getAdminProductsHasMore/getAdminProductsHasMore.ts";
-import {adminProductsActions} from "../../model/slice/adminProductsSlice.ts";
-import {fetchProductsAdmin} from "../../model/services/fetchProductsAdmin.ts";
+    getRouteAdminBrandDetails,
+    getRouteAdminProductCreate, getRouteAdminProductDetails,
+    getRouteAdminProducts,
+} from '@/shared/const/route.ts';
+import { Popconfirm, Typography } from 'antd';
+import { Product } from '@/entities/Product';
+import { useAdminTable } from '@/shared/hooks/useAdminTable/useAdminTable.ts';
+import { $api } from '@/shared/api';
 
 interface AdminProductsContentProps {
     className?: string;
 }
 
-
-const defaultColumns: ColumnDef<AdminProductsData>[] = [
-    {
-        header: 'Главная информация',
-        columns: [
-            {
-                accessorKey: 'id',
-                header: 'id',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'name',
-                header: 'Название',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'price',
-                header: 'Цена',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'code',
-                header: 'Шифр',
-                footer: (props) => props.column.id,
-            },
-        ],
-    },
-];
-
 export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
     const dispatch = useAppDispatch();
     const products = useSelector(getAdminProducts) || [];
     const page = useSelector(getAdminProductsPage) || 1;
-    const hasMore = useSelector(getAdminProductsHasMore) || false;
-
-    const fetchData = useCallback(() => {
-        dispatch(fetchProductsAdmin());
-    }, []);
+    const totalProducts = useSelector(getAdminProductsTotal) || 1;
+    const limitProductPage = useSelector(getAdminProductsLimit);
+    const { form, editingKey, setEditingKey, isEditing, cancel, edit } = useAdminTable();
 
     useEffect(() => {
-        fetchData();
+        if (!limitProductPage) return;
+        dispatch(fetchProductsAdmin());
+    }, [limitProductPage]);
+
+    const setPage = useCallback((page: number) => {
+        dispatch(adminProductsActions.setPage(page));
+        dispatch(fetchProductsAdmin());
     }, []);
 
-    const nextPage = useCallback(() => {
-        if (!hasMore) return;
-        dispatch(adminProductsActions.setPage(page + 1));
-        dispatch(fetchProductsAdmin());
-    }, [page, hasMore]);
+    const updateProduct = async () => {
+        try {
+            const data = form.getFieldsValue();
+            await $api.put('/admin/product/update/' + editingKey, { data });
+            setEditingKey('');
+            dispatch(fetchProductsAdmin());
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
-    const prevPage = useCallback(() => {
-        if (page <= 0) return;
-        dispatch(adminProductsActions.setPage(page - 1));
-        dispatch(fetchProductsAdmin());
-    }, [page]);
+    const columns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: '10%',
+            editable: false,
+            render: (id: string) => (
+                <AppLink to={getRouteAdminProductDetails(id)} style={{ color: 'blue' }}>
+                    {id}
+                </AppLink>
+            ),
+        },
+        {
+            title: 'Название',
+            dataIndex: 'name',
+            key: 'name',
+            width: '20%',
+            editable: true,
+        },
+        {
+            title: 'Цена',
+            dataIndex: 'price',
+            key: 'price',
+            width: '20%',
+            editable: true,
+        },
+        {
+            title: 'Код',
+            dataIndex: 'code',
+            key: 'code',
+            width: '20%',
+            editable: true,
+        },
+        {
+            title: '',
+            width: '10%',
+            dataIndex: 'operation',
+            render: (_: any, record: Product) => {
+                const editable = isEditing(record);
+                return editable ? (
+                    <span>
+                        <Typography.Link
+                            onClick={updateProduct}
+                            style={{ marginRight: 8 }}
+                        >
+                            Сохранить
+                        </Typography.Link>
+                        <Popconfirm title="Отменить?" onConfirm={cancel}>
+                            <a>Отмена</a>
+                        </Popconfirm>
+                    </span>
+                ) : (
+                    <Typography.Link
+                        disabled={editingKey !== ''}
+                        onClick={() => edit(record)}
+                    >
+                        Изменить
+                    </Typography.Link>
+                );
+            },
+        },
+    ];
 
     return (
         <AdminPage
+            form={form}
+            isEditing={isEditing}
+            columns={columns}
             data={products}
-            defaultColumns={defaultColumns}
+            totalItems={totalProducts}
             page={page}
-            hasMore={hasMore}
-            fetchData={fetchData}
-            nextPage={nextPage}
-            prevPage={prevPage}
-            linkToDetails={() => ''}
-            linkToCreate={'#'}
+            itemsPerPage={limitProductPage}
+            setPage={setPage}
+            linkToCreate={getRouteAdminProductCreate()}
+
             entityName="продукт"
         />
     );

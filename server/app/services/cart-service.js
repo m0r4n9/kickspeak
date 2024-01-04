@@ -65,7 +65,7 @@ class CartService {
     for (const size of sizes) {
       const productData = products
         .find((product) => product.id === size.productId)
-        .toJSON();
+        ?.toJSON();
 
       const product = {
         ...productData,

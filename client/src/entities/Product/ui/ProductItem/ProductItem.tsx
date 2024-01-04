@@ -49,7 +49,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
             heightSizes = Math.ceil(product.Sizes.length / 4);
         }
         return heightSizes * 32 + elementRef.current.clientHeight + 24;
-    }, [elementRef.current?.clientWidth]);
+    }, [elementRef.current]);
 
     const onMouseEnter = () => {
         setHover(true);
@@ -76,12 +76,9 @@ export const ProductItem = memo((props: ProductItemProps) => {
                 }}
             >
                 {/* OVERLAY */}
-                <CardOverlay
-                    hover={hover}
-                    isMobile={isMobile || offSize}
-                    height={heightOverlay}
-                />
-
+                {!(isMobile || offSize) && (
+                    <CardOverlay hover={hover} height={heightOverlay} />
+                )}
                 {/* CONTENT */}
                 <VStack
                     max

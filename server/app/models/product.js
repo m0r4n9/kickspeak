@@ -37,7 +37,7 @@ const Product = sequelize.define(
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING },
     price: { type: DataTypes.INTEGER, allowNull: false },
-    sex: { type: DataTypes.CHAR, allowNull: true },
+    sex: { type: DataTypes.STRING(2), allowNull: true },
     code: { type: DataTypes.STRING, allowNull: false },
     colors: { type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: [] },
   },

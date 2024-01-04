@@ -14,6 +14,8 @@ export enum AppRoutes {
     ADMIN_BRAND_DETAILS = 'admin_brand_details',
 
     ADMIN_PRODUCTS = 'admin_products',
+    ADMIN_PRODUCT_CREATE = 'admin_product_create',
+    ADMIN_PRODUCT_DETAILS = 'admin_product_details',
 
     ADMIN_USERS = 'admin_users',
     ADMIN_USER_DETAILS = 'admin_user_details',
@@ -38,6 +40,8 @@ export const getRouteAdminBrandCreate = () => '/admin/brand/create';
 export const getRouteAdminBrandDetails = (id: string) => `/admin/brands/${id}`;
 
 export const getRouteAdminProducts = () => '/admin/products';
+export const getRouteAdminProductCreate = () => '/admin/product/create';
+export const getRouteAdminProductDetails = (id: string) => `/admin/product/${id}`;
 
 
 export const getRouteAdminUsers = () => '/admin/users';

@@ -16,11 +16,13 @@ import { useSelector } from 'react-redux';
 import { getBrandCreateName } from '../../model/selectors/getBrandCreateName/getBrandCreateName.ts';
 import { getBrandCreateFoundation } from '../../model/selectors/getBrandCreateFoundation/getBrandCreateFoundation.ts';
 import { getBrandCreateCountry } from '../../model/selectors/getBrandCreateCountry/getBrandCreateCountry.ts';
-import { ReactComponent as DnDIcon } from '@/shared/assets/icons/drag-drop.svg';
 import { useNavigate } from 'react-router-dom';
 import { getRouteAdminBrandDetails } from '@/shared/const/route.ts';
 import { getBrandCreateErrors } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateErrors/getBrandCreateErrors.ts';
-import { DragAndDrop } from '@/shared/ui/DragAndDrop';
+import { Upload } from 'antd';
+import { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { UploadChangeParam } from 'antd/lib/upload';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 interface AdminBrandCreateProps {
     className?: string;
@@ -28,6 +30,12 @@ interface AdminBrandCreateProps {
 
 const reducer: ReducerList = {
     adminBrandCreate: brandCreateReducer,
+};
+
+const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result as string));
+    reader.readAsDataURL(img);
 };
 
 const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
@@ -39,6 +47,8 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
     const errors = useSelector(getBrandCreateErrors);
     const navigate = useNavigate();
     const [logo, setLogo] = useState<File>();
+    const [urlLogo, setUrlLogo] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const onChangeName = useCallback((value: string) => {
         dispatch(brandCreateActions.setName(value));
@@ -65,6 +75,23 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
     const cancelCreate = useCallback(() => {
         dispatch(brandCreateActions.clearFields());
     }, []);
+
+    const handleChange: UploadProps['onChange'] = (
+        info: UploadChangeParam<UploadFile>,
+    ) => {
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj as RcFile, (url) => {
+                setLoading(false);
+                setUrlLogo?.(url);
+                setLogo?.(info.file.originFileObj as File);
+            });
+        }
+    };
 
     return (
         <DynamicModuleLoader reducers={reducer}>
@@ -136,11 +163,33 @@ const AdminBrandCreatePage = (props: AdminBrandCreateProps) => {
                                     }
                                 />
                             </HStack>
-                            <DragAndDrop
-                                image={logo}
-                                setImage={setLogo}
-                                svg={<DnDIcon />}
-                            />
+                            <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                                onChange={handleChange}
+                            >
+                                {urlLogo ? (
+                                    <img
+                                        src={urlLogo}
+                                        alt="avatar"
+                                        style={{ width: '100%' }}
+                                    />
+                                ) : (
+                                    <div>
+                                        {loading ? (
+                                            <LoadingOutlined />
+                                        ) : (
+                                            <PlusOutlined />
+                                        )}
+                                        <div style={{ marginTop: 8 }}>
+                                            Upload
+                                        </div>
+                                    </div>
+                                )}
+                            </Upload>
                         </VStack>
                     </VStack>
 

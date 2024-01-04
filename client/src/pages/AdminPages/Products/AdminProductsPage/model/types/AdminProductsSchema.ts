@@ -10,14 +10,15 @@ export interface AdminProductsData {
 export interface ResProductsAdmin {
     products?: AdminProductsData[];
     page: number;
-    hasMore: boolean;
+    totalCount: number;
 }
 
 export interface AdminProductsSchema {
     isLoading: boolean;
     products?: AdminProductsData[];
-    hasMore: boolean;
+    totalCount?: number;
     page: number;
+    limit: number;
     query: string;
     error?: ErrorInterface;
 }

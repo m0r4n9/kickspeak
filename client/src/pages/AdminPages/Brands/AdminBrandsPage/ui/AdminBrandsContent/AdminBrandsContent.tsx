@@ -3,11 +3,11 @@ import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import {
     getBrandsAdminData,
+    getBrandsAdminLimit,
     getBrandsAdminPage,
-} from '../../model/selectors/adminBrandsSelectors.ts';
-import {
-    getBrandsAdminHasMore,
     getBrandsAdminQuery,
+    getBrandsAdminSortParams,
+    getBrandsCount,
 } from '../../model/selectors/adminBrandsSelectors.ts';
 import { adminBrandActions } from '../../model/slice/adminBrandsSlice.ts';
 import { fetchBrandsAdmin } from '../../model/services/fetchBrandsAdmin.ts';
@@ -16,54 +16,33 @@ import {
     getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
 } from '@/shared/const/route.ts';
-import { ColumnDef } from '@tanstack/react-table';
-import { Brand } from '@/entities/Brand';
 import { AdminPage } from '@/widgets/AdminPage';
-import { useThrottle } from '@/shared/hooks/useThrottle';
+import { AppLink } from '@/shared/ui/AppLink';
+import { Brand } from '@/entities/Brand';
+import { Popconfirm, Typography } from 'antd';
+import { useAdminTable } from '@/shared/hooks/useAdminTable/useAdminTable.ts';
+import { $api } from '@/shared/api';
 
 interface AdminBrandsContentProps {
     className?: string;
 }
 
-const defaultColumns: ColumnDef<Brand>[] = [
-    {
-        header: 'Главная информация',
-        columns: [
-            {
-                accessorKey: 'id',
-                header: 'id',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'name',
-                header: 'Название',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'country',
-                header: 'Страна',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'foundation',
-                header: 'Дата основания',
-                footer: (props) => props.column.id,
-            },
-        ],
-    },
-];
-
 export const AdminBrandsContent = memo((props: AdminBrandsContentProps) => {
     const dispatch = useAppDispatch();
     const data = useSelector(getBrandsAdminData) || [];
     const brandsPage = useSelector(getBrandsAdminPage) || 1;
-    const hasMore = useSelector(getBrandsAdminHasMore) || false;
+    const itemPerPage = useSelector(getBrandsAdminLimit);
+    const totalItems = useSelector(getBrandsCount) || 1;
     const query = useSelector(getBrandsAdminQuery) || '';
+    const { form, editingKey, setEditingKey, isEditing, cancel, edit } =
+        useAdminTable();
 
     useEffect(() => {
+        if (!itemPerPage) return;
+        dispatch(fetchBrandsAdmin());
+    }, [itemPerPage]);
+
+    const updateBrandList = useCallback(() => {
         dispatch(fetchBrandsAdmin());
     }, []);
 
@@ -72,31 +51,111 @@ export const AdminBrandsContent = memo((props: AdminBrandsContentProps) => {
         dispatch(searchBrands());
     };
 
-    const nextPage = useCallback(() => {
-        if (!hasMore) return;
-        dispatch(adminBrandActions.setPage(brandsPage + 1));
-        dispatch(fetchBrandsAdmin());
-    }, [brandsPage, hasMore]);
+    const setPage = useCallback(
+        (page: number) => {
+            dispatch(adminBrandActions.setPage(page));
+            dispatch(fetchBrandsAdmin());
+        },
+        [brandsPage],
+    );
 
-    const prevPage = useCallback(() => {
-        if (brandsPage <= 0) return;
-        dispatch(adminBrandActions.setPage(brandsPage - 1));
-        dispatch(fetchBrandsAdmin());
-    }, [brandsPage]);
+    const updateItem = async () => {
+        try {
+            const data = form.getFieldsValue();
+            const response = await $api.put(
+                '/admin/brand/update/' + editingKey,
+                {
+                    brand: data,
+                },
+            );
+            updateBrandList();
+            setEditingKey('');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const columns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: '10%',
+            editable: false,
+            render: (id: string) => (
+                <AppLink
+                    to={getRouteAdminBrandDetails(id)}
+                    style={{ color: 'blue' }}
+                >
+                    {id}
+                </AppLink>
+            ),
+        },
+        {
+            title: 'Название',
+            dataIndex: 'name',
+            key: 'name',
+            width: '20%',
+            editable: true,
+            sorter: (a: any, b: any) => a.name.localeCompare(b.name),
+        },
+        {
+            title: 'Страна',
+            dataIndex: 'country',
+            key: 'country',
+            width: '20%',
+            editable: true,
+        },
+        {
+            title: 'Дата основания',
+            dataIndex: 'foundation',
+            key: 'foundation',
+            width: '20%',
+            editable: true,
+        },
+        {
+            title: '',
+            width: '10%',
+            dataIndex: 'operation',
+            render: (_: any, record: Brand) => {
+                const editable = isEditing(record);
+                return editable ? (
+                    <span>
+                        <Typography.Link
+                            onClick={updateItem}
+                            style={{ marginRight: 8 }}
+                        >
+                            Сохранить
+                        </Typography.Link>
+                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                            <a>Отмена</a>
+                        </Popconfirm>
+                    </span>
+                ) : (
+                    <Typography.Link
+                        disabled={editingKey !== ''}
+                        onClick={() => edit(record)}
+                    >
+                        Изменить
+                    </Typography.Link>
+                );
+            },
+        },
+    ];
 
     return (
         <AdminPage
             data={data}
             page={brandsPage}
-            hasMore={hasMore}
-            nextPage={nextPage}
-            prevPage={prevPage}
-            defaultColumns={defaultColumns}
+            columns={columns}
+            form={form}
+            isEditing={isEditing}
+            itemsPerPage={itemPerPage}
+            totalItems={totalItems}
+            setPage={setPage}
             query={query}
             entityName="бренд"
-            fetchData={fetchBrandsAdmin}
             search={handleSearchBrands}
-            linkToDetails={getRouteAdminBrandDetails}
             linkToCreate={getRouteAdminBrandCreate()}
         />
     );

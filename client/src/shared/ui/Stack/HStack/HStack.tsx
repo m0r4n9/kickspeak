@@ -10,3 +10,5 @@ export const HStack = memo((props: HStackProps) => {
         </Flex>
     );
 });
+
+HStack.displayName = "HStack"

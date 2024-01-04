@@ -2,12 +2,6 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import cls from './AdminUsersContent.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { HStack } from '@/shared/ui/Stack';
-import {
-    ColumnDef,
-    getCoreRowModel,
-    useReactTable,
-} from '@tanstack/react-table';
-import { Profile } from '@/entities/Profile';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { getUsersData } from '../../model/selectors/getUsersData/getUsersData.ts';
@@ -22,44 +16,11 @@ import {
     getRouteAdminUserDetails,
     getRouteMain,
 } from '@/shared/const/route.ts';
-import { AdminTable } from '@/widgets/AdminTable';
 import { AdminRightBar } from '@/widgets/AdminRightBar';
 
 interface AdminUsersContentProps {
     className?: string;
 }
-
-const defaultColumns: ColumnDef<Profile>[] = [
-    {
-        header: 'Главная информация',
-        columns: [
-            {
-                accessorKey: 'id',
-                header: 'id',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'email',
-                header: 'Почта',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'name',
-                header: 'Имя',
-                cell: (info) => info.getValue(),
-                footer: (props) => props.column.id,
-            },
-            {
-                accessorKey: 'phoneNumber',
-                header: 'Номер телефона',
-                footer: (props) => props.column.id,
-            },
-        ],
-    },
-];
-
 export const AdminUsersContent = memo((props: AdminUsersContentProps) => {
     const { className } = props;
 
@@ -68,26 +29,12 @@ export const AdminUsersContent = memo((props: AdminUsersContentProps) => {
     const brandsPage = useSelector(getUsersAdminPage);
     const hasMore = useSelector(getUsersDataMore);
     const isLoading = useSelector(getUsersAdminIsLoading);
-    const [columns] = useState(() => [...defaultColumns]);
     const [columnVisibility, setColumnVisibility] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchUsersAdmin());
     }, [dispatch]);
-
-    let table = useReactTable({
-        data,
-        columns,
-        state: {
-            columnVisibility,
-        },
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        debugTable: false,
-        debugHeaders: false,
-        debugColumns: false,
-    });
 
     const nextPage = useCallback(() => {
         if (!brandsPage) return;
@@ -117,8 +64,8 @@ export const AdminUsersContent = memo((props: AdminUsersContentProps) => {
             gap="16"
             className={classNames(cls.AdminUsersContent, {}, [className])}
         >
-            <AdminTable table={table} navigateDetails={detailsNavigate} />
-            <AdminRightBar table={table} createRoute={getRouteMain()} />
+            <h1>Тут надо сделать Table</h1>
+            <AdminRightBar createRoute={getRouteMain()} />
         </HStack>
     );
 });

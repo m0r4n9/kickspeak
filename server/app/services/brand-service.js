@@ -11,6 +11,12 @@ const { hash } = require('bcrypt');
 class BrandService {
     async getBrands() {
         const brands = await Brand.findAll({
+            include: [
+                {
+                    model: Product,
+                    attributes: ["id"]
+                }
+            ],
             attributes: {
                 exclude: ['foundation', 'country', 'logo', 'data'],
             },

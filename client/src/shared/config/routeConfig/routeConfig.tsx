@@ -5,6 +5,7 @@ import {
     getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
     getRouteAdminBrands,
+    getRouteAdminProductCreate, getRouteAdminProductDetails,
     getRouteAdminProducts,
     getRouteAdminUserDetails,
     getRouteAdminUsers,
@@ -26,11 +27,13 @@ import { AdminLoginPage } from '@/pages/AdminPages/AdminLoginPage';
 import { BrandDetailsPage } from '@/pages/BrandDetailsPage';
 import { WishListPage } from '@/pages/WishListPage';
 import { AdminBrandsPage } from '@/pages/AdminPages/Brands/AdminBrandsPage';
-import { AdminBrandDetailsPage } from '@/pages/AdminPages/Brands/AdminBrandDetailsPage';
 import { AdminUsersPage } from '@/pages/AdminPages/Users/AdminUsersPage';
 import { AdminUserDetailsPage } from '@/pages/AdminPages/Users/AdminUserDetailsPage';
 import { AdminBrandCreatePage } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
-import {AdminProductsPage} from "@/pages/AdminPages/Products/AdminProductsPage";
+import { AdminProductsPage } from '@/pages/AdminPages/Products/AdminProductsPage';
+import { AdminProductCreatePage } from '@/pages/AdminPages/Products/AdminProductCreatePage';
+import { AdminBrandEditPage } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
+import {AdminProductEditPage} from "@/pages/AdminPages/Products/AdminProductEditPage";
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -89,7 +92,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.ADMIN_BRAND_DETAILS]: {
         path: getRouteAdminBrandDetails(':id'),
-        element: <AdminBrandDetailsPage />,
+        element: <AdminBrandEditPage />,
         authOnly: true,
         adminPanel: true,
         role: [UserRole.ADMIN],
@@ -98,7 +101,19 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         path: getRouteAdminProducts(),
         authOnly: true,
         adminPanel: true,
-        element: <AdminProductsPage/>,
+        element: <AdminProductsPage />,
+    },
+    [AppRoutes.ADMIN_PRODUCT_CREATE]: {
+        path: getRouteAdminProductCreate(),
+        authOnly: true,
+        adminPanel: true,
+        element: <AdminProductCreatePage />,
+    },
+    [AppRoutes.ADMIN_PRODUCT_DETAILS]: {
+        path: getRouteAdminProductDetails(':id'),
+        authOnly: true,
+        adminPanel: true,
+        element: <AdminProductEditPage/>
     },
     [AppRoutes.ADMIN_USERS]: {
         path: getRouteAdminUsers(),

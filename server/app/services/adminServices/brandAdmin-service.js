@@ -9,15 +9,30 @@ class BrandAdminService {
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ['id', 'name', 'country', 'foundation'],
+            order: [
+                ['id', 'DESC']
+            ]
         });
 
-        const totalCount = await Brand.count();
-        const hasMore = page * limit < totalCount;
+        const totalBrands = await Brand.count();
 
         return {
             brands: brands,
-            hasMore,
+            totalBrands,
         };
+    }
+
+    async getListName() {
+        const brands = await Brand.findAll({
+            attributes: [
+                ['id', 'value'],
+                ['name', 'label']
+            ],
+            order: [
+                ['name', 'ASC']
+            ]
+        });
+        return brands;
     }
 
     async getBrandDetails(id) {
@@ -65,7 +80,7 @@ class BrandAdminService {
             name,
             foundation,
             country,
-            logo: pathLogo,
+            logo: `/${pathLogo}`,
         });
 
         await brand.save();

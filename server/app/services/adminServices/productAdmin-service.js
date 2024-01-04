@@ -1,4 +1,5 @@
-const { Op } = require('sequelize');
+const fs = require('fs');
+const path = require('path');
 const { Brand, Product, Size, Image } = require('../../models/product');
 const ApiError = require('../../exceptions/api-error');
 
@@ -8,17 +9,16 @@ class ProductAdminService {
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ['id', 'name', 'code', 'price'],
+            order: [['id', 'DESC']],
         });
 
-        const amount = await Product.count();
+        const totalCount = await Product.count();
 
-        const hasMore = page * limit < amount;
-
-        return {products, hasMore, page};
+        return { products, totalCount };
     }
 
     async getProductDetails(id) {
-        const product = await Product.findByPk(id, {
+        return await Product.findByPk(id, {
             include: [
                 {
                     model: Brand,
@@ -28,23 +28,73 @@ class ProductAdminService {
                     model: Image,
                 },
                 {
-                    model: Size
-                }
+                    model: Size,
+                },
             ],
             attributes: {
                 exclude: ['BrandId'],
             },
         });
-        return product;
     }
 
-    async updateProduct(id, data) {
+    async updateProduct(id, data, deleteImagesIds, newImages) {
         const product = await Product.findByPk(id);
         if (!product) {
             throw ApiError.BadRequest('Продукт не найден');
         }
 
         const updatedProduct = await product.update(data);
+
+        if (deleteImagesIds) {
+            if (Array.isArray(deleteImagesIds)) {
+                for (let i = 0; i < deleteImagesIds.length; i++) {
+                    const imageToDelete = await Image.findByPk(
+                        deleteImagesIds[i],
+                    );
+                    if (imageToDelete) {
+                        const serverRoot = path.join(__dirname, '../../../');
+                        const imagePath = path.join(
+                            serverRoot,
+                            imageToDelete.url.replace(/^\//, ''),
+                        );
+
+                        console.log(imagePath);
+                        if (fs.existsSync(imagePath)) {
+                            fs.unlinkSync(imagePath);
+                        } else {
+                            console.log('Файл не найден:', imagePath);
+                        }
+
+                        await imageToDelete.destroy();
+                    }
+                }
+            } else {
+                const imageToDelete = await Image.findByPk(deleteImagesIds);
+                if (imageToDelete) {
+                    const serverRoot = path.join(__dirname, '../../../');
+                    const imagePath = path.join(
+                        serverRoot,
+                        imageToDelete.url.replace(/^\//, ''),
+                    );
+
+                    if (fs.existsSync(imagePath)) {
+                        fs.unlinkSync(imagePath);
+                    } else {
+                        console.log('Файл не найден:', imagePath);
+                    }
+
+                    await imageToDelete.destroy();
+                }
+            }
+        }
+
+        for (const image of newImages) {
+            await Image.create({
+                url: `/${image.path}`,
+                productId: id,
+            });
+        }
+
         return updatedProduct;
     }
 
@@ -57,13 +107,21 @@ class ProductAdminService {
         return product;
     }
 
-    async createProduct(data) {
+    async createProduct(data, images) {
         if (!data || !data.BrandId) {
             throw ApiError.BadRequest('Данные пусты');
         }
 
-        const product = await Product.build(data);
-        await product.save();
+        const product = await Product.create(data);
+        const productId = product.id;
+
+        for (const image of images) {
+            await Image.create({
+                url: `/${image.path}`,
+                productId,
+            });
+        }
+
         return product;
     }
 }

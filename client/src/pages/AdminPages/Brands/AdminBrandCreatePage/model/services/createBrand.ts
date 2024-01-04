@@ -5,8 +5,6 @@ import axios, { AxiosError } from 'axios';
 import { getBrandCreateName } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateName/getBrandCreateName.ts';
 import { getBrandCreateFoundation } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateFoundation/getBrandCreateFoundation.ts';
 import { getBrandCreateCountry } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateCountry/getBrandCreateCountry.ts';
-import { getBrandCreateLogo } from '@/pages/AdminPages/Brands/AdminBrandCreatePage/model/selectors/getBrandCreateLogo/getBrandCreateLogo.ts';
-
 
 export const createBrand = createAsyncThunk<
     string,
@@ -27,13 +25,14 @@ export const createBrand = createAsyncThunk<
     formData.append('foundation', foundation);
     formData.append('country', country);
 
-
     try {
-        const response = await extra.api.post<string>('/admin/brand/create', formData, {
-            headers: {
-
+        const response = await extra.api.post<string>(
+            '/admin/brand/create',
+            formData,
+            {
+                headers: {},
             },
-        });
+        );
         return response.data;
     } catch (e) {
         if (axios.isAxiosError(e)) {

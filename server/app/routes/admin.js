@@ -8,17 +8,34 @@ const upload = require('../middlewares/uploadImg');
 
 // Brands
 adminRouter.get('/brands', BrandAdminController.getBrands);
+adminRouter.get('/brands-name', BrandAdminController.getListName);
 adminRouter.get('/brand/:id', BrandAdminController.getBrandDetails);
 adminRouter.get('/brands/search', BrandAdminController.searchBrands);
-adminRouter.put('/brand/update/:id', BrandAdminController.updateBrand);
-adminRouter.post('/brand/create', upload.single("logo"), BrandAdminController.createBrand);
+adminRouter.put(
+    '/brand/update/:id',
+    upload.single('logo'),
+    BrandAdminController.updateBrand,
+);
+adminRouter.post(
+    '/brand/create',
+    upload.single('logo'),
+    BrandAdminController.createBrand,
+);
 adminRouter.delete('/brand/delete/:id', BrandAdminController.deleteBrand);
 
 // Products
 adminRouter.get('/products', ProductAdminController.getProducts);
 adminRouter.get('/product/:id', ProductAdminController.getProductDetails);
-adminRouter.put('/product/update/:id', ProductAdminController.updateProduct);
-adminRouter.post('/product/create', ProductAdminController.createProduct);
+adminRouter.put(
+    '/product/update/:id',
+    upload.array('images'),
+    ProductAdminController.updateProduct,
+);
+adminRouter.post(
+    '/product/create',
+    upload.array('images'),
+    ProductAdminController.createProduct,
+);
 adminRouter.delete('/product/delete/:id', ProductAdminController.deleteProduct);
 
 // Images

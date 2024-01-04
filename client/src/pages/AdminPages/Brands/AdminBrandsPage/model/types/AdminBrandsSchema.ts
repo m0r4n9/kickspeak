@@ -3,7 +3,7 @@ import { ErrorInterface } from '@/shared/interfaces/ApiError';
 
 export interface BrandsData {
     brands: Brand[];
-    hasMore: boolean;
+    totalBrands: number;
 }
 
 export interface AdminBrandsSchema {
@@ -11,5 +11,10 @@ export interface AdminBrandsSchema {
     data?: BrandsData;
     query: string;
     page: number;
+    limit: number;
+    sort?: {
+        name: string;
+        value: string;
+    };
     error?: ErrorInterface;
 }

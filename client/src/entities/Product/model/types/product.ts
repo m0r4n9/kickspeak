@@ -1,5 +1,3 @@
-import {Brand} from "@/entities/Brand";
-
 interface BrandProduct {
     id: number;
     name: string;
@@ -11,13 +9,13 @@ export interface SizeProduct {
     productId: number;
 }
 
-interface ImageProduct {
+export interface ImageProduct {
     id: number;
     url: string;
 }
 
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     price: number;
     code?: string;
@@ -25,10 +23,6 @@ export interface Product {
     Brand?: BrandProduct;
     Sizes?: SizeProduct[];
     Images: ImageProduct[];
-}
-export interface BrandDetails {
-    products: Product[];
-    brand: Brand;
 }
 
 export interface AdditionalProduct {
