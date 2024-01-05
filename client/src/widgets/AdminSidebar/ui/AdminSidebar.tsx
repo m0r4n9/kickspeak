@@ -38,11 +38,6 @@ const items: itemProps[] = [
         name: 'Пользователи',
         url: getRouteAdminUsers(),
     },
-    {
-        id: 'purchases',
-        name: 'Покупки',
-        url: '',
-    },
 ];
 
 export const AdminSidebar = memo((props: AdminSidebarProps) => {

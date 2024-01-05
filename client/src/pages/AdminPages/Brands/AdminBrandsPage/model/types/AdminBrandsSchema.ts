@@ -12,9 +12,5 @@ export interface AdminBrandsSchema {
     query: string;
     page: number;
     limit: number;
-    sort?: {
-        name: string;
-        value: string;
-    };
     error?: ErrorInterface;
 }

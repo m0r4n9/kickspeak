@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-    AdminProductsData,
-    ResProductsAdmin,
-} from '@/pages/AdminPages/Products/AdminProductsPage/model/types/AdminProductsSchema.ts';
+import { ResProductsAdmin } from '@/pages/AdminPages/Products/AdminProductsPage/model/types/AdminProductsSchema.ts';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { ErrorInterface } from '@/shared/interfaces/ApiError';
 import { AxiosError, isAxiosError } from 'axios';
 import { getAdminProductsPage } from '../selectors/getAdminProductsPage/getAdminProductsPage.ts';
 import { getAdminProductsLimit } from '../selectors/getAdminProductsLimit/getAdminProductsLimit.ts';
+import {
+    getAdminProductsQuery
+} from "../selectors/getAdminProductsQuery/getAdminProductsQuery.ts";
 
 export const fetchProductsAdmin = createAsyncThunk<
     ResProductsAdmin,
@@ -18,6 +18,7 @@ export const fetchProductsAdmin = createAsyncThunk<
 
     const page = getAdminProductsPage(getState());
     const limit = getAdminProductsLimit(getState());
+    const query = getAdminProductsQuery(getState());
 
     try {
         const response = await extra.api.get<ResProductsAdmin>(
@@ -26,6 +27,7 @@ export const fetchProductsAdmin = createAsyncThunk<
                 params: {
                     _limit: limit,
                     _page: page,
+                    _query: query
                 },
             },
         );

@@ -21,16 +21,6 @@ const Brand = sequelize.define(
   },
 );
 
-// Brand.addHook("afterFind", "countProducts", async (brands) => {
-//   if (!Array.isArray(brands)) {
-//     brands = [brands];
-//   }
-//   for (const brand of brands) {
-//     const productCount = await Product.count({ where: { BrandId: brand?.id } });
-//     brand.setDataValue("productCount", productCount);
-//   }
-// });
-
 const Product = sequelize.define(
   "Product",
   {

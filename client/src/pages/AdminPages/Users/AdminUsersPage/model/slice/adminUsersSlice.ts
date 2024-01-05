@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AdminUsersSchema } from '../types/AdminUsersSchema.ts';
 import { fetchUsersAdmin } from '../services/fetchUsersAdmin.ts';
-import {searchUsers} from "../services/searchUsers.ts";
 
 const initialState: AdminUsersSchema = {
     isLoading: false,
     page: 1,
+    limit: 10,
     data: undefined,
-    query: ''
+    query: '',
 };
 
 const adminUsersSlice = createSlice({
@@ -19,6 +19,7 @@ const adminUsersSlice = createSlice({
         },
         setQuery: (state, action: PayloadAction<string>) => {
             state.query = action.payload;
+            state.page = 1;
         }
     },
     extraReducers: (builder) =>
@@ -32,19 +33,6 @@ const adminUsersSlice = createSlice({
                 state.data = action.payload;
             })
             .addCase(fetchUsersAdmin.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            })
-
-            .addCase(searchUsers.pending, (state) => {
-                state.isLoading = true;
-                state.error = undefined;
-            })
-            .addCase(searchUsers.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.data = action.payload;
-            })
-            .addCase(searchUsers.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })

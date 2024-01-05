@@ -1,24 +1,23 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import cls from './ProductEdit.module.scss';
 import { getAdminProductDetailsData } from '../../model/selectors/getAdminProductDetailsData/getAdminProductDetailsData.ts';
 import { fetchProductById } from '../../model/services/fetchProductById.ts';
 import { EditProductCard } from '../EditProductCard/EditProductCard.tsx';
-import { getAdminProductDetailsIsLoading } from '../../model/selectors/getAdminProductDetailsIsLoading/getAdminProductDetailsIsLoading.ts';
+import { updateProduct } from '../../model/services/updateProduct.ts';
+import { deleteProduct } from '../../model/services/deleteProduct.ts';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import type { IconType } from 'antd/es/notification/interface';
-import { VStack } from '@/shared/ui/Stack/index.ts';
 import { useNavigate } from 'react-router-dom';
 import { AdminFooter } from '@/features/Admin/adminFooter/index.ts';
 import { Button, notification, Upload } from 'antd';
-import { Product } from '@/entities/Product';
+import { Product, SizeProduct } from '@/entities/Product';
 import { getRouteAdminProducts } from '@/shared/const/route.ts';
 import { UploadOutlined } from '@ant-design/icons';
-import { UploadFile } from 'antd/lib/upload/interface';
 import { IMG_BASE_URL } from '@/shared/api/api.ts';
+import { VStack } from '@/shared/ui/Stack/index.ts';
 import type { UploadChangeParam } from 'antd/lib/upload';
-import { updateProduct } from '../../model/services/updateProduct.ts';
-import { deleteProduct } from '../../model/services/deleteProduct.ts';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 interface ProductEditProps {
     id?: string;
@@ -31,10 +30,11 @@ export const ProductEdit = memo((props: ProductEditProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const product = useSelector(getAdminProductDetailsData);
-    const isLoading = useSelector(getAdminProductDetailsIsLoading);
     const [productForm, setProductForm] = useState<Product>();
+    const [imagesList, setImagesList] = useState<UploadFile[]>([]);
     const [deletedImages, setDeletedImages] = useState<string[]>([]);
-    const [newImages, setNewImages] = useState<UploadFile[]>([]);
+    const [selectedColors, setSelectedColors] = useState<string[]>([]);
+    const [newSizes, setNewSizes] = useState<SizeProduct[]>([]);
     const [api, contextHolder] = notification.useNotification();
 
     const openNotification = (type: IconType) => {
@@ -54,7 +54,18 @@ export const ProductEdit = memo((props: ProductEditProps) => {
     }, []);
 
     useEffect(() => {
-        if (product) setProductForm(product);
+        if (product) {
+            setProductForm(product);
+            product?.colors?.length && setSelectedColors(product.colors);
+            product?.Images.length &&
+                setImagesList(
+                    product.Images.map((image, index) => ({
+                        uid: image.id.toString(),
+                        name: `Image-${index + 1}`,
+                        url: IMG_BASE_URL + image.url,
+                    })),
+                );
+        }
     }, [product]);
 
     const updateForm = useCallback((value: string, key: keyof Product) => {
@@ -65,22 +76,15 @@ export const ProductEdit = memo((props: ProductEditProps) => {
         });
     }, []);
 
-    const fileListImages = useMemo<UploadFile[]>(() => {
-        return productForm?.Images.length
-            ? productForm.Images.map((image, index) => ({
-                  uid: image.id.toString(),
-                  name: `Image-${index + 1}`,
-                  url: IMG_BASE_URL + image.url,
-              }))
-            : [];
-    }, [productForm?.Images]);
+    const onChangeColors = useCallback((color: string[]) => {
+        setSelectedColors(color);
+    }, []);
 
     const updateImages = (info: UploadChangeParam) => {
+        setImagesList(info.fileList);
         if (info.file.status === 'removed') {
             setDeletedImages((prevState) => [...prevState, info.file.uid]);
-            return;
         }
-        setNewImages((prevState) => [...prevState, info.fileList[info.fileList.length - 1]]);
     };
 
     const onUpdateProduct = () => {
@@ -90,28 +94,29 @@ export const ProductEdit = memo((props: ProductEditProps) => {
                 price: productForm?.price,
                 code: productForm?.code,
                 sex: productForm?.sex,
+                colors: selectedColors,
                 images: {
                     deletedImages,
-                    newImages,
+                    newImages: imagesList.filter(
+                        (image) => image.originFileObj,
+                    ),
                 },
             }),
-        );
-        if (id) dispatch(fetchProductById(id));
-    };
-    
-    const onDeleteProduct = () => {
-        dispatch(deleteProduct()).then(res => {
-            if (res.meta.requestStatus === 'fulfilled') navigate(getRouteAdminProducts());
+        ).then((res) => {
+            if (res.meta.requestStatus === 'fulfilled') {
+                openNotification('success');
+            } else if (res.meta.requestStatus === 'rejected') {
+                openNotification('error');
+            }
         });
-    }
+    };
 
-    if (isLoading) {
-        return (
-            <VStack className={cls.EditProduct}>
-                <div className={cls.containerEditProduct}></div>
-            </VStack>
-        );
-    }
+    const onDeleteProduct = () => {
+        dispatch(deleteProduct()).then((res) => {
+            if (res.meta.requestStatus === 'fulfilled')
+                navigate(getRouteAdminProducts());
+        });
+    };
 
     return (
         <VStack className={cls.EditProduct}>
@@ -135,20 +140,28 @@ export const ProductEdit = memo((props: ProductEditProps) => {
                 price={productForm?.price || 0}
                 code={productForm?.code || ''}
                 sex={productForm?.sex}
+                selectedColors={selectedColors}
+                sizes={productForm?.Sizes}
+                newSizes={newSizes}
                 updateForm={updateForm}
+                onChangeColors={onChangeColors}
             />
-            {/*TODO: сделать этот кусок лучше */}
-            {(fileListImages.length || productForm?.Images.length === 0) && (
+            
+            <div
+                style={{
+                    marginTop: 16,
+                }}
+            >
                 <Upload
                     action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-                    listType="picture-card"
-                    defaultFileList={fileListImages}
+                    listType="picture"
+                    fileList={imagesList}
                     beforeUpload={() => false}
                     onChange={updateImages}
                 >
                     <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-            )}
+            </div>
 
             <AdminFooter
                 onUpdate={onUpdateProduct}

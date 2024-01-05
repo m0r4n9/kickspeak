@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import cls from './AdminUsersContent.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { HStack } from '@/shared/ui/Stack';
@@ -6,56 +6,81 @@ import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { getUsersData } from '../../model/selectors/getUsersData/getUsersData.ts';
 import { getUsersAdminPage } from '../../model/selectors/getUsersAdminPage/getUsersAdminPage.ts';
-import { getUsersDataMore } from '../../model/selectors/getUsersDataMore/getUsersDataMore.ts';
-import { getUsersAdminIsLoading } from '../../model/selectors/getUsersAdminIsLoading/getUsersAdminIsLoading.ts';
-import { useNavigate } from 'react-router-dom';
 import { fetchUsersAdmin } from '../../model/services/fetchUsersAdmin.ts';
-import { adminUsersActions } from '../../model/slice/adminUsersSlice.ts';
-import { searchUsers } from '../../model/services/searchUsers.ts';
+import { getUsersAdminCount } from '../../model/selectors/getUsersAdminCount/getUsersAdminCount.ts';
 import {
+    getUsersAdminQuery
+} from "../../model/selectors/getUsersAdminQuery/getUsersAdminQuery.ts";
+import { getUsersAdminLimit } from '../../model/selectors/getUsersAdminLimit/getUsersAdminLimit.ts';
+import { adminUsersActions } from '../../model/slice/adminUsersSlice.ts';
+import {
+    getRouteAdminProductCreate,
     getRouteAdminUserDetails,
-    getRouteMain,
 } from '@/shared/const/route.ts';
-import { AdminRightBar } from '@/widgets/AdminRightBar';
+import { AdminPage } from '@/widgets/AdminPage';
+import { useAdminTable } from '@/shared/hooks/useAdminTable/useAdminTable.ts';
+import { AppLink } from '@/shared/ui/AppLink';
 
 interface AdminUsersContentProps {
     className?: string;
 }
+
+const columns = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        width: '10%',
+        editable: false,
+        render: (id: string) => (
+            <AppLink
+                to={getRouteAdminUserDetails(id)}
+                style={{ color: 'blue' }}
+            >
+                {id}
+            </AppLink>
+        ),
+    },
+    {
+        title: 'Имя пользователя',
+        dataIndex: 'name',
+        key: 'name',
+        width: '20%',
+        editable: true,
+    },
+    {
+        title: 'Номер телефона',
+        dataIndex: 'phoneNumber',
+        key: 'phoneNumber',
+        width: '20%',
+        editable: true,
+    },
+];
+
 export const AdminUsersContent = memo((props: AdminUsersContentProps) => {
     const { className } = props;
-
     const dispatch = useAppDispatch();
     const data = useSelector(getUsersData) || [];
-    const brandsPage = useSelector(getUsersAdminPage);
-    const hasMore = useSelector(getUsersDataMore);
-    const isLoading = useSelector(getUsersAdminIsLoading);
-    const [columnVisibility, setColumnVisibility] = useState({});
-    const navigate = useNavigate();
+    const page = useSelector(getUsersAdminPage) || 1;
+    const totalUsers = useSelector(getUsersAdminCount) || 1;
+    const limitUsers = useSelector(getUsersAdminLimit);
+    const query = useSelector(getUsersAdminQuery) || '';
+    const { form, isEditing } = useAdminTable();
 
     useEffect(() => {
+        if (!limitUsers) return;
         dispatch(fetchUsersAdmin());
-    }, [dispatch]);
+    }, [limitUsers]);
 
-    const nextPage = useCallback(() => {
-        if (!brandsPage) return;
-        dispatch(adminUsersActions.setPage(brandsPage + 1));
+    const setPage = useCallback((page: number) => {
+        dispatch(adminUsersActions.setPage(page));
         dispatch(fetchUsersAdmin());
-    }, [dispatch, brandsPage]);
-
-    const prevPage = useCallback(() => {
-        if (brandsPage === 1 || !brandsPage) return;
-        dispatch(adminUsersActions.setPage(brandsPage - 1));
-        dispatch(fetchUsersAdmin());
-    }, [dispatch, brandsPage]);
-
-    const handleSearchUsers = useCallback((query: string) => {
-        dispatch(adminUsersActions.setQuery(query));
-        dispatch(searchUsers({ query }));
     }, []);
 
-    const detailsNavigate = (id: string) => {
-        navigate(getRouteAdminUserDetails(id));
-    };
+    const searchUsers = useCallback((query: string) => {
+        dispatch(adminUsersActions.setQuery(query));
+        dispatch(fetchUsersAdmin());
+    }, []);
 
     return (
         <HStack
@@ -64,8 +89,20 @@ export const AdminUsersContent = memo((props: AdminUsersContentProps) => {
             gap="16"
             className={classNames(cls.AdminUsersContent, {}, [className])}
         >
-            <h1>Тут надо сделать Table</h1>
-            <AdminRightBar createRoute={getRouteMain()} />
+            <AdminPage
+                form={form}
+                isEditing={isEditing}
+                columns={columns}
+                data={data}
+                totalItems={totalUsers}
+                page={page}
+                itemsPerPage={limitUsers}
+                setPage={setPage}
+                query={query}
+                search={searchUsers}
+                linkToCreate={getRouteAdminProductCreate()}
+                entityName="пользователя"
+            />
         </HStack>
     );
 });

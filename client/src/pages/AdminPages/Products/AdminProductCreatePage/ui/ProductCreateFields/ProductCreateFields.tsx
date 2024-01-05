@@ -2,44 +2,12 @@ import { HStack, VStack } from '@/shared/ui/Stack';
 import cls from '../AdminProductCreatePage/AdminProductCreatePage.module.scss';
 import { Button, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { memo, useEffect, useState } from 'react';
-import { $api } from '@/shared/api';
+import { memo } from 'react';
 import { NameField } from './NameField.tsx';
-import { BrandField } from '@/pages/AdminPages/Products/AdminProductCreatePage/ui/ProductCreateFields/BrandField.tsx';
-import {PriceField} from "@/pages/AdminPages/Products/AdminProductCreatePage/ui/ProductCreateFields/PriceField.tsx";
-import {CodeField} from "@/pages/AdminPages/Products/AdminProductCreatePage/ui/ProductCreateFields/CodeField.tsx";
-
-const options = [
-    'Красный',
-    'Оранжевый',
-    'Жёлтый',
-    'Зелёный',
-    'Голубой',
-    'Синий',
-    'Фиолетовый',
-    'Розовый',
-    'Белый',
-    'Чёрный',
-    'Серый',
-    'Коричневый',
-    'Малиновый',
-    'Лаймовый',
-    'Индиго',
-    'Марсала',
-    'Персиковый',
-    'Бирюзовый',
-    'Бежевый',
-    'Коралловый',
-    'Лавандовый',
-    'Оливковый',
-    'Тёмно-синий',
-    'Салатовый',
-    'Фуксия',
-    'Графитовый',
-    'Сливовый',
-    'Аметистовый',
-    'Мятный',
-];
+import { BrandField } from '../ProductCreateFields/BrandField.tsx';
+import { PriceField } from '../ProductCreateFields/PriceField.tsx';
+import { CodeField } from '../ProductCreateFields/CodeField.tsx';
+import { colorsProduct } from '@/shared/const/colors.ts';
 
 interface ProductCreateFieldsProps {
     name: string;
@@ -73,14 +41,14 @@ export const ProductCreateFields = memo((props: ProductCreateFieldsProps) => {
         uploadImages,
     } = props;
 
-    const filteredOptions = options.filter((o) => !selectedColors.includes(o));
+    const filteredOptions = colorsProduct.filter((o) => !selectedColors.includes(o));
 
     return (
         <VStack max gap="16" style={{ marginTop: 24 }}>
             <NameField name={name} onChangeName={onChangeName} />
             <BrandField onChangeBrand={onChangeBrand} />
-            <PriceField price={price} onChangePrice={onChangePrice}/>
-            <CodeField code={code} onChangeCode={onChangeCode}/>
+            <PriceField price={price} onChangePrice={onChangePrice} />
+            <CodeField code={code} onChangeCode={onChangeCode} />
 
             <HStack justify="between" className={cls.wrapperInput}>
                 <label htmlFor="sex-product">Пол:</label>

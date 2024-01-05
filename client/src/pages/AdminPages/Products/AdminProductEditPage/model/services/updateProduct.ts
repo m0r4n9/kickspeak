@@ -11,6 +11,7 @@ export interface UpdateProductArgs {
     price?: number;
     code?: string;
     sex?: string;
+    colors?: string[];
     images: {
         deletedImages: string[];
         newImages: UploadFile[];
@@ -18,7 +19,7 @@ export interface UpdateProductArgs {
 }
 
 export const updateProduct = createAsyncThunk<
-    void,
+    Product,
     UpdateProductArgs,
     ThunkConfig<ErrorInterface>
 >('updateProduct', async (data, thunkApi) => {
@@ -31,6 +32,7 @@ export const updateProduct = createAsyncThunk<
     if (data.price) formData.append('price', data.price.toString());
     if (data.code) formData.append('code', data.code);
     if (data.sex) formData.append('sex', data.sex);
+    if (data.colors) formData.append('colors', data.colors.toString());
     data.images.deletedImages.forEach((deleteImageId) => {
         if (deleteImageId) formData.append('deletedImagesIds', deleteImageId);
     });
@@ -40,7 +42,7 @@ export const updateProduct = createAsyncThunk<
 
 
     try {
-        const response = await extra.api.put(
+        const response = await extra.api.put<Product>(
             `/admin/product/update/${product?.id}`,
             formData,
             {

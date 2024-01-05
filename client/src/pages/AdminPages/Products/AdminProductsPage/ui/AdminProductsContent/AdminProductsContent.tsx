@@ -3,21 +3,21 @@ import { memo, useCallback, useEffect } from 'react';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { getAdminProducts } from '../../model/selectors/getAdminProducts/getAdminProducts.ts';
 import { getAdminProductsPage } from '../../model/selectors/getAdminProductsPage/getAdminProductsPage.ts';
-import { getAdminProductsTotal } from '../../model/selectors/getAdminProductsHasMore/getAdminProductsHasMore.ts';
+import { getAdminProductsTotal } from '../../model/selectors/getAdminProductsTotal/getAdminProductsTotal.ts';
 import { adminProductsActions } from '../../model/slice/adminProductsSlice.ts';
 import { fetchProductsAdmin } from '../../model/services/fetchProductsAdmin.ts';
 import { getAdminProductsLimit } from '../../model/selectors/getAdminProductsLimit/getAdminProductsLimit.ts';
 import { AdminPage } from '@/widgets/AdminPage';
 import { AppLink } from '@/shared/ui/AppLink';
 import {
-    getRouteAdminBrandDetails,
-    getRouteAdminProductCreate, getRouteAdminProductDetails,
-    getRouteAdminProducts,
+    getRouteAdminProductCreate,
+    getRouteAdminProductDetails,
 } from '@/shared/const/route.ts';
 import { Popconfirm, Typography } from 'antd';
 import { Product } from '@/entities/Product';
 import { useAdminTable } from '@/shared/hooks/useAdminTable/useAdminTable.ts';
 import { $api } from '@/shared/api';
+import { getAdminProductsQuery } from '../../model/selectors/getAdminProductsQuery/getAdminProductsQuery.ts';
 
 interface AdminProductsContentProps {
     className?: string;
@@ -29,7 +29,9 @@ export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
     const page = useSelector(getAdminProductsPage) || 1;
     const totalProducts = useSelector(getAdminProductsTotal) || 1;
     const limitProductPage = useSelector(getAdminProductsLimit);
-    const { form, editingKey, setEditingKey, isEditing, cancel, edit } = useAdminTable();
+    const querySearch = useSelector(getAdminProductsQuery);
+    const { form, editingKey, setEditingKey, isEditing, cancel, edit } =
+        useAdminTable();
 
     useEffect(() => {
         if (!limitProductPage) return;
@@ -38,6 +40,11 @@ export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
 
     const setPage = useCallback((page: number) => {
         dispatch(adminProductsActions.setPage(page));
+        dispatch(fetchProductsAdmin());
+    }, []);
+
+    const setQuery = useCallback((value: string) => {
+        dispatch(adminProductsActions.setQuery(value));
         dispatch(fetchProductsAdmin());
     }, []);
 
@@ -60,7 +67,10 @@ export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
             width: '10%',
             editable: false,
             render: (id: string) => (
-                <AppLink to={getRouteAdminProductDetails(id)} style={{ color: 'blue' }}>
+                <AppLink
+                    to={getRouteAdminProductDetails(id)}
+                    style={{ color: 'blue' }}
+                >
                     {id}
                 </AppLink>
             ),
@@ -127,7 +137,8 @@ export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
             itemsPerPage={limitProductPage}
             setPage={setPage}
             linkToCreate={getRouteAdminProductCreate()}
-
+            query={querySearch}
+            search={setQuery}
             entityName="продукт"
         />
     );

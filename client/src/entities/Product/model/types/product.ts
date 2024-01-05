@@ -4,8 +4,9 @@ interface BrandProduct {
 }
 
 export interface SizeProduct {
-    id: number;
-    name: number;
+    id: string;
+    name: string;
+    quantity: number;
     productId: number;
 }
 
@@ -20,6 +21,7 @@ export interface Product {
     price: number;
     code?: string;
     sex?: string;
+    colors?: string[];
     Brand?: BrandProduct;
     Sizes?: SizeProduct[];
     Images: ImageProduct[];

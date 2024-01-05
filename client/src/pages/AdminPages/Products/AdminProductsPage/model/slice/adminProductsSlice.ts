@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AdminProductsSchema } from '@/pages/AdminPages/Products/AdminProductsPage';
 import { fetchProductsAdmin } from '@/pages/AdminPages/Products/AdminProductsPage/model/services/fetchProductsAdmin.ts';
 
@@ -8,7 +8,6 @@ const initialState: AdminProductsSchema = {
     query: '',
     page: 1,
     limit: 10,
-
 };
 
 const adminProductsSlice = createSlice({
@@ -16,8 +15,12 @@ const adminProductsSlice = createSlice({
     initialState,
     reducers: {
         setPage: (state, action: PayloadAction<number>) => {
-            state.page =  action.payload;
-}
+            state.page = action.payload;
+        },
+        setQuery: (state, action: PayloadAction<string>) => {
+            state.query = action.payload;
+            state.page = 1;
+        },
     },
     extraReducers: (builder) =>
         builder

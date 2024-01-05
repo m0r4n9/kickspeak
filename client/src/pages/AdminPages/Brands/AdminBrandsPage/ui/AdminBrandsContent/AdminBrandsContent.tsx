@@ -6,12 +6,10 @@ import {
     getBrandsAdminLimit,
     getBrandsAdminPage,
     getBrandsAdminQuery,
-    getBrandsAdminSortParams,
     getBrandsCount,
 } from '../../model/selectors/adminBrandsSelectors.ts';
 import { adminBrandActions } from '../../model/slice/adminBrandsSlice.ts';
 import { fetchBrandsAdmin } from '../../model/services/fetchBrandsAdmin.ts';
-import { searchBrands } from '../../model/services/searchBrands.ts';
 import {
     getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
@@ -46,10 +44,11 @@ export const AdminBrandsContent = memo((props: AdminBrandsContentProps) => {
         dispatch(fetchBrandsAdmin());
     }, []);
 
-    const handleSearchBrands = (query: string) => {
+    const handleSearchBrands = useCallback((query: string) => {
         dispatch(adminBrandActions.setQuery(query));
-        dispatch(searchBrands());
-    };
+
+        dispatch(fetchBrandsAdmin());
+    }, []);
 
     const setPage = useCallback(
         (page: number) => {
@@ -62,7 +61,7 @@ export const AdminBrandsContent = memo((props: AdminBrandsContentProps) => {
     const updateItem = async () => {
         try {
             const data = form.getFieldsValue();
-            const response = await $api.put(
+            await $api.put(
                 '/admin/brand/update/' + editingKey,
                 {
                     brand: data,

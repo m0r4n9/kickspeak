@@ -1,6 +1,5 @@
-import { HTMLAttributes, memo, ReactNode, useEffect, useState } from 'react';
+import { HTMLAttributes, memo, ReactNode } from 'react';
 import cls from './AdminPage.module.scss';
-import { useNavigate } from 'react-router-dom';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import {
     Form,
@@ -9,15 +8,9 @@ import {
     InputNumber,
     Pagination,
     PaginationProps,
-    Popconfirm,
     Table,
-    Typography,
 } from 'antd';
-import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { Brand } from '@/entities/Brand';
-import { getRouteAdminBrandDetails } from '@/shared/const/route.ts';
-import { AppLink } from '@/shared/ui/AppLink';
-import { $api } from '@/shared/api';
 import { CreateEntity, SearchAdmin } from '@/features/Admin/AdminRightbar';
 
 interface AdminPageProps {
@@ -26,7 +19,6 @@ interface AdminPageProps {
     form: FormInstance<any>;
     isEditing: (data: any) => boolean;
 
-    query?: string;
     totalItems: number;
     linkToCreate: string;
     entityName?: string;
@@ -35,6 +27,7 @@ interface AdminPageProps {
     itemsPerPage?: number;
     setPage: (page: number) => void;
 
+    query?: string;
     search?: (query: string) => void;
 }
 
@@ -87,12 +80,14 @@ function AdminPageGeneric(props: AdminPageProps) {
         data,
         columns,
         form,
-        isEditing,
         page,
         itemsPerPage,
         totalItems,
         linkToCreate,
         entityName,
+        query,
+        search,
+        isEditing,
         setPage,
     } = props;
 
@@ -148,13 +143,13 @@ function AdminPageGeneric(props: AdminPageProps) {
                 />
             </VStack>
 
-            <VStack className={cls.toolBar}>
+            <VStack gap='16' className={cls.toolBar}>
                 <h2>ToolBar</h2>
                 <CreateEntity
                     createRoute={linkToCreate}
                     entityName={entityName}
                 />
-                <SearchAdmin />
+                <SearchAdmin query={query} search={search}/>
             </VStack>
         </HStack>
     );

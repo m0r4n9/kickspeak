@@ -1,11 +1,19 @@
 const { Brand, Product } = require('../../models/product');
 const { Op } = require('sequelize');
 const ApiError = require('../../exceptions/api-error');
-const { User } = require('../../models/user');
 
 class BrandAdminService {
-    async getBrands(limit, page) {
+    async getBrands(limit, page, query) {
+        const queryRequest = query ? {
+            name: {
+                [Op.iLike]: `%${query}%`
+            }
+        } : {};
+
         const brands = await Brand.findAll({
+            where: {
+                ...queryRequest
+            },
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ['id', 'name', 'country', 'foundation'],
@@ -14,7 +22,11 @@ class BrandAdminService {
             ]
         });
 
-        const totalBrands = await Brand.count();
+        const totalBrands = await Brand.count({
+            where: {
+                ...queryRequest
+            }
+        });
 
         return {
             brands: brands,

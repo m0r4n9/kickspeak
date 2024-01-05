@@ -6,8 +6,9 @@ class BrandAdminController {
         try {
             const limit = req.query._limit ?? 10;
             const page = req.query._page || 1;
+            const query = req.query._query || '';
 
-            const brands = await BrandAdminService.getBrands(limit, page);
+            const brands = await BrandAdminService.getBrands(limit, page, query);
             return res.json(brands);
         } catch (e) {
             next(e);

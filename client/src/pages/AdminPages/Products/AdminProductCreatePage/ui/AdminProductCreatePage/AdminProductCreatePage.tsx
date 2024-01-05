@@ -36,26 +36,6 @@ const AdminProductCreatePage = () => {
         [],
     );
 
-    const onCreateProduct = () => {
-        dispatch(
-            createProduct({
-                name,
-                brandId: brand,
-                price,
-                code,
-                sex,
-                colors: selectedColors,
-                images: imagesProduct,
-            }),
-        ).then((res) => {
-            if (res.meta.requestStatus === 'fulfilled') {
-                if (res.payload && 'id' in res.payload) {
-                    navigate(getRouteAdminProductDetails(res.payload.id));
-                }
-            }
-        });
-    };
-
     const onChangeBrand = useCallback((value: string) => {
         setBrand(value);
     }, []);
@@ -79,6 +59,27 @@ const AdminProductCreatePage = () => {
     const onChangeColors = useCallback((color: string[]) => {
         setSelectedColors(color);
     }, []);
+
+    const onCreateProduct = () => {
+        dispatch(
+            createProduct({
+                name,
+                brandId: brand,
+                price,
+                code,
+                sex,
+                colors: selectedColors,
+                images: imagesProduct,
+            }),
+        ).then((res) => {
+            if (res.meta.requestStatus === 'fulfilled') {
+                if (res.payload && 'id' in res.payload) {
+                    navigate(getRouteAdminProductDetails(res.payload.id));
+                }
+            }
+        });
+    };
+
 
     return (
         <DynamicModuleLoader reducers={reducer}>
