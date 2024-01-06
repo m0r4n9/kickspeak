@@ -9,9 +9,8 @@
     top: 0;
     width: 100%;
     z-index: var(--sidebar-z-index);
-    pointer-events: none;
+    pointer-events: auto;
 }
-
 
 .leftSide {
     align-items: flex-start;
@@ -21,16 +20,10 @@
     align-items: flex-end;
 }
 
-.opened {
-    pointer-events: auto;
-
-}
-
 .container {
     height: 100vh;
     min-height: auto;
-    width: 20rem;
-    max-width: 80%;
+    max-width: 350px;
 
     background-color: white;
     display: flex;
@@ -49,67 +42,3 @@
     color: black;
     transition: background-color .3s ease, color .3s ease;
 }
-
-.rightSide {
-    .container {
-        animation: openSideBarRight 0.3s ease;
-    }
-
-    .closing {
-        animation: closeSideBarRight 0.3s ease;
-    }
-}
-
-.leftSide {
-    .container {
-        animation: openSideBarLeft 0.3s ease;
-    }
-
-    .closing {
-        animation: closeSideBarLeft 0.3s ease;
-    }
-}
-
-
-// -- RIGHT SIDE ---
-@keyframes openSideBarRight {
-    from {
-        transform: translateX(300px);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-@keyframes closeSideBarRight {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(300px);
-    }
-}
-
-// --- LEFT SIDE ---
-@keyframes openSideBarLeft {
-    from {
-        //opacity: 0;
-        transform: translateX(-300px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes closeSideBarLeft {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(-300px);
-    }
-}
-
