@@ -25,6 +25,7 @@ import { AdminBrandDetailsSchema } from '@/pages/AdminPages/Brands/AdminBrandEdi
 import {AdminProductsSchema} from "@/pages/AdminPages/Products/AdminProductsPage";
 import {ProductCreateSchema} from "@/pages/AdminPages/Products/AdminProductCreatePage";
 import {AdminProductDetailsSchema} from "@/pages/AdminPages/Products/AdminProductEditPage";
+import {rtkApi} from "@/shared/api/rtkApi.ts";
 
 // TODO: исправить пути на абсолютные
 
@@ -33,6 +34,7 @@ export interface StateSchema {
     search: SearchSchema;
     user: UserSchema;
     cart: CartSchema;
+    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>,
 
     // Optional
     productsPage?: ProductsPageSchema;

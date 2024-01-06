@@ -5,4 +5,3 @@ export const getBrandsCount = (state: StateSchema) => state.adminBrands?.data?.t
 export const getBrandsAdminQuery = (state: StateSchema) => state.adminBrands?.query;
 export const getBrandsAdminPage = (state: StateSchema) => state.adminBrands?.page;
 export const getBrandsAdminLimit = (state: StateSchema) => state.adminBrands?.limit;
-export const getBrandsAdminSortParams = (state: StateSchema) => state.adminBrands?.sort;

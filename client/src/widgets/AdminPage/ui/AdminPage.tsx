@@ -15,6 +15,7 @@ import { CreateEntity, SearchAdmin } from '@/features/Admin/AdminRightbar';
 
 interface AdminPageProps {
     data: any;
+    isLoading?: boolean;
     columns: any;
     form: FormInstance<any>;
     isEditing: (data: any) => boolean;
@@ -78,6 +79,7 @@ const EditableCell = ({
 function AdminPageGeneric(props: AdminPageProps) {
     const {
         data,
+        isLoading,
         columns,
         form,
         page,
@@ -119,6 +121,7 @@ function AdminPageGeneric(props: AdminPageProps) {
             <VStack max align="center" gap="16" className={cls.AdminPage}>
                 <Form form={form} component={false}>
                     <Table
+                        loading={isLoading}
                         components={{
                             body: {
                                 cell: EditableCell,
@@ -129,7 +132,7 @@ function AdminPageGeneric(props: AdminPageProps) {
                         rowClassName="editable-row"
                         dataSource={data}
                         columns={mergedColumns}
-                        rowKey={(record) => record.id}
+                        // rowKey={(record) => record.id}
                         pagination={false}
                     />
                 </Form>

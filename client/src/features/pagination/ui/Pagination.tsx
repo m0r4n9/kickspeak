@@ -3,8 +3,6 @@ import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { HStack } from '@/shared/ui/Stack';
 import { Button } from '@/shared/ui/Button';
 import { ReactComponent as ArrowIcon } from '@/shared/assets/icons/arrow-bottom.svg';
-import {memo} from "react";
-
 interface PaginationProps {
     className?: string;
     pageNumber?: number;

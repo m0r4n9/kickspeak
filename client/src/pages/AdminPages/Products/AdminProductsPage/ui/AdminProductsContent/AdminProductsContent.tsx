@@ -18,6 +18,9 @@ import { Product } from '@/entities/Product';
 import { useAdminTable } from '@/shared/hooks/useAdminTable/useAdminTable.ts';
 import { $api } from '@/shared/api';
 import { getAdminProductsQuery } from '../../model/selectors/getAdminProductsQuery/getAdminProductsQuery.ts';
+import {
+    getAdminProductsIsLoading
+} from "@/pages/AdminPages/Products/AdminProductsPage/model/selectors/getAdminProductsIsLoading/getAdminProductsIsLoading.ts";
 
 interface AdminProductsContentProps {
     className?: string;
@@ -26,6 +29,7 @@ interface AdminProductsContentProps {
 export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
     const dispatch = useAppDispatch();
     const products = useSelector(getAdminProducts) || [];
+    const isLoading = useSelector(getAdminProductsIsLoading) || false;
     const page = useSelector(getAdminProductsPage) || 1;
     const totalProducts = useSelector(getAdminProductsTotal) || 1;
     const limitProductPage = useSelector(getAdminProductsLimit);
@@ -129,6 +133,7 @@ export const AdminProductsContent = memo((props: AdminProductsContentProps) => {
     return (
         <AdminPage
             form={form}
+            isLoading={isLoading}
             isEditing={isEditing}
             columns={columns}
             data={products}

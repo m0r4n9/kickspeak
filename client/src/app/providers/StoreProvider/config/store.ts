@@ -9,9 +9,9 @@ import { createReducerManager } from './reducerManager.ts';
 import { saveScrollReducer } from '@/features/scrollSave';
 import { $api } from '@/shared/api';
 import { userReducer } from '@/entities/User';
-import {searchReducer} from "@/features/Search";
-import {cartReducer} from "@/entities/Cart";
-import {rtkApi} from "@/shared/api/rtkApi.ts";
+import { searchReducer } from '@/features/Search';
+import { cartReducer } from '@/entities/Cart';
+import { rtkApi } from '@/shared/api/rtkApi.ts';
 
 export function createReduxStore(initialState?: StateSchema) {
     const rootReducers: ReducersMapObject<StateSchema> = {
@@ -19,6 +19,7 @@ export function createReduxStore(initialState?: StateSchema) {
         search: searchReducer,
         user: userReducer,
         cart: cartReducer,
+        [rtkApi.reducerPath]: rtkApi.reducer,
     };
 
     const reducerManager = createReducerManager(rootReducers);
@@ -35,7 +36,7 @@ export function createReduxStore(initialState?: StateSchema) {
                 thunk: {
                     extraArgument: extraArgs,
                 },
-            }),
+            }).concat(rtkApi.middleware),
     });
 
     // @ts-ignore

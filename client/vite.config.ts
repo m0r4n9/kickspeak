@@ -13,6 +13,9 @@ export default defineConfig({
     resolve: {
         alias: [{ find: '@', replacement: '/src' }],
     },
+    optimizeDeps: {
+        include: ['antd/es/**/*'],
+    },
     define: {
         VITE_API__: JSON.stringify('http://localhost:8000'),
     }

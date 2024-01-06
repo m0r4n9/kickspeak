@@ -3,7 +3,8 @@ import cls from './AdminFooter.module.scss';
 import { HStack } from '@/shared/ui/Stack';
 import { Modal } from '@/shared/ui/Modal';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { Button, Flex } from 'antd';
+import Button from 'antd/es/button';
+import Flex from 'antd/es/flex'
 
 interface AdminFooterProps {
     className?: string;

@@ -1,9 +1,17 @@
 import { memo, useState } from 'react';
 import { Product, SizeProduct } from '@/entities/Product';
-import { HStack, VStack } from '@/shared/ui/Stack';
+import { VStack } from '@/shared/ui/Stack';
 import cls from './EditProductCard.module.scss';
-import { colorsProduct } from '@/shared/const/colors.ts';
-import { Select } from 'antd';
+import { Button, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { UploadFile } from 'antd/lib/upload/interface';
+import { UploadChangeParam } from 'antd/lib/upload';
+import { EditName } from './EditName/EditName.tsx';
+import { EditPrice } from './EditPrice/EditPrice.tsx';
+import { EditCode } from './EditCode/EditCode.tsx';
+import { EditSex } from './EditSex/EditSex.tsx';
+import { EditColors } from './EditColors/EditColors.tsx';
+import { EditSizes } from './EditSizes/EditSizes.tsx';
 
 interface EditProductCardProps {
     name?: string;
@@ -12,10 +20,14 @@ interface EditProductCardProps {
     sex?: string;
     selectedColors?: string[];
     sizes?: SizeProduct[];
-    newSizes?: SizeProduct[];
+    imagesList?: UploadFile[];
 
     updateForm?: (value: string, key: keyof Product) => void;
     onChangeColors?: (value: string[]) => void;
+    updateImages?: (info: UploadChangeParam) => void;
+    addSize?: (name: string, quantity: number, productId: string) => void;
+    deleteSize?: (sizeId: string) => void;
+    updateSize?: (data: {id: string, quantity: number}) => void;
 }
 
 export const EditProductCard = memo((props: EditProductCardProps) => {
@@ -26,116 +38,59 @@ export const EditProductCard = memo((props: EditProductCardProps) => {
         sex = '',
         selectedColors,
         sizes,
-        newSizes,
+        imagesList,
+        addSize,
         updateForm,
         onChangeColors,
+        updateImages,
+        deleteSize,
+        updateSize
     } = props;
     const [hidden, setHidden] = useState(true);
 
-    const filteredOptions = colorsProduct.filter(
-        (o) => !selectedColors?.includes(o),
-    );
-
     return (
         <VStack max gap="16">
-            <HStack justify="between" className={cls.wrapperInput}>
-                <label htmlFor="product-name">Название:</label>
-                <input
-                    type="text"
-                    id="product-name"
-                    value={name}
-                    onChange={(e) => {
-                        updateForm?.(e.target.value, 'name');
-                    }}
-                />
-            </HStack>
-            <HStack justify="between" className={cls.wrapperInput}>
-                <label htmlFor="product-price">Название:</label>
-                <input
-                    type="number"
-                    id="product-price"
-                    value={price}
-                    onChange={(e) => {
-                        updateForm?.(e.target.value, 'price');
-                    }}
-                />
-            </HStack>
-            <HStack justify="between" className={cls.wrapperInput}>
-                <label htmlFor="product-code">Код товара:</label>
-                <input
-                    type="text"
-                    id="product-code"
-                    value={code}
-                    onChange={(e) => {
-                        updateForm?.(e.target.value, 'code');
-                    }}
-                />
-            </HStack>
-            <HStack justify="between" className={cls.wrapperInput}>
-                <label htmlFor="sex-product">Пол:</label>
-                <Select
-                    id="sex-product"
-                    style={{ width: 120 }}
-                    value={sex}
-                    options={[
-                        { value: 'U', label: 'Унисекс' },
-                        { value: 'W', label: 'Женский' },
-                        { value: 'M', label: 'Мужской' },
-                    ]}
-                    onChange={(value: string) => {
-                        updateForm?.(value, 'sex');
-                    }}
-                />
-            </HStack>
-            <HStack justify="between" className={cls.wrapperInput}>
-                <label htmlFor="color-product">Цвет продукта:</label>
-                <Select
-                    id="color-product"
-                    mode="multiple"
-                    placeholder="Выберите цвет(а) товара"
-                    value={selectedColors}
-                    onChange={onChangeColors}
-                    style={{ width: 250 }}
-                    options={filteredOptions.map((item) => ({
-                        value: item,
-                        label: item,
-                    }))}
-                />
-            </HStack>
+            <EditName name={name} updateForm={updateForm} />
+            <EditPrice price={price} updateForm={updateForm} />
+            <EditCode code={code} updateForm={updateForm} />
+            <EditSex sex={sex} updateForm={updateForm} />
+            <EditColors
+                selectedColors={selectedColors}
+                onChangeColors={onChangeColors}
+            />
 
             <VStack gap="16" className={cls.wrapperInput}>
-                <button onClick={() => setHidden(prevState => !prevState)}>
+                <Button
+                    type="text"
+                    onClick={() => setHidden((prevState) => !prevState)}
+                >
                     {hidden ? 'Показать размеры' : 'Скрыть размеры'}
-                </button>
+                </Button>
                 {!hidden && (
-                    <>
-                        <h2>Размеры</h2>
-                        <VStack>
-                            <button>Добавить размер</button>
-                        </VStack>
-
-                        {sizes?.map((size) => (
-                            <HStack gap="8">
-                                <VStack gap="8">
-                                    <label htmlFor="">Размер</label>
-                                    <input
-                                        type="text"
-                                        value={size.name}
-                                        readOnly
-                                    />
-                                </VStack>
-                                <VStack gap="8">
-                                    <label htmlFor="">Кол-во</label>
-                                    <input
-                                        type="number"
-                                        value={size.quantity}
-                                    />
-                                </VStack>
-                            </HStack>
-                        ))}
-                    </>
+                    <EditSizes
+                        sizes={sizes}
+                        addSize={addSize}
+                        deleteSize={deleteSize}
+                        updateSize={updateSize}
+                    />
                 )}
             </VStack>
+
+            <div
+                style={{
+                    marginTop: 16,
+                }}
+            >
+                <Upload
+                    action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                    listType="picture"
+                    fileList={imagesList}
+                    beforeUpload={() => false}
+                    onChange={updateImages}
+                >
+                    <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
+            </div>
         </VStack>
     );
 });

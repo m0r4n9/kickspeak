@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { Op } = require('sequelize');
+const { Op, fn, col } = require('sequelize');
 const { Brand, Product, Size, Image } = require('../../models/product');
 const ApiError = require('../../exceptions/api-error');
 
@@ -45,6 +45,9 @@ class ProductAdminService {
                 },
                 {
                     model: Size,
+                    order: [
+                        [fn('CAST', col('"Size"."name"'), 'DECIMAL'), 'ASC']
+                    ]
                 },
             ],
             attributes: {

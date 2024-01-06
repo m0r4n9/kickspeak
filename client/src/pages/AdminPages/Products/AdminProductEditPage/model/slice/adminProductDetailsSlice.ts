@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AdminProductDetailsSchema } from '../types/adminProductDetailsSchema.ts';
 import { fetchProductById } from '../services/fetchProductById.ts';
 import { updateProduct } from '@/pages/AdminPages/Products/AdminProductEditPage/model/services/updateProduct.ts';
+import {createSize} from "@/pages/AdminPages/Products/AdminProductEditPage/model/services/createSize.ts";
 
 const initialState: AdminProductDetailsSchema = {
     isLoading: false,
@@ -37,7 +38,7 @@ const adminProductDetailsSlice = createSlice({
             .addCase(updateProduct.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-            }),
+            })
 });
 
 export const {

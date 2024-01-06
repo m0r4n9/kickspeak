@@ -2,6 +2,7 @@ const Router = require('express');
 const ProductAdminController = require('../controllers/adminControllers/productAdmin-controller');
 const BrandAdminController = require('../controllers/adminControllers/brandAdmin-controller');
 const UserAdminController = require('../controllers/adminControllers/userAdmin-controller');
+const SizeAdminController = require('../controllers/adminControllers/sizeAdmin-controller');
 
 const adminRouter = new Router();
 const upload = require('../middlewares/uploadImg');
@@ -45,9 +46,12 @@ adminRouter.delete('/product/delete/:id', ProductAdminController.deleteProduct);
  - delete
 * */
 
+adminRouter.post('/size/create', SizeAdminController.create);
+adminRouter.delete('/size/:id', SizeAdminController.delete);
+adminRouter.put('/size/update/:id', SizeAdminController.update);
 // Sizes
 /*
- - create
+
  - update
  - delete
 * */

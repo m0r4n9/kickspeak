@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import { useState } from 'react';
 import { Product } from '@/entities/Product';
-import {Brand} from "@/entities/Brand";
+import { Brand } from '@/entities/Brand';
 
 interface useAdminTable {}
 
@@ -30,6 +30,6 @@ export function useAdminTable<T extends Brand | Product>() {
         setEditingKey,
         isEditing,
         cancel,
-        edit
+        edit,
     };
 }
