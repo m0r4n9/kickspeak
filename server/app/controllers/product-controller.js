@@ -1,6 +1,15 @@
 const ProductService = require("../services/product-service");
 
 class ProductController {
+  async uploadImage(req, res, next) {
+    try {
+      console.log(req.file);
+      return res.json("Done!");
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async getProducts(req, res, next) {
     try {
       const page = req.query._page || 1;
@@ -19,9 +28,9 @@ class ProductController {
         sex,
       );
 
-    
+
       return res.json(products);
-    
+
     } catch (e) {
       next(e);
     }
@@ -29,7 +38,7 @@ class ProductController {
 
   async getProductDetails(req, res, next) {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       const idRecentProducts = req.query.recentProducts;
       const product = await ProductService.getProductDetails(id, idRecentProducts);
       setTimeout(() => {
@@ -42,7 +51,7 @@ class ProductController {
 
   async searchProducts(req, res, next) {
     try {
-      let { query } = req.query;
+      let {query} = req.query;
       query = query.replace(/-/g, " ");
       const result = await ProductService.searchProducts(query);
       return res.json(result);

@@ -11,7 +11,7 @@ import { IMG_BASE_URL } from '@/shared/api/api.ts';
 interface ProductsAdditionalProps {
     className?: string;
     additionalProducts?: AdditionalProduct[];
-    idMainProduct?: number;
+    idMainProduct?: string;
 }
 
 export const ProductsAdditional = memo((props: ProductsAdditionalProps) => {
@@ -29,7 +29,7 @@ export const ProductsAdditional = memo((props: ProductsAdditionalProps) => {
                         <AppImage
                             src={IMG_BASE_URL + color.Images[0].url}
                             className={`${cls.productsColors} ${
-                                color.id === idMainProduct && cls.activeColor
+                                color.id.toString() === idMainProduct && cls.activeColor
                             }`}
                         />
                     </AppLink>

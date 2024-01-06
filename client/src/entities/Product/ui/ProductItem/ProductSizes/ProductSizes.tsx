@@ -33,7 +33,7 @@ export const ProductSizes = (props: ProductSizesProps) => {
                 <div className={cls.sizeBody}>
                     <div className={cls.sizesPlate}>
                         {sizes?.map((size) => {
-                            const activeButton = size.id === activeButtonId;
+                            const activeButton = size.id === activeButtonId?.toString();
 
                             return (
                                 <HStack
@@ -54,7 +54,7 @@ export const ProductSizes = (props: ProductSizesProps) => {
                                         onClick={() =>
                                             onAddProductHandler(
                                                 size.productId,
-                                                size.id,
+                                                Number(size.id),
                                             )
                                         }
                                         variant="card"

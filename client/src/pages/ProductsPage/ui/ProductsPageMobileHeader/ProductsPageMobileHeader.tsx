@@ -27,8 +27,6 @@ export const ProductsPageMobileHeader = memo((props: MobileHeaderProps) => {
         [dispatch],
     );
 
-    const triggerFilter = <></>;
-
     return (
         <div className={classNames(cls.MobileHeader, {}, [className])}>
             <SortRightSidebar onChangeOrder={onChangeOrder} />

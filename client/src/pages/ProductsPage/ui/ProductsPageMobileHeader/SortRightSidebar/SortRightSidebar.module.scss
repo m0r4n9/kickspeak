@@ -1,6 +1,44 @@
-.btn {
+.rightSidebar {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: var(--sidebar-z-index);
+    pointer-events: auto;
+}
 
+.leftSide {
+    align-items: flex-start;
+}
+
+.rightSide {
+    align-items: flex-end;
+}
+
+.container {
+    height: 100vh;
+    min-height: auto;
+    max-width: 350px;
+
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+    z-index: var(--sidebar-z-index);
+
+}
+
+.toggleButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 8px;
+    color: black;
+    transition: background-color .3s ease, color .3s ease;
 }

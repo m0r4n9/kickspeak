@@ -47,7 +47,7 @@ export const BrandsPage = (props: BrandsPageProps) => {
 
     const groupedBrands = brands.reduce(
         (acc, brand) => {
-            const firstLetter = brand.name.charAt(0).toUpperCase();
+            const firstLetter = brand?.name?.charAt(0).toUpperCase() || '';
             acc[firstLetter] = acc[firstLetter] || [];
             acc[firstLetter].push(brand);
             return acc;

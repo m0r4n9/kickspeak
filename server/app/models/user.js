@@ -16,7 +16,7 @@ const User = sequelize.define(
       allowNull: true,
       validate: {
         is: {
-          args: /^\+?\d{1,15}$/, // Регулярное выражение для валидации номера телефона
+          args: /^\+?\d{1,15}$/,
           msg: "Invalid phone number format",
         },
       },

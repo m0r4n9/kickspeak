@@ -15,18 +15,26 @@ import { ProfileSchema } from '@/features/EditProfileCards';
 import { CartSchema } from '@/entities/Cart';
 import { LoginSchema } from '@/features/Auth/AuthUser';
 import { SearchSchema } from '@/features/Search';
-import { AdminProductsSchema } from '@/pages/AdminPages/AdminProductsPage';
-import { AdminBrandsSchema } from '@/pages/AdminPages/AdminBrandsPage';
-import { AdminUsersSchema } from '@/pages/AdminPages/AdminUsersPage';
-import { AdminUserDetailsSchema } from '@/features/AdminEdit/EditUser';
+import { AdminBrandsSchema } from '../../../../pages/AdminPages/Brands/AdminBrandsPage';
+import { AdminUsersSchema } from '../../../../pages/AdminPages/Users/AdminUsersPage';
+import { AdminUserDetailsSchema } from '@/features/Admin/AdminEdit/EditUser';
 import { BrandDetailsSchema } from '@/pages/BrandDetailsPage';
-import {WishListSchema} from "@/pages/WishListPage";
+import { WishListSchema } from '@/pages/WishListPage';
+import { BrandCreateSchema } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
+import { AdminBrandDetailsSchema } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
+import {AdminProductsSchema} from "@/pages/AdminPages/Products/AdminProductsPage";
+import {ProductCreateSchema} from "@/pages/AdminPages/Products/AdminProductCreatePage";
+import {AdminProductDetailsSchema} from "@/pages/AdminPages/Products/AdminProductEditPage";
+import {rtkApi} from "@/shared/api/rtkApi.ts";
+
+// TODO: исправить пути на абсолютные
 
 export interface StateSchema {
     scroll: ScrollSaveSchema;
     search: SearchSchema;
     user: UserSchema;
     cart: CartSchema;
+    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>,
 
     // Optional
     productsPage?: ProductsPageSchema;
@@ -38,8 +46,14 @@ export interface StateSchema {
     wishList?: WishListSchema;
 
     // Admin
-    adminProducts?: AdminProductsSchema;
     adminBrands?: AdminBrandsSchema;
+    adminBrandCreate?: BrandCreateSchema;
+    adminBrandDetails?: AdminBrandDetailsSchema;
+
+    adminProducts?: AdminProductsSchema;
+    adminProductCreate?: ProductCreateSchema;
+    adminProductDetails?: AdminProductDetailsSchema;
+
     adminUsers?: AdminUsersSchema;
     adminUserDetails?: AdminUserDetailsSchema;
 }

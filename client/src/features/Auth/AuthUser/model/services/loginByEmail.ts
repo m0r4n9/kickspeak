@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { User, userActions } from '@/entities/User';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
-import axios, {AxiosError} from "axios";
-import {ErrorInterface} from "@/shared/interfaces/ErrorInterface.ts";
+import axios, { AxiosError } from 'axios';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 
 interface LoginByEmailProps {
     email: string;
@@ -27,6 +27,6 @@ export const loginByEmail = createAsyncThunk<
                 return rejectWithValue(serverError.response.data);
             }
         }
-        return rejectWithValue({message: 'Произошла непредвиденная ошибка'});
+        return rejectWithValue({ message: 'Произошла непредвиденная ошибка' });
     }
 });

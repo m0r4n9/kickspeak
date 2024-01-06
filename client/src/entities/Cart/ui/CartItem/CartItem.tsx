@@ -6,8 +6,8 @@ import { AppImage } from '@/shared/ui/AppImage';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Button } from '@/shared/ui/Button';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { ProductData } from '../../model/types/Cart.ts';
-import {IMG_BASE_URL} from "@/shared/api/api.ts";
+import type { ProductData } from '../../model/types/Cart.ts';
+import { IMG_BASE_URL } from '@/shared/api/api.ts';
 
 interface CartItemProps {
     className?: string;
@@ -57,7 +57,14 @@ export const CartItem = memo((props: CartItemProps) => {
                 </HStack>
                 <HStack align="center" max>
                     <HStack align="center" className={cls.counter}>
-                        <Button onClick={() => deleteProduct(product?.id, product?.Sizes.id)} className={cls.counterBtn}>-</Button>
+                        <Button
+                            onClick={() =>
+                                deleteProduct(product?.id, product?.Sizes.id)
+                            }
+                            className={cls.counterBtn}
+                        >
+                            -
+                        </Button>
                         <div className={cls.counterNumber}>1</div>
                         <Button className={cls.counterBtn}>+</Button>
                     </HStack>

@@ -85,7 +85,7 @@ export const ProductSizeInformation = (props: ProductSizeInformationProps) => {
                     [cls.animate]: animateSize,
                 })}
                 onClick={() =>
-                    onHandlerProductCart(activeSize?.productId, activeSize?.id)
+                    onHandlerProductCart(activeSize?.productId, Number(activeSize?.id))
                 }
             >
                 {animateSize

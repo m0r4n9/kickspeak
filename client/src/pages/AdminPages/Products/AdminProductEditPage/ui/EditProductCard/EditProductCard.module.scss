@@ -1,0 +1,22 @@
+@import "@/shared/mixins/mixins";
+
+//.EditBrandCard {
+//    margin-top: 22px;
+//}
+
+.wrapperInput {
+    @include wrapperInputAdmin;
+}
+
+.wrapperLogo {
+    width: 100%;
+    max-width: 500px;
+
+    padding-top: 1rem;
+    border-top: 1px solid var(--primary-10);
+
+    img {
+        cursor: pointer;
+        max-width: 250px;
+    }
+}

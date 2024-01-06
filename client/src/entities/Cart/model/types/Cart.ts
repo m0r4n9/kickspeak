@@ -1,4 +1,4 @@
-import {EntityState} from "@reduxjs/toolkit";
+import { EntityState } from '@reduxjs/toolkit';
 
 type TypeOption = 'Размер';
 
@@ -36,8 +36,7 @@ export interface ProductCart {
     products?: ProductData[];
 }
 
-
-export interface CartSchema extends EntityState<ProductData>{
+export interface CartSchema extends EntityState<ProductData> {
     isLoading: boolean;
     error?: string;
     // data?: ProductCart;

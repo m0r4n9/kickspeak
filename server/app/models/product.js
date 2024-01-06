@@ -5,11 +5,10 @@ const Brand = sequelize.define(
   "Brand",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING },
+    name: { type: DataTypes.STRING, allowNull: false },
     foundation: { type: DataTypes.SMALLINT },
     country: { type: DataTypes.STRING(100) },
     logo: { type: DataTypes.STRING },
-    data: { type: DataTypes.BLOB },
   },
   {
     timestamps: false,
@@ -22,23 +21,13 @@ const Brand = sequelize.define(
   },
 );
 
-Brand.addHook("afterFind", "countProducts", async (brands) => {
-  if (!Array.isArray(brands)) {
-    brands = [brands];
-  }
-  for (const brand of brands) {
-    const productCount = await Product.count({ where: { brandId: brand.id } });
-    brand.setDataValue("productCount", productCount);
-  }
-});
-
 const Product = sequelize.define(
   "Product",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING },
     price: { type: DataTypes.INTEGER, allowNull: false },
-    sex: { type: DataTypes.CHAR, allowNull: true },
+    sex: { type: DataTypes.STRING(2), allowNull: true },
     code: { type: DataTypes.STRING, allowNull: false },
     colors: { type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: [] },
   },
@@ -53,11 +42,6 @@ const Product = sequelize.define(
     ],
   },
 );
-
-// {
-//   unique: false,
-//     fields: ["name"],
-// },
 
 const Image = sequelize.define(
   "Image",
@@ -78,7 +62,8 @@ const Size = sequelize.define(
 );
 
 // Brands
-Product.belongsTo(Brand, { foreignKey: "brandId" });
+Brand.hasMany(Product);
+Product.belongsTo(Brand);
 
 // Sizes and Images products
 Product.hasMany(Image, { foreignKey: "productId" });

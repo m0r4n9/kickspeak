@@ -1,10 +1,10 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BASE_URL } from '@/shared/api/api.ts';
 
 export const rtkApi = createApi({
-    reducerPath: 'api',
+    reducerPath: 'rtkApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api',
+        baseUrl: BASE_URL,
         prepareHeaders: (headers) => {
             const token = localStorage.getItem('token') || '';
             if (token) {

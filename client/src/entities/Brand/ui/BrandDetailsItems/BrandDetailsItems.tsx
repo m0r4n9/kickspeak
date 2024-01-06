@@ -22,7 +22,7 @@ export const BrandDetailsItems = memo((props: BrandDetailsItemsProps) => {
         >
             <div className={cls.wrapperLogo}>
                 <AppImage
-                    src={brand.logo}
+                    src={`http://localhost:8000/${brand.logo}`}
                     alt={brand.name}
                     className={`${cls.brandLogo} ${cls.image}`}
                 />

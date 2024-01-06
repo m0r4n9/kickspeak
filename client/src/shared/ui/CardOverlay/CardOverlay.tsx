@@ -1,21 +1,14 @@
 import cls from './CardOverlay.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { useIsMath } from '@/shared/hooks/useIsMath';
 
 interface CardOverlayProps {
     className?: string;
     hover: boolean;
     height?: number;
-    isMobile?: boolean;
 }
 
 export const CardOverlay = (props: CardOverlayProps) => {
-    const { hover, height, isMobile, className } = props;
-
-
-    if (!height || isMobile) {
-        return;
-    }
+    const { hover, height, className } = props;
 
     return (
         <div

@@ -7,6 +7,7 @@ import {
     getRouteAdminUsers,
 } from '@/shared/const/route.ts';
 import { useNavigate } from 'react-router-dom';
+import { AppLink } from '@/shared/ui/AppLink';
 
 export type idItems = 'brands' | 'products' | 'users' | 'purchases';
 
@@ -30,17 +31,12 @@ const items: itemProps[] = [
     {
         id: 'products',
         name: 'Продукты',
-        url: '#',
+        url: getRouteAdminProducts(),
     },
     {
         id: 'users',
         name: 'Пользователи',
         url: getRouteAdminUsers(),
-    },
-    {
-        id: 'purchases',
-        name: 'Покупки',
-        url: '',
     },
 ];
 
@@ -53,12 +49,11 @@ export const AdminSidebar = memo((props: AdminSidebarProps) => {
             items.map((data) => (
                 <li
                     key={data.id}
-                    onClick={() => navigate(data.url)}
                     className={`${cls.sideBarItem} ${
                         activeElement === data.id ? cls.active : ''
                     }`}
                 >
-                    <div>{data.name}</div>
+                    <AppLink to={data.url}>{data.name}</AppLink>
                 </li>
             )),
         [],

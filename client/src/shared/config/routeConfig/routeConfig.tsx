@@ -2,8 +2,10 @@ import { RouteProps } from 'react-router-dom';
 import {
     AppRoutes,
     getRouteAdminAuth,
+    getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
     getRouteAdminBrands,
+    getRouteAdminProductCreate, getRouteAdminProductDetails,
     getRouteAdminProducts,
     getRouteAdminUserDetails,
     getRouteAdminUsers,
@@ -12,7 +14,8 @@ import {
     getRouteCatalog,
     getRouteMain,
     getRouteProductDetails,
-    getRouteProfile, getRouteWishList,
+    getRouteProfile,
+    getRouteWishList,
 } from '../../const/route.ts';
 import { MainPage } from '@/pages/MainPage';
 import { ProductsPage } from '@/pages/ProductsPage';
@@ -20,14 +23,17 @@ import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 import { BrandsPage } from '@/pages/BrandsPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { UserRole } from '@/entities/User';
-import { AdminUsersPage } from '@/pages/AdminPages/AdminUsersPage';
-import { AdminProductsPage } from '@/pages/AdminPages/AdminProductsPage';
-import { AdminBrandDetailsPage } from '@/pages/AdminPages/AdminBrandDetailsPage';
-import { AdminBrandsPage } from '@/pages/AdminPages/AdminBrandsPage';
 import { AdminLoginPage } from '@/pages/AdminPages/AdminLoginPage';
-import { AdminUserDetailsPage } from '@/pages/AdminPages/AdminUserDetailsPage';
-import {BrandDetailsPage} from "@/pages/BrandDetailsPage";
-import {WishListPage} from "@/pages/WishListPage";
+import { BrandDetailsPage } from '@/pages/BrandDetailsPage';
+import { WishListPage } from '@/pages/WishListPage';
+import { AdminBrandsPage } from '@/pages/AdminPages/Brands/AdminBrandsPage';
+import { AdminUsersPage } from '@/pages/AdminPages/Users/AdminUsersPage';
+import { AdminUserDetailsPage } from '@/pages/AdminPages/Users/AdminUserDetailsPage';
+import { AdminBrandCreatePage } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
+import { AdminProductsPage } from '@/pages/AdminPages/Products/AdminProductsPage';
+import { AdminProductCreatePage } from '@/pages/AdminPages/Products/AdminProductCreatePage';
+import { AdminBrandEditPage } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
+import {AdminProductEditPage} from "@/pages/AdminPages/Products/AdminProductEditPage";
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -63,7 +69,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.WISH_LIST]: {
         path: getRouteWishList(),
-        element: <WishListPage/>
+        element: <WishListPage />,
     },
     [AppRoutes.ADMIN_AUTH]: {
         path: getRouteAdminAuth(),
@@ -77,18 +83,37 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         adminPanel: true,
         role: [UserRole.ADMIN],
     },
-    [AppRoutes.ADMIN_BRAND_DETAILS]: {
-        path: getRouteAdminBrandDetails(':id'),
-        element: <AdminBrandDetailsPage />,
+    [AppRoutes.ADMIN_BRAND_CREATE]: {
+        path: getRouteAdminBrandCreate(),
+        element: <AdminBrandCreatePage />,
         authOnly: true,
         adminPanel: true,
-        role: [UserRole.ADMIN]
+        role: [UserRole.ADMIN],
+    },
+    [AppRoutes.ADMIN_BRAND_DETAILS]: {
+        path: getRouteAdminBrandDetails(':id'),
+        element: <AdminBrandEditPage />,
+        authOnly: true,
+        adminPanel: true,
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_PRODUCTS]: {
         path: getRouteAdminProducts(),
         authOnly: true,
         adminPanel: true,
         element: <AdminProductsPage />,
+    },
+    [AppRoutes.ADMIN_PRODUCT_CREATE]: {
+        path: getRouteAdminProductCreate(),
+        authOnly: true,
+        adminPanel: true,
+        element: <AdminProductCreatePage />,
+    },
+    [AppRoutes.ADMIN_PRODUCT_DETAILS]: {
+        path: getRouteAdminProductDetails(':id'),
+        authOnly: true,
+        adminPanel: true,
+        element: <AdminProductEditPage/>
     },
     [AppRoutes.ADMIN_USERS]: {
         path: getRouteAdminUsers(),
@@ -98,11 +123,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_USER_DETAILS]: {
-        path: getRouteAdminUserDetails(":id"),
-        element: <AdminUserDetailsPage/>,
+        path: getRouteAdminUserDetails(':id'),
+        element: <AdminUserDetailsPage />,
         authOnly: true,
         adminPanel: true,
-        role: [UserRole.ADMIN]
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.NOT_FOUND]: {
         path: '*',

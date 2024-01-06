@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { User, userActions } from '@/entities/User';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import axios, { AxiosError } from 'axios';
-import {ErrorInterface} from "@/shared/interfaces/ErrorInterface.ts";
+import {ErrorInterface} from "@/shared/interfaces/ApiError";
 
 interface registrationUserProps {
     email: string;

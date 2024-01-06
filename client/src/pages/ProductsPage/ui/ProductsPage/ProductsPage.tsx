@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import cls from './ProductsPage.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import { productsPageReducer } from '../../model/slice/productsPageSlice.ts';

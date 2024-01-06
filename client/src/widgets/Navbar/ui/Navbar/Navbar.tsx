@@ -122,3 +122,5 @@ export const Navbar = memo((props: NavbarProps) => {
         </header>
     );
 });
+
+Navbar.displayName = "Navbar";

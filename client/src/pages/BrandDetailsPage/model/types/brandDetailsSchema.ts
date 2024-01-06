@@ -1,4 +1,4 @@
-import {ErrorInterface} from "@/shared/interfaces/ErrorInterface.ts";
+import {ErrorInterface} from "@/shared/interfaces/ApiError";
 import {Brand} from "@/entities/Brand";
 import {Product, ProductColor, ProductSexField, SortOrder} from "@/entities/Product";
 

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BrandDetailsData } from '../types/brandDetailsSchema.ts';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
-import { ErrorInterface } from '@/shared/interfaces/ErrorInterface.ts';
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 import axios, { AxiosError } from 'axios';
 import { getBrandDetailsLimit } from '../selectors/getBrandDetailsLimit/getBrandDetailsLimit.ts';
 import { getBrandDetailsOrder } from '../selectors/getBrandDetailsOrder/getBrandDetailsOrder.ts';

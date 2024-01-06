@@ -57,7 +57,7 @@ class CartService {
         },
       ],
       attributes: {
-        exclude: ["sex", "code", "colors", "brandId"],
+        exclude: ["sex", "code", "colors", "BrandId"],
       },
     });
 
@@ -65,7 +65,7 @@ class CartService {
     for (const size of sizes) {
       const productData = products
         .find((product) => product.id === size.productId)
-        .toJSON();
+        ?.toJSON();
 
       const product = {
         ...productData,
@@ -107,7 +107,7 @@ class CartService {
         },
       ],
       attributes: {
-        exclude: ["sex", "code", "colors", "brandId"],
+        exclude: ["sex", "code", "colors", "BrandId"],
       },
     });
     const user = await User.findByPk(userId);
