@@ -2,7 +2,7 @@ import cls from '../ProfileCard.module.scss';
 import { memo } from 'react';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Input } from '@/shared/ui/Input';
-import {ValidateProfileError} from "@/features/EditProfileCards/model/consts/consts.ts";
+import { ValidateProfileError } from '@/features/EditProfileCards/model/consts/consts.ts';
 
 interface NameCardProps {
     name?: string;
@@ -28,10 +28,12 @@ export const ProfileNameCard = memo((props: NameCardProps) => {
     return (
         <VStack gap="24" align="center" id="name" className={cls.accountItem}>
             <div className={cls.avatar}>
-                <div className={cls.avatarData}>AS</div>
+                <div className={cls.avatarData}>
+                    {name ? name.charAt(0) + surname?.charAt(0) : 'P'}
+                </div>
             </div>
 
-            <HStack max justify="between">
+            <HStack max justify="between" className={cls.container}>
                 <Input
                     type="text"
                     value={name || ''}
@@ -43,7 +45,7 @@ export const ProfileNameCard = memo((props: NameCardProps) => {
                     readonly={readonly}
                     disabled={isLoading}
                     className={cls.Input}
-                    style={error ? {border: '1px solid red'} : {}}
+                    style={error ? { border: '1px solid red' } : {}}
                 />
                 <Input
                     type="text"

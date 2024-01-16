@@ -1,5 +1,25 @@
 .accountItem {
     max-width: 34rem;
+
+    @media (max-width: 570px) {
+        width: 90vw;
+
+        .container {
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+
+            label, .accountDesc {
+                width: 90vw;
+            }
+
+            label:last-child {
+                margin-top: 20px;
+            }
+        }
+    }
 }
 
 .accountDesc {
@@ -11,7 +31,6 @@
     padding-top: 5rem;
 }
 
-// BLOCK NAME/SURNAME
 .avatar {
     width: 64px;
     height: 64px;
@@ -31,7 +50,7 @@
 
 // BLOCK EMAIL
 .wrapperEmailInput {
-    width: inherit;
+    width: 100%;
 }
 
 .Input {

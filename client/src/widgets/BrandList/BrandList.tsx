@@ -1,11 +1,11 @@
-import { classNames } from '@/shared/lib/classNames/classNames';
-import cls from './BrandsList.module.scss';
 import { memo } from 'react';
-import { Brand } from '../../model/types/brand.ts';
-import { BrandItem } from '../BrandItem/BrandItem.tsx';
+import cls from './BrandsList.module.scss';
+import { BrandItem, Brand } from '@/entities/Brand';
+import { classNames } from '@/shared/lib/classNames/classNames';
 import { HStack } from '@/shared/ui/Stack';
 
 interface BrandsListProps {
+    brands: Brand[];
     className?: string;
     groupedBrands: Record<string, Brand[]>;
 }

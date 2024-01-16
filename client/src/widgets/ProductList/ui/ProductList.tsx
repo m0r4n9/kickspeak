@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import cls from './ListProducts.module.scss';
+import cls from './ProductList.module.scss';
 import { Product, ProductItem } from '@/entities/Product';
 import { Brand, BrandDetailsItems } from '@/entities/Brand';
 import { HStack } from '@/shared/ui/Stack';
@@ -10,7 +10,7 @@ interface ListProductsProps {
     addToCart: (productId: number, sizeId: number) => void;
 }
 
-export const ListProducts = memo((props: ListProductsProps) => {
+export const ProductList = memo((props: ListProductsProps) => {
     const { products, addToCart, brand } = props;
 
     return (

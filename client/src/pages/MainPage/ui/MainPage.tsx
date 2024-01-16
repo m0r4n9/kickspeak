@@ -3,13 +3,12 @@ import cls from './MainPage.module.scss';
 import { memo } from 'react';
 import { useDocumentTitle } from '@/shared/hooks/useDocumentTitle';
 import { AppLink } from '@/shared/ui/AppLink';
-import {getRouteCatalog, getRouteMain} from '@/shared/const/route.ts';
+import { getRouteCatalog } from '@/shared/const/route.ts';
 import { HStack } from '@/shared/ui/Stack';
 import { Page } from '@/widgets/Page';
 import { AppImage } from '@/shared/ui/AppImage';
 import menImage from '@/shared/assets/images/men_home_20230903_677x724.jpg';
 import womenImage from '@/shared/assets/images/women_home_20230903_677x724.jpg';
-import { Breadcrumb } from 'antd';
 
 interface MainPageProps {
     className?: string;

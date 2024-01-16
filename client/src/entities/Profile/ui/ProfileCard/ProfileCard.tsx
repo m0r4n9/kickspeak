@@ -28,7 +28,6 @@ export const ProfileCard = memo((props: ProfileCardProps) => {
         onChangePhone,
     } = props;
 
-
     return (
         <div id="wrapper_data">
             <ProfileNameCard

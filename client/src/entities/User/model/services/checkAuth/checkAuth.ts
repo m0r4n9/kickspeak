@@ -14,7 +14,6 @@ export const checkAuth = createAsyncThunk<User, void, ThunkConfig<string>>(
 
             return response.data;
         } catch (e: any) {
-            console.log(e);
             return rejectWithValue(e?.response?.data);
         }
     },

@@ -13,7 +13,7 @@
 }
 
 .leftSide {
-    align-items: flex-start;
+    align-items: start;
 }
 
 .rightSide {
@@ -42,3 +42,4 @@
     color: black;
     transition: background-color .3s ease, color .3s ease;
 }
+

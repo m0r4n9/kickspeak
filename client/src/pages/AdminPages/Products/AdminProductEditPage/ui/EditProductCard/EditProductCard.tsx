@@ -49,7 +49,10 @@ export const EditProductCard = memo((props: EditProductCardProps) => {
     const [hidden, setHidden] = useState(true);
 
     return (
-        <VStack max gap="16">
+        <VStack max gap="16" style={{
+            height: '100%',
+            paddingBottom: 70
+        }}>
             <EditName name={name} updateForm={updateForm} />
             <EditPrice price={price} updateForm={updateForm} />
             <EditCode code={code} updateForm={updateForm} />
@@ -87,6 +90,7 @@ export const EditProductCard = memo((props: EditProductCardProps) => {
                     fileList={imagesList}
                     beforeUpload={() => false}
                     onChange={updateImages}
+                    className={cls.test}
                 >
                     <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>

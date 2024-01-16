@@ -13,7 +13,7 @@ import {
 } from '../../model/selectors/productsPageSelector.ts';
 import { fetchProductsList } from '../../model/services/fetchProductsList/fetchProductsList.ts';
 import { Text } from '@/shared/ui/Text';
-import { ListProducts } from '@/widgets/ListProducts';
+import { ProductList } from '@/widgets/ProductList';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
@@ -91,7 +91,7 @@ export const ProductsInfiniteList = memo(() => {
             {errorCart && (
                 <Popup content={errorCart} title="Ошибка" bgColor="bgRed" />
             )}
-            <ListProducts products={products} addToCart={addProduct} />
+            <ProductList products={products} addToCart={addProduct} />
             <Pagination
                 hasMore={hasMore}
                 pageNumber={page}

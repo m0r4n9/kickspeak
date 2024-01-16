@@ -1,6 +1,3 @@
-export type {
-    Brand,
-    ProductBrand,
-} from './model/types/brand.ts';
-export { BrandsList } from './ui/BrandList/BrandsList.tsx';
+export type { Brand } from './model/types/brand.ts';
 export { BrandDetailsItems } from './ui/BrandDetailsItems/BrandDetailsItems.tsx';
+export { BrandItem } from './ui/BrandItem/BrandItem.tsx';

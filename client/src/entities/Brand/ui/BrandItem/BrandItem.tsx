@@ -11,7 +11,7 @@ interface BrandItemProps {
     letter: string;
     brands: Brand[];
 }
-// TODO: исправить items с брендами!
+
 export const BrandItem = memo((props: BrandItemProps) => {
     const { className, letter, brands } = props;
 
@@ -28,30 +28,19 @@ export const BrandItem = memo((props: BrandItemProps) => {
 
             <ul>
                 {brands.map((brand) => {
-                    // const activeBrand = Boolean(brand.productCount);
-                    // let content;
-                    // if (brand.Products.length > 0) {
-                    //     content = (
-                    //         <AppLink
-                    //             to={getRouteBrandsDetails(brand.id.toString())}
-                    //             className={classNames(cls.brandLink, {}, [])}
-                    //         >
-                    //             {brand.name}
-                    //         </AppLink>
-                    //     );
-                    // } else {
-                    //     content = (
-                    //         <p className={`${cls.brandLink} ${cls.disabled}`}>
-                    //             {brand.name}
-                    //         </p>
-                    //     );
-                    // }
-
-                    const content = (
+                    const activeBrand = brand.hasProducts;
+                    const content = brand.hasProducts ? (
+                        <AppLink
+                            to={getRouteBrandsDetails(brand.id)}
+                            className={cls.brandLink}
+                        >
+                            {brand.name}
+                        </AppLink>
+                    ) : (
                         <p className={`${cls.brandLink} ${cls.disabled}`}>
                             {brand.name}
                         </p>
-                    )
+                    );
                     return <li key={brand.id}>{content}</li>;
                 })}
             </ul>

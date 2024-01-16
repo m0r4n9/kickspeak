@@ -40,7 +40,7 @@ export const CartItem = memo((props: CartItemProps) => {
                 </AppLink>
             </div>
             <VStack max className={cls.rightItem}>
-                <HStack>
+                <HStack max>
                     <VStack className={cls.cartTitle}>
                         {product?.Brand.name}
                         <p className={cls.productName}>{product?.name}</p>

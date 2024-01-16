@@ -1,6 +1,6 @@
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import cls from './LoginForm.module.scss';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DynamicModuleLoader } from '@/shared/lib/components';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { ReducerList } from '@/shared/lib/components/DynamicModuleLoader.tsx';
@@ -20,6 +20,7 @@ import { fetchCarts } from '@/entities/Cart';
 
 interface LoginFormProps {
     className?: string;
+    isOpen?: boolean;
     onSuccess: () => void;
     registrationForm?: boolean;
 }
@@ -29,7 +30,7 @@ const reducersList: ReducerList = {
 };
 
 export const LoginForm = (props: LoginFormProps) => {
-    const { className, onSuccess, registrationForm = true } = props;
+    const { className, isOpen, onSuccess, registrationForm = true } = props;
     const dispatch = useAppDispatch();
     const email = useSelector(getLoginEmail);
     const password = useSelector(getLoginPassword);
@@ -65,6 +66,22 @@ export const LoginForm = (props: LoginFormProps) => {
             onSuccess();
         }
     }, [dispatch, password, email]);
+
+    const onKeyDown = async (e: KeyboardEvent) => {
+        if (e.key == 'Enter') {
+            await onLoginClick();
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            window.addEventListener('keydown', onKeyDown);
+        }
+
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [isOpen, onKeyDown]);
 
     const content = loginContent ? (
         <>

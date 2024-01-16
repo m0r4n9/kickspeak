@@ -1,9 +1,5 @@
 @import "@/shared/mixins/mixins";
 
-//.EditBrandCard {
-//    margin-top: 22px;
-//}
-
 .wrapperInput {
     @include wrapperInputAdmin;
 }
@@ -19,4 +15,9 @@
         cursor: pointer;
         max-width: 250px;
     }
+}
+
+.test {
+    width: 250px;
+    float: right;
 }

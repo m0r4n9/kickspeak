@@ -90,6 +90,7 @@ export const EditBrand = memo((props: EditBrandProps) => {
         dispatch(adminBrandDetailsActions.updateName(value || ''));
     }, []);
 
+    // TODO: Refactor input price for Product
     const handleEditFoundation = useCallback((value: string) => {
         if (/^\d*$/.test(value)) {
             dispatch(adminBrandDetailsActions.updateFoundation(value || ''));

@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import cls from './ProductInfiniteList.module.scss';
-import { ListProducts } from '@/widgets/ListProducts';
+import { ProductList } from '@/widgets/ProductList';
 import {
     getBrandDetailsDataHasMore,
     getBrandDetailsDataProducts,
@@ -46,7 +46,7 @@ export const ProductsInfiniteList = memo((props: ProductInfitineListProps) => {
 
     return (
         <VStack>
-            <ListProducts
+            <ProductList
                 brand={brand}
                 products={products}
                 addToCart={addProductCart}

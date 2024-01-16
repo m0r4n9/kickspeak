@@ -46,5 +46,5 @@ const brandsPageSlice = createSlice({
     },
 });
 
-export const { actions: brandsPageActions, reducer: brandsPageReducer } =
+export const { reducer: brandsPageReducer } =
     brandsPageSlice;

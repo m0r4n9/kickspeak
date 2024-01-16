@@ -2,6 +2,15 @@
     min-width: 400px;
     width: 100%;
     overflow: hidden;
+
+    @media (max-width: 991px) {
+        margin-top: 100px;
+        font-size: 18px;
+
+        .Button {
+            padding: 20px 15px;
+        }
+    }
 }
 
 .Button {

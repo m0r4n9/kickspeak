@@ -7,7 +7,11 @@ class ProductAdminController {
             const page = req.query._page || 1;
             const query = req.query._query || '';
 
-            const products = await ProductAdminService.getProducts(limit, page, query);
+            const products = await ProductAdminService.getProducts(
+                limit,
+                page,
+                query,
+            );
             return res.json(products);
         } catch (e) {
             next(e);
@@ -27,9 +31,9 @@ class ProductAdminController {
     async updateProduct(req, res, next) {
         try {
             const { id } = req.params;
+            const images = req.files;
             const { name, price, code, sex, colors, deletedImagesIds } =
                 req.body;
-            const images = req.files;
             const data = {
                 name,
                 price,
@@ -59,7 +63,6 @@ class ProductAdminController {
         }
     }
 
-    // create
     async createProduct(req, res, next) {
         try {
             const { name, price, code, colors, sex, BrandId } = req.body;

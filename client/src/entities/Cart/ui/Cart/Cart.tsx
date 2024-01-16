@@ -12,7 +12,7 @@ import { Text } from '@/shared/ui/Text';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { getRouteCatalog } from '@/shared/const/route.ts';
 import { ReactComponent as CartIcon } from '@/shared/assets/icons/cart-icon-m.svg';
-import { useDropdown } from '../../../../shared/hooks/useDropdown';
+import {useDropdown} from "@/shared/hooks/useDropdown";
 
 interface ShoppingCartProps {
     className?: string;

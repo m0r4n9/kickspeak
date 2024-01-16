@@ -1,5 +1,3 @@
-import {Product} from "@/entities/Product";
-
 export interface Brand {
     id: string;
     name: string;
@@ -7,10 +5,5 @@ export interface Brand {
     country?: string;
     logo?: string;
 
-    productCount?: number;
-}
-
-export interface ProductBrand {
-    brand: Brand;
-    products: Product[];
+    hasProducts?: boolean;
 }

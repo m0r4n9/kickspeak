@@ -7,7 +7,7 @@ import { EditProductCard } from '../EditProductCard/EditProductCard.tsx';
 import { updateProduct } from '../../model/services/updateProduct.ts';
 import { createSize } from '../../model/services/createSize.ts';
 import { deleteSize } from '../../model/services/deleteSize.ts';
-import {updateSize} from "../../model/services/updateSize.ts";
+import { updateSize } from '../../model/services/updateSize.ts';
 import { deleteProduct } from '../../model/services/deleteProduct.ts';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import type { IconType } from 'antd/es/notification/interface';
@@ -83,7 +83,8 @@ export const ProductEdit = memo((props: ProductEditProps) => {
 
     const updateImages = useCallback((info: UploadChangeParam) => {
         setImagesList(info.fileList);
-        if (info.file.status === 'removed') {
+        console.log(info.fileList);
+        if (info.file.status === 'removed' && !info.file.originFileObj?.uid) {
             setDeletedImages((prevState) => [...prevState, info.file.uid]);
         }
     }, []);
@@ -137,13 +138,16 @@ export const ProductEdit = memo((props: ProductEditProps) => {
         });
     }, []);
 
-    const onUpdateSize = useCallback((data: {id: string, quantity: number}) => {
-        dispatch(updateSize(data)).then((res) => {
-            if (res.meta.requestStatus == 'fulfilled') {
-                if (id) dispatch(fetchProductById(id));
-            }
-        });
-    }, []);
+    const onUpdateSize = useCallback(
+        (data: { id: string; quantity: number }) => {
+            dispatch(updateSize(data)).then((res) => {
+                if (res.meta.requestStatus == 'fulfilled') {
+                    if (id) dispatch(fetchProductById(id));
+                }
+            });
+        },
+        [],
+    );
 
     const onDeleteProduct = () => {
         dispatch(deleteProduct()).then((res) => {

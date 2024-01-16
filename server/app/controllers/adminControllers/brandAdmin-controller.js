@@ -8,7 +8,11 @@ class BrandAdminController {
             const page = req.query._page || 1;
             const query = req.query._query || '';
 
-            const brands = await BrandAdminService.getBrands(limit, page, query);
+            const brands = await BrandAdminService.getBrands(
+                limit,
+                page,
+                query,
+            );
             return res.json(brands);
         } catch (e) {
             next(e);
@@ -37,12 +41,11 @@ class BrandAdminController {
     async updateBrand(req, res, next) {
         try {
             const { id } = req.params;
-            const data = req.body.brand;
+            const { name, foundation, country } = req.body;
             const pathLogo = req.file?.path;
-            console.log(data);
             const updatedBrand = await BrandAdminService.updateBrand(
                 id,
-                data,
+                { name, foundation, country },
                 pathLogo,
             );
             return res.json(updatedBrand);

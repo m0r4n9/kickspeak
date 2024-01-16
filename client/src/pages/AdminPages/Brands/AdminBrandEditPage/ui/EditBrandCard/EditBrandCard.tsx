@@ -79,13 +79,6 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
                     value={name || ''}
                     onChange={(e) => onChangeName?.(e.target.value)}
                 />
-                {/*<input*/}
-                {/*    type="text"*/}
-                {/*    id="brand-name"*/}
-                {/*    name="name"*/}
-                {/*    value={name || ''}*/}
-                {/*    onChange={(e) => onChangeName?.(e.target.value)}*/}
-                {/*/>*/}
             </HStack>
 
             <HStack justify="between" className={cls.wrapperInput}>
@@ -111,6 +104,7 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
             </HStack>
 
             <HStack
+                max
                 justify="between"
                 className={cls.wrapperLogo}
             >
@@ -121,9 +115,6 @@ export const EditBrandCard = memo((props: EditBrandCardProps) => {
                     showUploadList={false}
                     action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                     onChange={handleChange}
-                    beforeUpload={(file) => {
-                        console.log("Сначала я ");
-                    }}
                 >
                     {urlLogo ? (
                         <img

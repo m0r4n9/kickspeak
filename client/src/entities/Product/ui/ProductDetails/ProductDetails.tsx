@@ -50,20 +50,6 @@ export const ProductDetails = (props: ProductDetailsProps) => {
         [dispatch],
     );
 
-    const itemsToolbar: NavLinkToolbar[] = useMemo(
-        () => [
-            {
-                content: 'Главная',
-                href: getRouteMain(),
-            },
-            {
-                content: product?.name || '',
-                href: getRouteProductDetails(product?.id.toString() || '-1'),
-            },
-        ],
-        [product],
-    );
-
     useEffect(() => {
         const items: string[] = JSON.parse(
             localStorage.getItem('recentProducts') || '[]',
@@ -73,8 +59,10 @@ export const ProductDetails = (props: ProductDetailsProps) => {
 
         return () => {
             if (!id) return;
-            items.push(id);
-            localStorage.setItem('recentProducts', JSON.stringify(items));
+            if (items.indexOf(id) === -1) {
+                items.push(id);
+                localStorage.setItem('recentProducts', JSON.stringify(items));
+            }
         };
     }, [dispatch, id]);
 

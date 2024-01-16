@@ -63,7 +63,7 @@ class BrandAdminService {
         const brand = await Brand.findByPk(id);
         const newData = {
             ...data,
-            logo: pathLogo,
+            logo: `/${pathLogo}`,
         };
         await brand?.update(newData);
         return brand;

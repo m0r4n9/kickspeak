@@ -1,6 +1,8 @@
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import { useCycle } from 'framer-motion';
 import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import cls from './Navbar.module.scss';
-import { memo } from 'react';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import {
     getRouteBrands,
@@ -10,16 +12,14 @@ import {
 import { getUserAuthData, getUserIsLoading } from '@/entities/User';
 import { AvatarDropdown } from '@/features/avatarDropdown';
 import { Cart } from '@/entities/Cart';
-import { LoginModal } from '@/features/Auth/AuthUser';
+import { AuthUser } from '@/features/Auth/AuthUser';
 import { SearchBar } from '@/features/Search';
 import { useIsMath } from '@/shared/hooks/useIsMath';
 import { NavbarBurger } from '../NavbarBurger/NavbarBurger.tsx';
-import { useSelector } from 'react-redux';
 import { Button } from '@/shared/ui/Button';
 import { AppLink } from '@/shared/ui/AppLink';
 import { ReactComponent as UserIcon } from '@/shared/assets/icons/user-icon-m.svg';
 import { ReactComponent as StarIcon } from '@/shared/assets/icons/star-icon-m.svg';
-import { useCycle } from 'framer-motion';
 
 export interface ItemsCatalogProps {
     content: string;
@@ -49,8 +49,8 @@ export const Navbar = memo((props: NavbarProps) => {
     const { className } = props;
     const { isMatch } = useIsMath();
     const authData = useSelector(getUserAuthData);
-    const [isOpen, cycleOpen] = useCycle(false, true);
     const isLoading = useSelector(getUserIsLoading);
+    const [isOpen, toggleAuth] = useCycle(false, true);
 
     return (
         <header className={classNames(cls.Navbar, {}, [className])}>
@@ -65,7 +65,7 @@ export const Navbar = memo((props: NavbarProps) => {
                     isLoading={isLoading}
                     isMatch={isMatch}
                     itemsCatalog={itemsCatalog}
-                    onShowModal={cycleOpen}
+                    onShowModal={toggleAuth}
                 />
                 <div className={cls.logo}>
                     <AppLink to={getRouteMain()}>KickLogo</AppLink>
@@ -95,12 +95,10 @@ export const Navbar = memo((props: NavbarProps) => {
                         </AppLink>
                     </HStack>
 
-                    {/* SEARCH */}
                     <SearchBar
                         className={cls.wrapperIcon}
                         iconStyle={cls.icon}
                     />
-                    {/* CART */}
                     <Cart className={cls.wrapperIcon} />
 
                     {!isMatch &&
@@ -109,7 +107,7 @@ export const Navbar = memo((props: NavbarProps) => {
                         ) : (
                             <Button
                                 variant="clear"
-                                onClick={() => cycleOpen()}
+                                onClick={() => toggleAuth()}
                                 disabled={isLoading}
                                 className={cls.wrapperIcon}
                             >
@@ -118,9 +116,7 @@ export const Navbar = memo((props: NavbarProps) => {
                         ))}
                 </HStack>
             </HStack>
-            <LoginModal isOpen={isOpen} onClose={cycleOpen} />
+            <AuthUser isMatch={isMatch} isOpen={isOpen} onClose={toggleAuth} />
         </header>
     );
 });
-
-Navbar.displayName = "Navbar";

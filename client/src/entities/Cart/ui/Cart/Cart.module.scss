@@ -1,100 +1,100 @@
 .Cart {
-  position: relative;
+    position: relative;
 }
 
 .cart {
-  opacity: 0;
-  width: 24rem;
-  height: auto;
-  position: absolute;
-  top: calc(var(--navbar-height) - 1.2rem);
-  right: 0;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px 0 var(--primary-10);
-  transition: opacity 0.15s ease;
-  padding: 0 24px 24px;
-  z-index: -1;
+    opacity: 0;
+    width: 24rem;
+    height: auto;
+    position: absolute;
+    top: calc(var(--navbar-height) - 1.2rem);
+    right: 0;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px 0 var(--primary-10);
+    transition: opacity 0.15s ease;
+    padding: 0 24px 24px;
+    z-index: -1;
 }
 
 .open {
-  opacity: 1;
-  z-index: 100;
-  animation: appearCart 0.3s ease;
+    opacity: 1;
+    z-index: 100;
+    animation: appearCart 0.3s ease;
 }
 
 .closing {
-  height: 20rem;
-  animation: closeCart 0.3s ease;
+    height: 20rem;
+    animation: closeCart 0.3s ease;
 }
 
 .textEmpty {
-  color: var(--primary-40);
-  text-align: center;
+    color: var(--primary-40);
+    text-align: center;
 }
 
 .buttonEmpty {
-  background-color: var(--primary-10);
-  padding: 15px 25px;
-  border-radius: 4px;
+    background-color: var(--primary-10);
+    padding: 15px 25px;
+    border-radius: 4px;
 }
 
 .cartHeader {
-  padding: 22px;
+    padding: 22px;
 }
 
 .title {
-  text-align: center;
-  font-size: 14px;
+    text-align: center;
+    font-size: 14px;
 }
 
 .wrapperIcon {
-  position: relative;
-  height: 100%;
-  border-radius: 4px;
+    position: relative;
+    height: 100%;
+    border-radius: 4px;
 
-  transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease;
 
-  &:hover {
-    background-color: var(--primary-10);
-  }
+    &:hover {
+        background-color: var(--primary-10);
+    }
 }
 
 .Icon {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  padding: 8px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    padding: 8px;
 }
 
 .buttonBuy {
     width: 100%;
     background-color: black;
     color: white;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.7;
+    }
 }
 
-//@keyframes appearCart {
-//  0% {
-//    top: 100px;
-//  }
-//}
-
 @keyframes appearCart {
-  0% {
-    transform: translateY(100px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+    0% {
+        transform: translateY(100px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 @keyframes closeCart {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(100px);
-    opacity: 0;
-  }
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
 }

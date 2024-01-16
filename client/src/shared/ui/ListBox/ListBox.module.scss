@@ -1,83 +1,79 @@
 .ListBox {
-  position: relative;
-  width: 168px;
-  background: none;
+    position: relative;
+    width: 168px;
+    background: none;
 }
 
 .input {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border: 1px solid rgba(0,0,0,.1);
-  border: 1px solid var(--primary-10);
-  border-radius: 4px;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 32px;
-  justify-content: space-between;
-  padding-left: 0.8rem;
-  z-index: 1;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid var(--primary-10);
+    border-radius: 4px;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 32px;
+    justify-content: space-between;
+    padding-left: 0.8rem;
+    z-index: 1;
 }
 
 .hover {
-  border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
 }
 
 .selectDropdown {
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  border-bottom: 1px solid var(--primary-10);
-  border-left: 1px solid rgba(255, 0, 0, 0.1);
-  border-left: 1px solid var(--primary-10);
-  border-radius: 0 0 0.4rem 0.4rem;
-  border-right: 1px solid rgba(0,0,0,.1);
-  border-right: 1px solid var(--primary-10);
-  height: 0;
-  left: 0;
-  overflow-y: auto;
-  position: absolute;
-  right: 0;
-  visibility: hidden;
-  z-index: 30;
-  transition: height 0.2s ease;
+    border-bottom: 1px solid var(--primary-10);
+    border-left: 1px solid var(--primary-10);
+    border-radius: 0 0 0.4rem 0.4rem;
+    border-right: 1px solid var(--primary-10);
+    height: 0;
+    left: 0;
+    overflow-y: hidden;
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+    z-index: var(--sidebar-z-index);
+    transition: height 0.2s ease;
+    background-color: white;
 }
 
 .selectList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .selectItem {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: var(--primary-40);
-  font-size: var(--font-size-s);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 38px;
-  padding-left: 16px;
-  -webkit-transition: background-color .3s ease,color .3s ease;
-  transition: background-color .3s ease,color .3s ease;
-  background-color: white;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: var(--primary-40);
+    font-size: var(--font-size-s);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 38px;
+    padding-left: 16px;
+    -webkit-transition: background-color .3s ease, color .3s ease;
+    transition: background-color .3s ease, color .3s ease;
 
-  &:hover {
-    cursor: pointer;
-    background-color: var(--primary-10);
-    color: var(--primary-80);
-  }
+    &:hover {
+        cursor: pointer;
+        background-color: var(--primary-10);
+        color: var(--primary-80);
+    }
 }
 
 .selectItem:not(:last-child) {
-  border-bottom: 1px solid var(--primary-10)
+    border-bottom: 1px solid var(--primary-10)
 }
 
 .selected {
-  color: var(--primary-80);
-  background-color: var(--primary-10);
+    color: var(--primary-80);
+    background-color: var(--primary-10);
 }

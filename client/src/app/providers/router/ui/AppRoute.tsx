@@ -1,4 +1,4 @@
-import { memo, Suspense, useCallback, useEffect, useState } from 'react';
+import React, {lazy, memo, Suspense, useCallback, useEffect, useState} from 'react';
 import {
     AppRoutesProps,
     routeConfig,
@@ -27,7 +27,6 @@ const AppRoute = () => {
             }
             setComplete(true);
         };
-
         check();
     }, []);
 
@@ -36,66 +35,40 @@ const AppRoute = () => {
             const element = <Suspense fallback={''}>{route.element}</Suspense>;
             let content;
 
-            if (route.adminPanel) {
-                if (!route.authOnly) {
-                    return (
-                        <Route
-                            key={route.path}
-                            path={route.path}
-                            element={element}
-                        />
-                    );
-                }
+            content = (
+                <>
+                    <Navbar />
+                    {element}
+                </>
+            );
 
-                if (!complete) {
-                    content = (
-                        <HStack max justify="center" style={{ marginTop: 200 }}>
+            if (route.authOnly) {
+                content = complete ? (
+                    <RequireAuth>
+                        <Navbar />
+                        {element}
+                    </RequireAuth>
+                ) : (
+                    <>
+                        <Navbar />
+                        <HStack
+                            max
+                            justify="between"
+                            style={{ marginTop: 200 }}
+                        >
                             <Loader />
                         </HStack>
-                    );
-                } else {
-                    content = (
-                        <RequireAuth roles={route.role}>{element}</RequireAuth>
-                    );
-                }
-
-                return (
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        element={content}
-                    />
+                    </>
                 );
             }
 
-            if (route.authOnly) {
-                if (!complete) {
-                    content = (
-                        <>
-                            <Navbar />
-                            <HStack
-                                max
-                                justify="between"
-                                style={{ marginTop: 200 }}
-                            >
-                                <Loader />
-                            </HStack>
-                        </>
-                    );
-                } else {
-                    content = (
-                        <RequireAuth>
-                            <Navbar />
-                            {element}
-                        </RequireAuth>
-                    );
-                }
-            } else {
-                content = (
-                    <>
-                        <Navbar />
-                        {element}
-                    </>
+            if (route.adminPanel) {
+                content = complete ? (
+                    <RequireAuth roles={route.role}>{element}</RequireAuth>
+                ) : (
+                    <HStack max justify="center" style={{ marginTop: 200 }}>
+                        <Loader />
+                    </HStack>
                 );
             }
 
@@ -106,6 +79,8 @@ const AppRoute = () => {
         [complete],
     );
 
-    return <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>;
+    return (<Routes>
+        {Object.values(routeConfig).map(renderWithWrapper)}
+    </Routes>);
 };
 export default memo(AppRoute);

@@ -2,9 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AdminBrandDetails } from '../types/adminBrandDetailsSchema.ts';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { ErrorInterface } from '@/shared/interfaces/ApiError';
-import { AxiosError, isAxiosError } from 'axios';
 import { getAdminBrandDetailsForm } from '../../model/selectors/getAdminBrandDetailsForm/getAdminBrandDetailsForm.ts';
-import { Brand } from '@/entities/Brand';
+import { AxiosError, isAxiosError } from 'axios';
 
 export const updateBrand = createAsyncThunk<
     AdminBrandDetails,
@@ -13,22 +12,22 @@ export const updateBrand = createAsyncThunk<
 >('AdminBrandEditPage/updateBrand', async (data, thunkAPI) => {
     const { rejectWithValue, extra, getState } = thunkAPI;
 
+    console.log(data.logo);
+
     const formData = new FormData();
     const brandForm = getAdminBrandDetailsForm(getState());
 
+    // fix
     if (!brandForm) {
         return rejectWithValue({
             message: 'Произошла ошибка при обновление бренда',
         });
     }
-    if (data.logo) formData.append('logo', data.logo);
 
-    Object.keys(brandForm).forEach((key) => {
-        const brandKey = key as keyof Brand;
-        if (brandKey !== 'productCount') {
-            formData.append(`brand[${brandKey}]`, brandForm[brandKey] || '');
-        }
-    });
+    if (data.logo) formData.append('logo', data.logo);
+    if (brandForm.name) formData.append('name', brandForm.name);
+    if (brandForm.foundation) formData.append('foundation', brandForm.foundation);
+    if (brandForm.country) formData.append('country', brandForm.country);
 
     try {
         const response = await extra.api.put<AdminBrandDetails>(
