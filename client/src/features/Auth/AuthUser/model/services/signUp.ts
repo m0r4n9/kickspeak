@@ -2,15 +2,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { User, userActions } from '@/entities/User';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import axios, { AxiosError } from 'axios';
-import {ErrorInterface} from "@/shared/interfaces/ApiError";
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
 
 interface registrationUserProps {
     email: string;
     password: string;
 }
 
-export const registrationUser = createAsyncThunk<
-    User,
+export const signUp = createAsyncThunk<
+    void,
     registrationUserProps,
     ThunkConfig<ErrorInterface>
 >('AuthUser/registrationUser', async (userData, thunkAPI) => {
@@ -19,7 +19,6 @@ export const registrationUser = createAsyncThunk<
     try {
         const response = await extra.api.post('/registration', userData);
         dispatch(userActions.setAuthData(response.data));
-        return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             const serverError = error as AxiosError<ErrorInterface>;
@@ -27,6 +26,6 @@ export const registrationUser = createAsyncThunk<
                 return rejectWithValue(serverError.response.data);
             }
         }
-        return rejectWithValue({message: ''});
+        return rejectWithValue({ message: '' });
     }
 });

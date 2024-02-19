@@ -31,7 +31,10 @@
     overflow: auto;
     position: relative;
     z-index: var(--sidebar-z-index);
+}
 
+.overlayDisabled {
+    background-color: transparent;
 }
 
 .toggleButton {

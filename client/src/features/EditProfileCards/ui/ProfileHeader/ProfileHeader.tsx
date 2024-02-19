@@ -1,36 +1,34 @@
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './ProfileHeader.module.scss';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { Button } from '@/shared/ui/Button';
 import { HStack } from '@/shared/ui/Stack';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import {
     getProfileReadonly,
     profileActions,
-    updateProfile,
 } from '@/features/EditProfileCards';
 import { useSelector } from 'react-redux';
 
 interface ProfileHeaderProps {
     className?: string;
+    saveEdit: () => void;
+    cancelEdit: () => void;
 }
 
 export const ProfileHeader = memo((props: ProfileHeaderProps) => {
-    const { className } = props;
+    const { className, saveEdit, cancelEdit } = props;
     const dispatch = useAppDispatch();
     const readonly = useSelector(getProfileReadonly);
 
-    const onEdit = useCallback(() => {
+    const onEdit = () => {
         dispatch(profileActions.setReadonly(false));
-    }, [dispatch]);
+    };
 
-    const onSave = useCallback(() => {
-        dispatch(updateProfile());
-    }, [dispatch]);
-
-    const onCloseEdit = useCallback(() => {
+    const onCancelEdit = () => {
         dispatch(profileActions.cancelEdit());
-    }, [dispatch]);
+        cancelEdit();
+    };
 
     return (
         <div className={classNames(cls.ProfileHeader, {}, [className])}>
@@ -41,7 +39,7 @@ export const ProfileHeader = memo((props: ProfileHeaderProps) => {
             ) : (
                 <HStack gap="32">
                     <Button
-                        onClick={onCloseEdit}
+                        onClick={onCancelEdit}
                         variant="card"
                         fullWidth
                         width={200}
@@ -49,7 +47,7 @@ export const ProfileHeader = memo((props: ProfileHeaderProps) => {
                         Отмена
                     </Button>
                     <Button
-                        onClick={onSave}
+                        onClick={saveEdit}
                         variant="card"
                         fullWidth
                         width={200}

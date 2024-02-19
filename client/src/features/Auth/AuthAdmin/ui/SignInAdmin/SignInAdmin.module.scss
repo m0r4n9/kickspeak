@@ -1,0 +1,21 @@
+.form {
+    width: 100%;
+}
+
+.label {
+    width: 100%;
+    max-width: 80px;
+}
+
+.input {
+    padding: 4px 8px;
+    flex-grow: 1;
+}
+
+.wrapperBtn {
+    margin-top: 12px;
+
+    button {
+        padding: 4px 12px;
+    }
+}

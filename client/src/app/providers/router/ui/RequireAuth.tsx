@@ -7,10 +7,9 @@ import { getRouteAdminAuth, getRouteMain } from '@/shared/const/route.ts';
 interface RequireAuthProps {
     children: ReactNode;
     roles?: UserRole[];
-    loading?: boolean;
 }
 
-export function RequireAuth({ children, roles, loading }: RequireAuthProps) {
+export function RequireAuth({ children, roles }: RequireAuthProps) {
     const location = useLocation();
     const auth = useSelector(getUserAuthData);
     const userRoles = useSelector(getUserRole);

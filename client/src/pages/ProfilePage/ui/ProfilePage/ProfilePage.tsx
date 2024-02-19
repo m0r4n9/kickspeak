@@ -32,8 +32,8 @@ const options = {
 export const ProfilePage = (props: ProfilePageProps) => {
     const { className } = props;
     const user = useSelector(getUserAuthData);
-    const [activeElement, setActiveElement] = useState('name');
     const { isMatch } = useIsMath();
+    const [activeElement, setActiveElement] = useState('name');
 
     useEffect(() => {
         if (isMatch) return;
@@ -66,7 +66,9 @@ export const ProfilePage = (props: ProfilePageProps) => {
                     className={classNames(cls.ProfilePage, {}, [className])}
                 >
                     <EditProfileCards id={user?.id} />
-                    {!isMatch && <ProfileSidebar activeElement={activeElement} />}
+                    {!isMatch && (
+                        <ProfileSidebar activeElement={activeElement} />
+                    )}
                 </HStack>
             </Page>
         </DynamicModuleLoader>

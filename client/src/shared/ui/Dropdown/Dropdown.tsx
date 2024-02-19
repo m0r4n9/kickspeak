@@ -1,73 +1,48 @@
-import { Fragment, ReactNode } from 'react';
-import { Menu } from '@headlessui/react';
+import { ReactNode } from 'react';
 import cls from './Dropdown.module.scss';
-import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import { AppLink } from '@/shared/ui/AppLink';
-
-export interface DropdownItem {
-    content?: ReactNode;
-    onClick?: () => void;
-    href?: string;
-    disabled?: boolean;
-    redColor?: boolean;
-}
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface DropdownProps {
-    className?: string;
-    items: DropdownItem[];
-    trigger: ReactNode;
+    children: ReactNode;
+    isOpen: boolean;
+    onClose: () => void;
 }
 
-export function Dropdown(props: DropdownProps) {
-    const { className, trigger, items } = props;
-
-    const menuClasses = [cls.menu];
+export const Dropdown = (props: DropdownProps) => {
+    const { children, isOpen, onClose } = props;
 
     return (
-        <Menu
-            as="div"
-            className={classNames(cls.Dropdown, {}, [className, cls.popup])}
-        >
-            <Menu.Button className={cls.trigger}>{trigger}</Menu.Button>
-            <Menu.Items className={classNames(cls.menu, {}, menuClasses)}>
-                {items.map((item, index) => {
-                    const content = (
-                        <button
-                            type="button"
-                            disabled={item.disabled}
-                            onClick={item.onClick}
-                            className={classNames(cls.item, {
-                                [cls.redColor]: item.redColor,
-                            })}
-                        >
-                            {item.content}
-                        </button>
-                    );
-
-                    if (item.href) {
-                        return (
-                            <Menu.Item
-                                as={AppLink}
-                                to={item.href}
-                                disabled={item.disabled}
-                                key={`dropdown-key-${index}`}
-                            >
-                                {content}
-                            </Menu.Item>
-                        );
-                    }
-
-                    return (
-                        <Menu.Item
-                            key={`dropdown-key-${index}`}
-                            as={Fragment}
-                            disabled={item.disabled}
-                        >
-                            {content}
-                        </Menu.Item>
-                    );
-                })}
-            </Menu.Items>
-        </Menu>
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        y: 50,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                            opacity: {
+                                duration: 0.1,
+                            },
+                        },
+                    }}
+                    exit={{
+                        y: 50,
+                        opacity: 0,
+                    }}
+                    transition={{
+                        type: 'keyframes',
+                    }}
+                    className={cls.dropdown}
+                >
+                    <div onClick={onClose} className={cls.overlay} />
+                    {children}
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
-}
+};
+
+Dropdown.displayName = 'Dropdown';

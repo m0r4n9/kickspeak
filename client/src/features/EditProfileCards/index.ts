@@ -5,6 +5,5 @@ export { fetchProfileData } from './model/services/fetchProfileData/fetchProfile
 export { updateProfile } from './model/services/updateProfile/updateProfile.ts';
 export { getProfileReadonly } from './model/selectors/getProfileReadonly/getProfileReadonly.ts';
 export { getProfileIsLoading } from './model/selectors/getProfileIsLoading/getProfileIsLoading.ts';
-export { getProfileForm } from './model/selectors/getProfileForm/getProfileForm.ts';
 export { getProfileData } from './model/selectors/getProfileData/getProfileData.ts';
 export { getProfileError } from './model/selectors/getProfileError/getProfileError.ts';

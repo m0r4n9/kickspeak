@@ -1,31 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { Profile } from '@/entities/Profile';
-import { getProfileForm } from '../../selectors/getProfileForm/getProfileForm.ts';
 import { validateProfile } from '../validateProfile/validateProfile.ts';
-import {ValidateProfileError} from "../../consts/consts.ts";
+import { ValidateProfileError } from '../../consts/consts.ts';
 
 export const updateProfile = createAsyncThunk<
     Profile,
-    void,
-    ThunkConfig<ValidateProfileError[]>
->('profile/update', async (_, thunkAPI) => {
-    const { extra, rejectWithValue, getState } = thunkAPI;
+    {
+        id?: string;
+        name: string;
+        surname: string;
+        email: string;
+        phone: string;
+    },
+    ThunkConfig<string>
+>('profile/update', async (data, thunkAPI) => {
+    const { extra, rejectWithValue } = thunkAPI;
 
-    const formData = getProfileForm(getState());
-    const errors = validateProfile(formData);
-
-    if (errors.length) {
-        return rejectWithValue(errors);
-    }
+    if (!data?.id) return rejectWithValue('Пользователь не авторизован');
 
     try {
         const response = await extra.api.put<Profile>(
-            `/profile/${formData?.id}`,
-            formData,
+            `/profile/${data.id}`,
+            data,
         );
         return response.data;
     } catch (e) {
-        return rejectWithValue([ValidateProfileError.SERVER_ERROR]);
+        return rejectWithValue('');
     }
 });

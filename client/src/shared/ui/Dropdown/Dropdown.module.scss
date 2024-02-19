@@ -1,72 +1,24 @@
-@import "@/shared/mixins/mixins";
-
-.menu {
-    background: white;
+.dropdown {
     position: absolute;
-    flex-direction: column;
-    display: flex;
-    padding: 0 24px;
-
-    width: 270px;
-
-    -webkit-box-shadow: 0 5px 20px 2px rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 0 5px 20px 2px rgba(34, 60, 80, 0.2);
-    box-shadow: 0 5px 20px 2px rgba(34, 60, 80, 0.2);
-
-    top: 100%;
+    top: calc(var(--navbar-height) - 1.2rem);
     right: 0;
-    animation: appearDropdown 0.3s ease;
-}
+    z-index: -1;
 
-@keyframes appearDropdown {
-    0% {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.item {
-    @include listLinksUser;
-}
-
-.redColor {
-    color: red;
-    transition: opacity .2s ease;
-
-    &:hover {
-        opacity: 0.5;
-        color: red;
-    }
-}
-
-.popup {
-    position: relative;
-}
-
-.menu {
+    width: 24rem;
+    height: auto;    
+    padding: 8px 10px;
+    background-color: white;
     border-radius: 4px;
-    overflow: hidden;
+    box-shadow: 0 10px 30px 0 var(--primary-10);
+    transition: opacity 0.15s ease;
 }
 
-.trigger {
-    position: relative;
-    height: 50px;
-    width: 50px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-
-    background: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-}
-
-.disabled {
-    opacity: 0.7;
+.overlay {
+    background-color: transparent;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }

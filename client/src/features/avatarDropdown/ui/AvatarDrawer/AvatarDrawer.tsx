@@ -1,7 +1,7 @@
 import cls from './AvatarDrawer.module.scss';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Drawer } from '@/shared/ui/Drawer/Drawer.tsx';
-import { DropdownItem } from '@/shared/ui/Dropdown/Dropdown.tsx';
+import { DropdownItem } from '@/shared/ui/DropdownMenu/DropdownMenu';
 import { AppLink } from '@/shared/ui/AppLink';
 import { Button } from '@/shared/ui/Button';
 import { ReactComponent as UserIcon } from '@/shared/assets/icons/user-icon-m.svg';

@@ -13,7 +13,6 @@ import { BrandsPageSchema } from '@/pages/BrandsPage';
 import { UserSchema } from '@/entities/User';
 import { ProfileSchema } from '@/features/EditProfileCards';
 import { CartSchema } from '@/entities/Cart';
-import { LoginSchema } from '@/features/Auth/AuthUser';
 import { SearchSchema } from '@/features/Search';
 import { AdminBrandsSchema } from '../../../../pages/AdminPages/Brands/AdminBrandsPage';
 import { AdminUsersSchema } from '../../../../pages/AdminPages/Users/AdminUsersPage';
@@ -22,10 +21,10 @@ import { BrandDetailsSchema } from '@/pages/BrandDetailsPage';
 import { WishListSchema } from '@/pages/WishListPage';
 import { BrandCreateSchema } from '@/pages/AdminPages/Brands/AdminBrandCreatePage';
 import { AdminBrandDetailsSchema } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
-import {AdminProductsSchema} from "@/pages/AdminPages/Products/AdminProductsPage";
-import {ProductCreateSchema} from "@/pages/AdminPages/Products/AdminProductCreatePage";
-import {AdminProductDetailsSchema} from "@/pages/AdminPages/Products/AdminProductEditPage";
-import {rtkApi} from "@/shared/api/rtkApi.ts";
+import { AdminProductsSchema } from '@/pages/AdminPages/Products/AdminProductsPage';
+import { ProductCreateSchema } from '@/pages/AdminPages/Products/AdminProductCreatePage';
+import { AdminProductDetailsSchema } from '@/pages/AdminPages/Products/AdminProductEditPage';
+import { rtkApi } from '@/shared/api/rtkApi.ts';
 
 // TODO: исправить пути на абсолютные
 
@@ -34,11 +33,10 @@ export interface StateSchema {
     search: SearchSchema;
     user: UserSchema;
     cart: CartSchema;
-    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>,
+    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 
     // Optional
     productsPage?: ProductsPageSchema;
-    loginForm?: LoginSchema;
     profile?: ProfileSchema;
     productDetails?: ProductDetailsSchema;
     brandsPage?: BrandsPageSchema;

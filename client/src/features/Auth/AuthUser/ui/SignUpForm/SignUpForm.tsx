@@ -1,67 +1,57 @@
-import { classNames } from '@/shared/lib/classNames/classNames.ts';
-import cls from './LoginForm.module.scss';
-import { useEffect } from 'react';
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
-import { loginByEmail } from '../../model/services/loginByEmail.ts';
 import { VStack } from '@/shared/ui/Stack';
-import { Text } from '@/shared/ui/Text';
-import { Button } from '@/shared/ui/Button';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Input } from '@/shared/ui/Input';
+import { Text } from '@/shared/ui/Text';
 import { Label } from '@/shared/ui/Label';
-import type { StageAuth } from '../AuthUser.tsx';
+import { Input } from '@/shared/ui/Input';
+import { Button } from '@/shared/ui/Button';
+import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
+import type { StageAuth } from '../AuthUser';
+import { signUp } from '../../model/services/signUp';
 
-interface LoginFormProps {
-    className?: string;
-    isOpen?: boolean;
+interface SignUpFormProps {
     onSuccess: () => void;
-    changeStage?: (stage: StageAuth) => void;
+    changeStage: (stage: StageAuth) => void;
 }
 
-interface IFormLogin {
+interface IFormSignUp {
     email: string;
-    pass: string;
+    password: string;
+    passwordConfirmation: string;
 }
 
-export const LoginForm = (props: LoginFormProps) => {
-    const { className, isOpen, onSuccess, changeStage } = props;
+export const SignUpForm = (props: SignUpFormProps) => {
+    const { changeStage, onSuccess } = props;
     const {
         control,
         formState: { errors },
         handleSubmit,
-    } = useForm<IFormLogin>({
+        watch,
+    } = useForm<IFormSignUp>({
         defaultValues: {
             email: '',
-            pass: '',
+            password: '',
+            passwordConfirmation: '',
         },
     });
     const dispatch = useAppDispatch();
 
-    const onSubmit: SubmitHandler<IFormLogin> = async ({ email, pass }) => {
-        await dispatch(loginByEmail({ email, password: pass })).then((res) => {
-            if (res.meta.requestStatus === 'fulfilled') onSuccess();
+    const isPasswordsEqual =
+        watch('password') === watch('passwordConfirmation');
+
+    const onSubmit: SubmitHandler<IFormSignUp> = async ({
+        email,
+        password,
+    }) => {
+        await dispatch(signUp({ email, password })).then((res) => {
+            if (res.meta.requestStatus === 'fulfilled') {
+                onSuccess();
+            }
         });
     };
 
-    const onKeyDown = async (e: KeyboardEvent) => {
-        if (e.key == 'Enter') {
-            handleSubmit(onSubmit);
-        }
-    };
-
-    useEffect(() => {
-        if (isOpen) window.addEventListener('keydown', onKeyDown);
-
-        return () => window.removeEventListener('keydown', onKeyDown);
-    }, [isOpen, onKeyDown]);
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack
-                align="stretch"
-                gap="16"
-                className={classNames(cls.LoginForm, {}, [className])}
-            >
+            <VStack align="stretch" gap="16">
                 <Text title="Вход / Регистрация" />
                 <VStack max align="stretch">
                     <Label htmlFor="email">Email</Label>
@@ -85,21 +75,17 @@ export const LoginForm = (props: LoginFormProps) => {
                             />
                         )}
                     />
-                    {errors?.email?.message && <p>{errors?.email?.message}</p>}
-                    {errors?.email?.type === 'required' && (
-                        <p role="alert">Email обязательное поле.</p>
-                    )}
                 </VStack>
 
                 <VStack max align="stretch">
-                    <Label htmlFor="pass">Пароль</Label>
+                    <Label htmlFor="password">Пароль</Label>
                     <Controller
-                        name="pass"
+                        name="password"
                         control={control}
                         rules={{ required: true }}
                         render={({ field: { value, onChange } }) => (
                             <Input
-                                id="pass"
+                                id="password"
                                 type="password"
                                 value={value}
                                 placeholder="Введите пароль"
@@ -108,28 +94,44 @@ export const LoginForm = (props: LoginFormProps) => {
                             />
                         )}
                     />
-                    {errors?.pass?.type === 'required' && (
-                        <p role="alert">Пароль обязательное поле.</p>
-                    )}
                 </VStack>
 
-                <Button variant="border">Войти</Button>
+                <VStack max align="stretch">
+                    <Label htmlFor="passwordConfirmation">
+                        Повторите пароль
+                    </Label>
+                    <Controller
+                        name="passwordConfirmation"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange } }) => (
+                            <Input
+                                id="passwordConfirmation"
+                                type="password"
+                                value={value}
+                                placeholder="Введите пароль"
+                                onChange={onChange}
+                                variant="underline"
+                            />
+                        )}
+                    />
+                    {!isPasswordsEqual && <p>Пароли не совпадают.</p>}
+                </VStack>
+                <Button variant="border">Зарегистрироваться</Button>
                 <span>
-                    Нет аккаунта?{' '}
+                    Уже есть аккаунт?{' '}
                     <Button
                         type="button"
-                        onClick={() => changeStage?.('signUp')}
+                        onClick={() => changeStage('signIn')}
                         style={{
                             color: 'blue',
                             cursor: 'pointer',
                         }}
                     >
-                        Регистрация
+                        Войти
                     </Button>
                 </span>
             </VStack>
         </form>
     );
 };
-
-export default LoginForm;

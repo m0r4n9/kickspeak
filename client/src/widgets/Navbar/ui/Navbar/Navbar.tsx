@@ -101,22 +101,32 @@ export const Navbar = memo((props: NavbarProps) => {
                     />
                     <Cart className={cls.wrapperIcon} />
 
-                    {!isMatch &&
-                        (authData ? (
-                            <AvatarDropdown className={cls.wrapperIcon} />
-                        ) : (
-                            <Button
-                                variant="clear"
-                                onClick={() => toggleAuth()}
-                                disabled={isLoading}
-                                className={cls.wrapperIcon}
-                            >
-                                <UserIcon />
-                            </Button>
-                        ))}
+                    <div
+                        style={{
+                            position: 'relative',
+                        }}
+                    >
+                        {!isMatch &&
+                            (authData ? (
+                                <AvatarDropdown className={cls.wrapperIcon} />
+                            ) : (
+                                <Button
+                                    variant="clear"
+                                    onClick={() => toggleAuth()}
+                                    disabled={isLoading}
+                                    className={cls.wrapperIcon}
+                                >
+                                    <UserIcon />
+                                </Button>
+                            ))}
+                        <AuthUser
+                            isMatch={isMatch}
+                            isOpen={isOpen}
+                            onClose={toggleAuth}
+                        />
+                    </div>
                 </HStack>
             </HStack>
-            <AuthUser isMatch={isMatch} isOpen={isOpen} onClose={toggleAuth} />
         </header>
     );
 });

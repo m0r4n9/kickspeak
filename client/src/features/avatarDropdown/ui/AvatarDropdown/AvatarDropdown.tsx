@@ -7,8 +7,7 @@ import {
     getRouteProfile,
     getRouteWishList,
 } from '@/shared/const/route.ts';
-import { Dropdown } from '@/shared/ui/Dropdown';
-import { DropdownItem } from '@/shared/ui/Dropdown/Dropdown.tsx';
+import { DropdownItem, DropdownMenu } from '@/shared/ui/DropdownMenu';
 import { AvatarDrawer } from '../AvatarDrawer/AvatarDrawer.tsx';
 import { cartActions } from '@/entities/Cart';
 import { ReactComponent as UserIcon } from '@/shared/assets/icons/user-icon-m.svg';
@@ -59,6 +58,10 @@ export const AvatarDropdown = memo((props: AvatarDropdownProps) => {
     }
 
     return (
-        <Dropdown items={links} className={className} trigger={<UserIcon />} />
+        <DropdownMenu
+            items={links}
+            className={className}
+            trigger={<UserIcon />}
+        />
     );
 });
