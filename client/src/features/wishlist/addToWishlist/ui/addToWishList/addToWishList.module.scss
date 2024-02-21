@@ -1,0 +1,10 @@
+.actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: var(--accent-product-z-index);
+
+    .starIcon {
+        cursor: pointer;
+    }
+}

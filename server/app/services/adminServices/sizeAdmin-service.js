@@ -1,7 +1,5 @@
 const fs = require('fs');
-const path = require('path');
-const { Op } = require('sequelize');
-const { Size } = require('../../models/product');
+const { Size } = require('../../models/models');
 const ApiError = require('../../exceptions/api-error');
 
 class SizeAdminService {
@@ -31,7 +29,7 @@ class SizeAdminService {
             throw ApiError.BadRequest('Данные пусты');
         }
         const size = await Size.findByPk(id);
-        return await size.update({quantity});
+        return await size.update({ quantity });
     }
 }
 

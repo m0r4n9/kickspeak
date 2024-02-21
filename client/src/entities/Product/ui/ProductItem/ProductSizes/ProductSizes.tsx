@@ -9,15 +9,15 @@ import { classNames } from '@/shared/lib/classNames/classNames.ts';
 interface ProductSizesProps {
     hover?: boolean;
     sizes?: SizeProduct[];
-    addProductCart?: (productId: number, sizeId: number) => void;
+    addProductCart?: (productId: string, sizeId: string) => void;
 }
 
 export const ProductSizes = (props: ProductSizesProps) => {
     const { hover, sizes, addProductCart } = props;
-    const [activeButtonId, setActiveButtonId] = useState<number | null>(null);
+    const [activeButtonId, setActiveButtonId] = useState<string | null>(null);
 
     const onAddProductHandler = useCallback(
-        (productId: number, sizeId: number) => {
+        (productId: string, sizeId: string) => {
             setActiveButtonId(sizeId);
             addProductCart?.(productId, sizeId);
             setTimeout(() => {
@@ -33,7 +33,8 @@ export const ProductSizes = (props: ProductSizesProps) => {
                 <div className={cls.sizeBody}>
                     <div className={cls.sizesPlate}>
                         {sizes?.map((size) => {
-                            const activeButton = size.id === activeButtonId?.toString();
+                            const activeButton =
+                                size.id === activeButtonId?.toString();
 
                             return (
                                 <HStack
@@ -54,7 +55,7 @@ export const ProductSizes = (props: ProductSizesProps) => {
                                         onClick={() =>
                                             onAddProductHandler(
                                                 size.productId,
-                                                Number(size.id),
+                                                size.id,
                                             )
                                         }
                                         variant="card"

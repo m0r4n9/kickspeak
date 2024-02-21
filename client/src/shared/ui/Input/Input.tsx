@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     } = props;
 
     const mods: Mods = {
-        [cls.readonly]: readOnly,
+        [cls.readOnly]: readOnly,
     };
 
     return (

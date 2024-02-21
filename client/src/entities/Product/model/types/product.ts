@@ -7,7 +7,7 @@ export interface SizeProduct {
     id: string;
     name: string;
     quantity: number;
-    productId: number;
+    productId: string;
 }
 
 export interface ImageProduct {

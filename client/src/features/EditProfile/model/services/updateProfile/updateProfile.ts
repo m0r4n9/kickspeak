@@ -11,7 +11,7 @@ export const updateProfile = createAsyncThunk<
         name: string;
         surname: string;
         email: string;
-        phone: string;
+        phoneNumber: string;
     },
     ThunkConfig<string>
 >('profile/update', async (data, thunkAPI) => {

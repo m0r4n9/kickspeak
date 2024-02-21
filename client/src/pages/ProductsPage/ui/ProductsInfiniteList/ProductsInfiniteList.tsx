@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import cls from './ProductsInfiniteList.module.scss';
 import {
@@ -17,11 +17,11 @@ import { ProductList } from '@/widgets/ProductList';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
-import { addProductCart, cartActions, getCartError } from '@/entities/Cart';
+import { addProductCart, getCartError } from '@/entities/Cart';
 import { Loader } from '@/shared/ui/Loader';
 import { Popup } from '@/shared/ui/Popup';
 
-export const ProductsInfiniteList = memo(() => {
+export const ProductsInfiniteList = () => {
     const dispatch = useAppDispatch();
     const products = useSelector(getProducts.selectAll);
     const page = useSelector(getProductsPageNumber);
@@ -30,16 +30,12 @@ export const ProductsInfiniteList = memo(() => {
     const error = useSelector(getProductsPageError);
     const errorCart = useSelector(getCartError);
 
-    useEffect(() => {
-        dispatch(cartActions.clearError());
-    }, []);
-
     const addProduct = useCallback(
-        (productId: number, sizeId: number) => {
+        (productId: string, sizeId: string) => {
             dispatch(
                 addProductCart({
-                    productId,
-                    sizeId,
+                    productId: Number(productId),
+                    sizeId: Number(sizeId),
                 }),
             );
         },
@@ -77,10 +73,7 @@ export const ProductsInfiniteList = memo(() => {
 
     if (error) {
         return (
-            <HStack
-                max
-                justify="center"
-            >
+            <HStack max justify="center">
                 <Text title="Произошла ошибка" color="error" />;
             </HStack>
         );
@@ -102,4 +95,4 @@ export const ProductsInfiniteList = memo(() => {
             />
         </VStack>
     );
-});
+};

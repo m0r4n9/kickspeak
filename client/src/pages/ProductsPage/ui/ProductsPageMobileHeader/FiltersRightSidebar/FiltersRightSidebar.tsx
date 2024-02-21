@@ -14,7 +14,7 @@ export const FiltersRightSidebar = memo(() => {
     return (
         <>
             <Button
-                variant="clear"
+                variant="ghost"
                 onClick={() => toggleMainSidebar()}
                 className={cls.btn}
             >

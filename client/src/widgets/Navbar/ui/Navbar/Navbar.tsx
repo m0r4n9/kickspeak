@@ -8,6 +8,7 @@ import {
     getRouteBrands,
     getRouteCatalog,
     getRouteMain,
+    getRouteWishList,
 } from '@/shared/const/route.ts';
 import { getUserAuthData, getUserIsLoading } from '@/entities/User';
 import { AvatarDropdown } from '@/features/avatarDropdown';
@@ -90,7 +91,7 @@ export const Navbar = memo((props: NavbarProps) => {
 
                 <HStack justify="end" className={cls.headerActions}>
                     <HStack className={cls.wrapperIcon} justify="center">
-                        <AppLink to={'/'}>
+                        <AppLink to={getRouteWishList()}>
                             <StarIcon className={cls.icon} />
                         </AppLink>
                     </HStack>
@@ -111,7 +112,7 @@ export const Navbar = memo((props: NavbarProps) => {
                                 <AvatarDropdown className={cls.wrapperIcon} />
                             ) : (
                                 <Button
-                                    variant="clear"
+                                    variant="ghost"
                                     onClick={() => toggleAuth()}
                                     disabled={isLoading}
                                     className={cls.wrapperIcon}

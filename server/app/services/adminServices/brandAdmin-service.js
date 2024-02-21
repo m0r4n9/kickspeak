@@ -1,31 +1,31 @@
-const { Brand, Product } = require('../../models/product');
+const { Brand, Product } = require('../../models/models');
 const { Op } = require('sequelize');
 const ApiError = require('../../exceptions/api-error');
 
 class BrandAdminService {
     async getBrands(limit, page, query) {
-        const queryRequest = query ? {
-            name: {
-                [Op.iLike]: `%${query}%`
-            }
-        } : {};
+        const queryRequest = query
+            ? {
+                  name: {
+                      [Op.iLike]: `%${query}%`,
+                  },
+              }
+            : {};
 
         const brands = await Brand.findAll({
             where: {
-                ...queryRequest
+                ...queryRequest,
             },
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ['id', 'name', 'country', 'foundation'],
-            order: [
-                ['id', 'DESC']
-            ]
+            order: [['id', 'DESC']],
         });
 
         const totalBrands = await Brand.count({
             where: {
-                ...queryRequest
-            }
+                ...queryRequest,
+            },
         });
 
         return {
@@ -38,11 +38,9 @@ class BrandAdminService {
         const brands = await Brand.findAll({
             attributes: [
                 ['id', 'value'],
-                ['name', 'label']
+                ['name', 'label'],
             ],
-            order: [
-                ['name', 'ASC']
-            ]
+            order: [['name', 'ASC']],
         });
         return brands;
     }

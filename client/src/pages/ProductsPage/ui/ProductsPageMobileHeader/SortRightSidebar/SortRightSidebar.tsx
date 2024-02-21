@@ -25,7 +25,7 @@ export const SortRightSidebar = memo((props: SortRightSidebarProps) => {
     return (
         <>
             <Button
-                variant="clear"
+                variant="ghost"
                 onClick={() => cycleOpen()}
                 className={cls.btn}
             >
@@ -36,7 +36,7 @@ export const SortRightSidebar = memo((props: SortRightSidebarProps) => {
                 <VStack max className={cls.productSorts}>
                     <HStack max justify="center" className={cls.header}>
                         <div className={cls.wrapperExitBtn}>
-                            <Button variant="clear" onClick={() => cycleOpen()}>
+                            <Button variant="ghost" onClick={() => cycleOpen()}>
                                 <CrossIcon width={16} />
                             </Button>
                         </div>

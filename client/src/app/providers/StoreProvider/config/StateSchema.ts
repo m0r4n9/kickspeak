@@ -11,7 +11,7 @@ import { ProductsPageSchema } from '@/pages/ProductsPage';
 import { ProductDetailsSchema } from '@/entities/Product';
 import { BrandsPageSchema } from '@/pages/BrandsPage';
 import { UserSchema } from '@/entities/User';
-import { ProfileSchema } from '@/features/EditProfileCards';
+import { ProfileSchema } from '@/features/EditProfile';
 import { CartSchema } from '@/entities/Cart';
 import { SearchSchema } from '@/features/Search';
 import { AdminBrandsSchema } from '../../../../pages/AdminPages/Brands/AdminBrandsPage';

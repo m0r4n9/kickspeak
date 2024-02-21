@@ -19,7 +19,7 @@ export const AvatarDrawer = (props: AvatarDrawerProps) => {
 
     return (
         <div>
-            <Button variant="clear" onClick={() => toggleDrawer()}>
+            <Button variant="ghost" onClick={() => toggleDrawer()}>
                 <HStack align="center" gap="8">
                     <UserIcon className={cls.userIconBurger} />
                     {userEmail}
@@ -56,7 +56,7 @@ export const AvatarDrawer = (props: AvatarDrawerProps) => {
                                     key={index}
                                     onClick={onLogout}
                                     className={`${cls.redColor} ${cls.item} ${cls.content}`}
-                                    variant="clear"
+                                    variant="ghost"
                                 >
                                     {link.content}
                                 </Button>

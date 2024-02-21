@@ -29,7 +29,7 @@
     border-radius: 4px;
 
      &:focus {
-        border-color: blue;
+        outline: 1px solid black;
     }
 }
 
@@ -43,32 +43,9 @@
     }
 }
 
-.fullWidth {
-    width: 100%;
-}
-
-.label {
-    display: flex;
-}
-
-// New
-.wrapper {
-    display: flex;
-}
-
-// Direction Flex
-.row {
-    flex-direction: row;
-}
-
-.column {
-    flex-direction: column;
-}
-
-.rowReverse {
-    flex-direction: row-reverse;
-}
-
-.columnReverse {
-    flex-direction: column-reverse;
+.readOnly {
+    cursor: default;
+    &:focus {
+        outline: none;
+    }
 }

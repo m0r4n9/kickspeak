@@ -1,14 +1,12 @@
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './ProfileHeader.module.scss';
-import { memo } from 'react';
+import { getProfileReadonly } from '../../model/selectors/getProfileReadonly/getProfileReadonly';
+import { profileActions } from '../../model/slice/profileSlice';
 import { Button } from '@/shared/ui/Button';
 import { HStack } from '@/shared/ui/Stack';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
-import {
-    getProfileReadonly,
-    profileActions,
-} from '@/features/EditProfileCards';
-import { useSelector } from 'react-redux';
 
 interface ProfileHeaderProps {
     className?: string;

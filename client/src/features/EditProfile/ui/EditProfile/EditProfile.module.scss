@@ -15,11 +15,6 @@
           justify-content: center;
           gap: 16px;
 
-          .Input {
-            width: 100%;
-          }
-
-
           label, .accountDesc {
               width: 90vw;
           }
@@ -48,9 +43,6 @@
 
   .avatarData {
       height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
       color: var(--primary-40);
       font-size: var(--font-size-l);
@@ -63,5 +55,10 @@
 }
 
 .Input {
+  width: 100%;
   padding: 13px 52px 13px 16px;
+}
+
+.inputError {
+  box-shadow:  0 0 0 1px red;
 }

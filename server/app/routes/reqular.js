@@ -37,6 +37,7 @@ router.get('/products', ProductController.getProducts);
 router.get('/goods/:id', ProductController.getProductDetails);
 router.get('/search', ProductController.searchProducts);
 router.get('/wishlist', ProductController.getWishList);
+router.post('/wishlist', ProductController.addToWishList);
 
 // fil
 router.get('/fill-database', FillDataBaseController.fillDataBase);

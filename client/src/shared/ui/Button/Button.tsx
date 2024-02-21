@@ -1,5 +1,6 @@
 import {
-    ButtonHTMLAttributes, FC,
+    ButtonHTMLAttributes,
+    FC,
     ForwardedRef,
     forwardRef,
     ReactNode,
@@ -7,7 +8,7 @@ import {
 import { classNames, Mods } from '@/shared/lib/classNames/classNames.ts';
 import cls from './Button.module.scss';
 
-export type ButtonVariant = 'clear' | 'card' | 'black' | 'border';
+export type ButtonVariant = 'ghost' | 'card' | 'black' | 'border';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;
@@ -23,7 +24,7 @@ export const Button: FC<ButtonProps> = forwardRef(
     (props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
         const {
             children,
-            variant = 'clear',
+            variant = 'ghost',
             width,
             disabled,
             fullWidth,

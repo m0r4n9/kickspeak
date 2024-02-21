@@ -1,6 +1,6 @@
-export { EditProfileCards } from './ui/EditProfileCards/EditProfileCards.tsx';
+export { EditProfile } from './ui/EditProfile/EditProfile.tsx';
 export type { ProfileSchema } from './model/types/editProfileCardsSchema.ts';
-export { profileActions } from './model/slice/profileSlice.ts';
+export { profileActions, profileReducer } from './model/slice/profileSlice.ts';
 export { fetchProfileData } from './model/services/fetchProfileData/fetchProfileData.ts';
 export { updateProfile } from './model/services/updateProfile/updateProfile.ts';
 export { getProfileReadonly } from './model/selectors/getProfileReadonly/getProfileReadonly.ts';

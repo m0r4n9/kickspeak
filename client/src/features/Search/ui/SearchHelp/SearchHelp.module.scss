@@ -1,0 +1,24 @@
+.leftSide {
+    flex: 0 1 27%;
+    height: 100%;
+}
+
+.searchHelp {
+    margin-bottom: 2rem;
+}
+
+.searchHelpItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    align-items: center;
+    cursor: pointer;
+
+    border-bottom: 1px solid var(--primary-05);
+}
+
+@media (max-width: 990px) {
+    .leftSide {
+        padding: 0 2rem;
+    }
+}
