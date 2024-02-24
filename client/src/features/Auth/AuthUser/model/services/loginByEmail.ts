@@ -3,6 +3,7 @@ import { User, userActions } from '@/entities/User';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import axios, { AxiosError } from 'axios';
 import { ErrorInterface } from '@/shared/interfaces/ApiError';
+import { fetchCarts } from '@/entities/Cart';
 
 interface LoginByEmailProps {
     email: string;
@@ -10,7 +11,7 @@ interface LoginByEmailProps {
 }
 
 export const loginByEmail = createAsyncThunk<
-    User,
+    void,
     LoginByEmailProps,
     ThunkConfig<ErrorInterface>
 >('login/loginByEmail', async (authData, thunkAPI) => {
@@ -19,7 +20,7 @@ export const loginByEmail = createAsyncThunk<
     try {
         const response = await extra.api.post('/login', authData);
         dispatch(userActions.setAuthData(response.data));
-        return response.data;
+        dispatch(fetchCarts());
     } catch (error) {
         if (axios.isAxiosError(error)) {
             const serverError = error as AxiosError<ErrorInterface>;

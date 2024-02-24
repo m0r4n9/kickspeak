@@ -1,4 +1,4 @@
-import React, {lazy, memo, Suspense, useCallback, useEffect, useState} from 'react';
+import { memo, Suspense, useCallback, useEffect, useState } from 'react';
 import {
     AppRoutesProps,
     routeConfig,
@@ -32,44 +32,45 @@ const AppRoute = () => {
 
     const renderWithWrapper = useCallback(
         (route: AppRoutesProps) => {
-            const element = <Suspense fallback={''}>{route.element}</Suspense>;
-            let content;
+            if (!complete) {
+                return (
+                    <Route
+                        key={route.path}
+                        path={route.path}
+                        element={
+                            <HStack max justify="center" align="center">
+                                <Loader />
+                            </HStack>
+                        }
+                    />
+                );
+            }
 
-            content = (
+            const element = <Suspense fallback={''}>{route.element}</Suspense>;
+            let content = (
                 <>
                     <Navbar />
                     {element}
                 </>
             );
 
-            if (route.authOnly) {
-                content = complete ? (
+            if (route.authOnly && !route.adminPanel) {
+                content = (
                     <RequireAuth>
                         <Navbar />
                         {element}
                     </RequireAuth>
-                ) : (
-                    <>
-                        <Navbar />
-                        <HStack
-                            max
-                            justify="between"
-                            style={{ marginTop: 200 }}
-                        >
-                            <Loader />
-                        </HStack>
-                    </>
                 );
             }
 
             if (route.adminPanel) {
-                content = complete ? (
-                    <RequireAuth roles={route.role}>{element}</RequireAuth>
-                ) : (
-                    <HStack max justify="center" style={{ marginTop: 200 }}>
-                        <Loader />
-                    </HStack>
-                );
+                if (route.authOnly) {
+                    content = (
+                        <RequireAuth roles={route.role}>{element}</RequireAuth>
+                    );
+                } else {
+                    content = element;
+                }
             }
 
             return (
@@ -79,8 +80,6 @@ const AppRoute = () => {
         [complete],
     );
 
-    return (<Routes>
-        {Object.values(routeConfig).map(renderWithWrapper)}
-    </Routes>);
+    return <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>;
 };
 export default memo(AppRoute);

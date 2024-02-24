@@ -11,7 +11,7 @@ import { Sidebar } from '@/shared/ui/Sidebar';
 import { ReactComponent as BurgerIcon } from '@/shared/assets/icons/burger.svg';
 import { ReactComponent as CrossIcon } from '@/shared/assets/icons/cross-icon.svg';
 import { ReactComponent as ArrowIcon } from '@/shared/assets/icons/arrow.svg';
-import {Simulate} from "react-dom/test-utils";
+import { Simulate } from 'react-dom/test-utils';
 import toggle = Simulate.toggle;
 
 interface NavbarBurgerProps {
@@ -37,7 +37,7 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
     return (
         <div className={classNames(cls.NavbarBurger, {}, [className])}>
             <Button
-                variant="clear"
+                variant="ghost"
                 className={cls.toggleButton}
                 onClick={() => {
                     toggleRightBar();
@@ -57,7 +57,7 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
                         <div>каталог</div>
                         <div className={cls.exitBtn}>
                             <Button
-                                variant="clear"
+                                variant="ghost"
                                 onClick={() => toggleRightBar()}
                             >
                                 <CrossIcon style={{ width: 16 }} />
@@ -97,7 +97,7 @@ export const NavbarBurger = memo((props: NavbarBurgerProps) => {
                             <AvatarDropdown isMobile={isMatch} />
                         ) : (
                             <Button
-                                variant="clear"
+                                variant="ghost"
                                 onClick={() => {
                                     toggleRightBar();
                                     onShowModal();

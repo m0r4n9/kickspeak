@@ -1,8 +1,7 @@
-const { User, Cart } = require('../../models/user');
+const { User, Cart, Product, Size } = require('../../models/models');
 const { Op } = require('sequelize');
 const ApiError = require('../../exceptions/api-error');
 const bcrypt = require('bcrypt');
-const { Product, Size } = require('../../models/product');
 
 class UserAdminService {
     async getUsers(limit, page, query) {
@@ -27,7 +26,7 @@ class UserAdminService {
 
         return {
             users,
-            totalUsers
+            totalUsers,
         };
     }
 

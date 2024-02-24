@@ -27,6 +27,10 @@
     outline: none;
     border: 1px solid var(--primary-10);
     border-radius: 4px;
+
+     &:focus {
+        outline: 1px solid black;
+    }
 }
 
 .search {
@@ -39,18 +43,9 @@
     }
 }
 
-.fullWidth {
-    width: 100%;
-}
-
-.label {
-    display: flex;
-}
-
-.labelRow {
-    flex-direction: row;
-}
-
-.labelColumn {
-    flex-direction: column;
+.readOnly {
+    cursor: default;
+    &:focus {
+        outline: none;
+    }
 }

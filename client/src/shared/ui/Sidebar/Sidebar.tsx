@@ -13,6 +13,7 @@ interface SidebarProps {
     onClose?: () => void;
     children: ReactNode;
     variant?: variatnSizeOpen;
+    overlay?: boolean;
 }
 
 export const Sidebar = (props: SidebarProps) => {
@@ -22,6 +23,7 @@ export const Sidebar = (props: SidebarProps) => {
         onClose,
         children,
         variant = 'rightSide',
+        overlay = true,
     } = props;
 
     return (
@@ -34,7 +36,10 @@ export const Sidebar = (props: SidebarProps) => {
                             className,
                         ])}
                     >
-                        <Overlay onClick={onClose} className={cls.overlay} />
+                        <Overlay
+                            onClick={onClose}
+                            className={!overlay ? `${cls.overlayDisabled}` : ''}
+                        />
                         <motion.div
                             initial={{ width: 0, opacity: 0 }}
                             animate={{ width: 350, opacity: 1 }}

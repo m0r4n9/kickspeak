@@ -1,4 +1,4 @@
-const { Brand, Product, Size, Image } = require('../models/product');
+const { Brand, Product, Size, Image } = require('../models/models');
 const { Op } = require('sequelize');
 const {
     typeOrder,
@@ -6,7 +6,6 @@ const {
     priceFilter,
     sexFilter,
 } = require('../utils/productsQueryFilter');
-const { hash } = require('bcrypt');
 
 class BrandService {
     async getBrands() {
@@ -14,8 +13,8 @@ class BrandService {
             include: [
                 {
                     model: Product,
-                    attributes: ["id"]
-                }
+                    attributes: ['id'],
+                },
             ],
             attributes: {
                 exclude: ['foundation', 'country', 'logo', 'data'],

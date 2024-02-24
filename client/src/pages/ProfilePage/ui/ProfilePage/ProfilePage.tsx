@@ -3,7 +3,7 @@ import cls from './ProfilePage.module.scss';
 import { useSelector } from 'react-redux';
 import { memo, useEffect, useState } from 'react';
 import { HStack } from '@/shared/ui/Stack';
-import { EditProfileCards } from '@/features/EditProfileCards';
+import { EditProfile, profileReducer } from '@/features/EditProfile';
 import { getUserAuthData } from '@/entities/User';
 import { ProfileSidebar } from '../ProfileSidebar/ProfileSidebar.tsx';
 import {
@@ -11,7 +11,6 @@ import {
     ReducerList,
 } from '@/shared/lib/components/DynamicModuleLoader.tsx';
 // TODO: сделать абсолютный импорт
-import { profileReducer } from '@/features/EditProfileCards/model/slice/profileSlice.ts';
 import { Page } from '@/widgets/Page';
 import { useIsMath } from '@/shared/hooks/useIsMath';
 
@@ -29,11 +28,11 @@ const options = {
     threshold: 1,
 };
 
-export const ProfilePage = (props: ProfilePageProps) => {
+const ProfilePage = (props: ProfilePageProps) => {
     const { className } = props;
+    const { isMatch } = useIsMath();
     const user = useSelector(getUserAuthData);
     const [activeElement, setActiveElement] = useState('name');
-    const { isMatch } = useIsMath();
 
     useEffect(() => {
         if (isMatch) return;
@@ -65,12 +64,14 @@ export const ProfilePage = (props: ProfilePageProps) => {
                     align="start"
                     className={classNames(cls.ProfilePage, {}, [className])}
                 >
-                    <EditProfileCards id={user?.id} />
-                    {!isMatch && <ProfileSidebar activeElement={activeElement} />}
+                    <EditProfile id={user?.id} />
+                    {!isMatch && (
+                        <ProfileSidebar activeElement={activeElement} />
+                    )}
                 </HStack>
             </Page>
         </DynamicModuleLoader>
     );
 };
 
-export default memo(ProfilePage);
+export default ProfilePage;

@@ -1,23 +1,24 @@
+import { memo, MutableRefObject, useMemo, useRef, useState } from 'react';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './ProductItem.module.scss';
-import { memo, MutableRefObject, useMemo, useRef, useState } from 'react';
+import { Product } from '../../model/types/product.ts';
+import { ProductSizes } from './ProductSizes/ProductSizes.tsx';
+import { useIsMath } from '@/shared/hooks/useIsMath';
+import { IMG_BASE_URL } from '@/shared/api/api.ts';
 import { Card } from '@/shared/ui/Card';
 import { AppImage } from '@/shared/ui/AppImage';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
-import { Product } from '../../model/types/product.ts';
 import { CardOverlay } from '@/shared/ui/CardOverlay';
 import { AppLink } from '@/shared/ui/AppLink';
 import { getRouteProductDetails } from '@/shared/const/route.ts';
-import { ProductSizes } from './ProductSizes/ProductSizes.tsx';
-import { useIsMath } from '@/shared/hooks/useIsMath';
-import { IMG_BASE_URL } from '@/shared/api/api.ts';
+import { AddToWishList } from '@/features/wishlist/addToWishlist/index.ts';
 
 interface ProductItemProps {
     className?: string;
     product?: Product;
-    addProductCart?: (productId: number, sizeId: number) => void;
     offSize?: boolean;
+    addProductCart?: (productId: string, sizeId: string) => void;
 }
 
 export const ProductItem = memo((props: ProductItemProps) => {
@@ -51,13 +52,8 @@ export const ProductItem = memo((props: ProductItemProps) => {
         return heightSizes * 32 + elementRef.current.clientHeight + 24;
     }, [elementRef.current]);
 
-    const onMouseEnter = () => {
-        setHover(true);
-    };
-
-    const onMouseLeave = () => {
-        setHover(false);
-    };
+    const onMouseEnter = () => setHover(true);
+    const onMouseLeave = () => setHover(false);
 
     return (
         <Card
@@ -69,11 +65,10 @@ export const ProductItem = memo((props: ProductItemProps) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
+            <AddToWishList productId={product.id} hover={hover} />
             <AppLink
-                to={getRouteProductDetails(product.id.toString())}
-                style={{
-                    padding: '36px 8px 24px',
-                }}
+                to={getRouteProductDetails(product.id)}
+                className={cls.linkProduct}
             >
                 {/* OVERLAY */}
                 {!(isMobile || offSize) && (
@@ -90,20 +85,8 @@ export const ProductItem = memo((props: ProductItemProps) => {
                         [],
                     )}
                 >
-                    <div
-                        ref={elementRef}
-                        style={{
-                            display: 'block',
-                            marginBottom: '2rem',
-                            width: '100%',
-                        }}
-                    >
-                        <div
-                            style={{
-                                position: 'relative',
-                                paddingTop: '100%',
-                            }}
-                        >
+                    <div className={cls.wrapperImg}>
+                        <div className={cls.containerImg}>
                             <AppImage
                                 src={IMG_BASE_URL + product?.Images[0]?.url}
                                 className={`${cls.img}  ${cls.positionImg}`}
@@ -114,15 +97,7 @@ export const ProductItem = memo((props: ProductItemProps) => {
                     <VStack gap="4" align="center" max>
                         <Text text={product?.Brand?.name} />
                         <div className={cls.productName}>{product.name}</div>
-                        <div
-                            style={{
-                                zIndex: 2,
-                            }}
-                        >
-                            <Text
-                                text={`${product.price.toLocaleString()} ₽`}
-                            />
-                        </div>
+                        <Text text={`${product.price.toLocaleString()} ₽`} />
                     </VStack>
                 </VStack>
             </AppLink>

@@ -1,25 +1,17 @@
+import { HStack, VStack } from '@/shared/ui/Stack';
 import cls from './AdminLoginPage.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { LoginForm } from '@/features/Auth/AuthUser';
-import {getRouteAdminBrands, getRouteAdminUsers} from "@/shared/const/route.ts";
-
+import { SignInAdmin } from '@/features/Auth/AuthAdmin';
 
 export const AdminLoginPage = () => {
-    const navigate = useNavigate();
-
     return (
-        <div className={cls.AdminLoginPage}>
-            <div className={cls.wrapperForm}>
-                <div className={cls.form}>
-                    <LoginForm
-                        onSuccess={() => {
-                            navigate(getRouteAdminBrands());
-                        }}
-                        registrationForm={false}
-                    />
-                </div>
+        <HStack align="center" justify="center" className={cls.AdminLoginPage}>
+            <div className={cls.content}>
+                <VStack gap="16" max>
+                    <h2>Вход в панель администратора.</h2>
+                    <SignInAdmin />
+                </VStack>
             </div>
-        </div>
+        </HStack>
     );
 };
 

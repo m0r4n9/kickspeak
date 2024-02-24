@@ -1,43 +1,36 @@
-import {useCallback, useEffect} from 'react';
+import { useCallback, useEffect } from 'react';
 import cls from './WishListPage.module.scss';
-import { classNames } from '@/shared/lib/classNames/classNames.ts';
 import { wishListReducer } from '../../model/slice/wishListSlice.ts';
 import { fetchWishList } from '../../model/services/fetchWishList.ts';
-import {getWishListProducts} from "../../model/selectors/getWishListProducts/getWishListProducts.ts";
+import { getWishListProducts } from '../../model/selectors/getWishListProducts/getWishListProducts.ts';
 import { DynamicModuleLoader } from '@/shared/lib/components';
 import { ReducerList } from '@/shared/lib/components/DynamicModuleLoader.tsx';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Page } from '@/widgets/Page';
-import {useSelector} from "react-redux";
-import {ProductItem} from "@/entities/Product";
-import {addProductCart} from "@/entities/Cart";
-
-interface WishListPageProps {
-    className?: string;
-}
+import { useSelector } from 'react-redux';
+import { ProductItem } from '@/entities/Product';
+import { addProductCart } from '@/entities/Cart';
 
 const reducer: ReducerList = {
     wishList: wishListReducer,
 };
 
-const WishListPage = (props: WishListPageProps) => {
-    const { className } = props;
+const WishListPage = () => {
     const dispatch = useAppDispatch();
     const products = useSelector(getWishListProducts);
 
     const addProduct = useCallback(
-        (productId: number, sizeId: number) => {
+        (productId: string, sizeId: string) => {
             dispatch(
                 addProductCart({
-                    productId,
-                    sizeId,
+                    productId: Number(productId),
+                    sizeId: Number(sizeId),
                 }),
             );
         },
         [dispatch],
     );
-
 
     useEffect(() => {
         dispatch(fetchWishList());
@@ -52,8 +45,13 @@ const WishListPage = (props: WishListPageProps) => {
                     </HStack>
 
                     <HStack max align="stretch" className={cls.list}>
-                        {products?.map(product => (
-                            <ProductItem key={product.id} product={product} addProductCart={addProduct}/>
+                        df
+                        {products?.map((product) => (
+                            <ProductItem
+                                key={product.id}
+                                product={product}
+                                addProductCart={addProduct}
+                            />
                         ))}
                     </HStack>
                 </VStack>

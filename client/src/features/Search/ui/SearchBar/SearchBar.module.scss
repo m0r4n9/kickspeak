@@ -4,6 +4,7 @@
 
 .searchPopup {
     position: fixed;
+    overflow-y: auto;
     z-index: 100;
     top: var(--navbar-height);
     right: 0;
@@ -31,59 +32,7 @@
     width: 100%;
 }
 
-// SEARCH INPUT
-.headerSearch {
-    margin-bottom: 3rem;
-
-    .filterSearch {
-        position: relative;
-        width: 100%;
-
-        .searchInput {
-            padding: 0.5rem 2.5rem;
-            background-color: var(--primary-05);
-            height: 2.5rem;
-            border-radius: 4px;
-        }
-
-        .searchIcon {
-            width: 16px;
-            height: 16px;
-
-            position: absolute;
-            top: 50%;
-            left: 1rem;
-            transform: translateY(-50%);
-        }
-    }
-}
-
-
-.leftSide {
-    flex: 0 1 27%;
-    height: 100%;
-
-    .searchHelp {
-        margin-bottom: 2rem;
-
-        .searchHelpItem {
-            display: flex;
-            justify-content: space-between;
-            padding: 16px 0;
-            align-items: center;
-            cursor: pointer;
-
-            border-bottom: 1px solid var(--primary-05);
-        }
-    }
-}
-
-
 .rightSide {
-    //-webkit-box-flex: 1;
-    //-ms-flex: 1 2 auto;
-    //flex: 1 2 auto;
-
     .productCatalog {
         display: grid;
         grid-auto-flow: row;
@@ -94,17 +43,19 @@
     }
 }
 
-@media (max-width: 1400px) {
-    .rightSide .productCatalog {
-        grid-template-columns: repeat(auto-fit, minmax(210px, 33%));
+@media (max-width: 990px) {
+    .container {
+        padding: 0;
+    }
 
-        .catalogItem:last-child {
-            display: none;
-        }
+    .rightSide .productCatalog {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 50%));
+    }
+
+    .content {
+        flex-direction: column;
     }
 }
-
-
 
 @keyframes appearSearchBar {
     0% {
@@ -117,7 +68,6 @@
 
 @keyframes closeSearchBart {
     0% {
-
         transform: translateY(0);
     }
     30% {

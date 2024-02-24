@@ -8,6 +8,7 @@ import {
     getRouteBrands,
     getRouteCatalog,
     getRouteMain,
+    getRouteWishList,
 } from '@/shared/const/route.ts';
 import { getUserAuthData, getUserIsLoading } from '@/entities/User';
 import { AvatarDropdown } from '@/features/avatarDropdown';
@@ -90,7 +91,7 @@ export const Navbar = memo((props: NavbarProps) => {
 
                 <HStack justify="end" className={cls.headerActions}>
                     <HStack className={cls.wrapperIcon} justify="center">
-                        <AppLink to={'/'}>
+                        <AppLink to={getRouteWishList()}>
                             <StarIcon className={cls.icon} />
                         </AppLink>
                     </HStack>
@@ -101,22 +102,32 @@ export const Navbar = memo((props: NavbarProps) => {
                     />
                     <Cart className={cls.wrapperIcon} />
 
-                    {!isMatch &&
-                        (authData ? (
-                            <AvatarDropdown className={cls.wrapperIcon} />
-                        ) : (
-                            <Button
-                                variant="clear"
-                                onClick={() => toggleAuth()}
-                                disabled={isLoading}
-                                className={cls.wrapperIcon}
-                            >
-                                <UserIcon />
-                            </Button>
-                        ))}
+                    <div
+                        style={{
+                            position: 'relative',
+                        }}
+                    >
+                        {!isMatch &&
+                            (authData ? (
+                                <AvatarDropdown className={cls.wrapperIcon} />
+                            ) : (
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => toggleAuth()}
+                                    disabled={isLoading}
+                                    className={cls.wrapperIcon}
+                                >
+                                    <UserIcon />
+                                </Button>
+                            ))}
+                        <AuthUser
+                            isMatch={isMatch}
+                            isOpen={isOpen}
+                            onClose={toggleAuth}
+                        />
+                    </div>
                 </HStack>
             </HStack>
-            <AuthUser isMatch={isMatch} isOpen={isOpen} onClose={toggleAuth} />
         </header>
     );
 });

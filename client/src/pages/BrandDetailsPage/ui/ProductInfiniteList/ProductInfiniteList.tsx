@@ -14,12 +14,12 @@ import { fetchBrandDetails } from '../../model/services/fetchBrandDetails.ts';
 import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 
-interface ProductInfitineListProps {
+interface ProductInfiniteListProps {
     addProductCart: (productId: number, sizeId: number) => void;
     brand?: Brand;
 }
 
-export const ProductsInfiniteList = memo((props: ProductInfitineListProps) => {
+export const ProductsInfiniteList = memo((props: ProductInfiniteListProps) => {
     const { brand, addProductCart } = props;
     const dispatch = useAppDispatch();
     const products = useSelector(getBrandDetailsDataProducts) || [];
@@ -29,19 +29,19 @@ export const ProductsInfiniteList = memo((props: ProductInfitineListProps) => {
     const nextPage = useCallback(() => {
         if (!page || !brand) return;
         dispatch(brandDetailsActions.setPage(page + 1));
-        dispatch(fetchBrandDetails(brand.id.toString()));
+        dispatch(fetchBrandDetails(brand.id));
     }, [page, brand]);
 
     const firstPage = useCallback(() => {
         if (!brand) return;
         dispatch(brandDetailsActions.setPage(1));
-        dispatch(fetchBrandDetails(brand.id.toString()));
+        dispatch(fetchBrandDetails(brand.id));
     }, [page, brand]);
 
     const prevPage = useCallback(() => {
         if (!page || !brand) return;
         dispatch(brandDetailsActions.setPage(page - 1));
-        dispatch(fetchBrandDetails(brand.id.toString()));
+        dispatch(fetchBrandDetails(brand.id));
     }, [page, brand]);
 
     return (

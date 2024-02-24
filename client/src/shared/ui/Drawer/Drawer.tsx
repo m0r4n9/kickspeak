@@ -45,7 +45,7 @@ export const Drawer = (props: DrawerProps) => {
                         <div className={classNames(cls.container, {})}>
                             <div>
                                 <Button
-                                    variant="clear"
+                                    variant="ghost"
                                     className={cls.exitBtn}
                                     onClick={onClose}
                                 >

@@ -5,7 +5,8 @@ import {
     getRouteAdminBrandCreate,
     getRouteAdminBrandDetails,
     getRouteAdminBrands,
-    getRouteAdminProductCreate, getRouteAdminProductDetails,
+    getRouteAdminProductCreate,
+    getRouteAdminProductDetails,
     getRouteAdminProducts,
     getRouteAdminUserDetails,
     getRouteAdminUsers,
@@ -33,7 +34,7 @@ import { AdminBrandCreatePage } from '@/pages/AdminPages/Brands/AdminBrandCreate
 import { AdminProductsPage } from '@/pages/AdminPages/Products/AdminProductsPage';
 import { AdminProductCreatePage } from '@/pages/AdminPages/Products/AdminProductCreatePage';
 import { AdminBrandEditPage } from '@/pages/AdminPages/Brands/AdminBrandEditPage';
-import {AdminProductEditPage} from "@/pages/AdminPages/Products/AdminProductEditPage";
+import { AdminProductEditPage } from '@/pages/AdminPages/Products/AdminProductEditPage';
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -102,18 +103,21 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         authOnly: true,
         adminPanel: true,
         element: <AdminProductsPage />,
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_PRODUCT_CREATE]: {
         path: getRouteAdminProductCreate(),
         authOnly: true,
         adminPanel: true,
         element: <AdminProductCreatePage />,
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_PRODUCT_DETAILS]: {
         path: getRouteAdminProductDetails(':id'),
         authOnly: true,
         adminPanel: true,
-        element: <AdminProductEditPage/>
+        element: <AdminProductEditPage />,
+        role: [UserRole.ADMIN],
     },
     [AppRoutes.ADMIN_USERS]: {
         path: getRouteAdminUsers(),
