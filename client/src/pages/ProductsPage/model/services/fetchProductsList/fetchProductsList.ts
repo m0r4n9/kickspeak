@@ -1,28 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from '@/app/providers/StoreProvider/config/StateSchema.ts';
 import {
+    getProductOptionPrice,
     getProductsColor,
-    getProductsEndPrice,
     getProductSex,
     getProductsLimit,
     getProductsOrder,
     getProductsPageNumber,
-    getProductsStartPrice,
 } from '../../selectors/productsPageSelector.ts';
-import { Product } from '@/entities/Product';
 import { addQueryParams } from '@/shared/lib/url/addQueryParams';
+import { FetchProductsData } from '../../types/productsPageSchema.ts';
 
 interface FetchProductsListProps {
     replace?: boolean;
 }
 
-interface ReturnedData {
-    products: Product[];
-    hasMore: boolean;
-}
-
 export const fetchProductsList = createAsyncThunk<
-    ReturnedData,
+    FetchProductsData,
     FetchProductsListProps,
     ThunkConfig<string>
 >('productsPage/fetchProductsList', async (props, thunkAPI) => {
@@ -31,9 +25,9 @@ export const fetchProductsList = createAsyncThunk<
     const page = getProductsPageNumber(getState());
     const order = getProductsOrder(getState());
     const colors = getProductsColor(getState())?.join(',');
-    const priceStart = getProductsStartPrice(getState());
-    const priceEnd = getProductsEndPrice(getState());
     const sex = getProductSex(getState())?.join(',');
+
+    const { min, max } = getProductOptionPrice(getState());
 
     try {
         addQueryParams({
@@ -41,12 +35,12 @@ export const fetchProductsList = createAsyncThunk<
             colors,
             order,
         });
-        const response = await extra.api.get<ReturnedData>('/products', {
+        const response = await extra.api.get<FetchProductsData>('/products', {
             params: {
                 _order: order,
                 _limit: limit,
                 _page: page,
-                _price: `${priceStart},${priceEnd}`,
+                _price: `${min},${max}`,
                 _color: colors,
                 _sex: sex,
             },

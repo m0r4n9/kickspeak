@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import cls from './ProductInfiniteList.module.scss';
 import { ProductList } from '@/widgets/ProductList';
@@ -15,11 +15,11 @@ import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 
 interface ProductInfiniteListProps {
-    addProductCart: (productId: number, sizeId: number) => void;
+    addProductCart: (productId: string, sizeId: string) => void;
     brand?: Brand;
 }
 
-export const ProductsInfiniteList = memo((props: ProductInfiniteListProps) => {
+export const ProductsInfiniteList = (props: ProductInfiniteListProps) => {
     const { brand, addProductCart } = props;
     const dispatch = useAppDispatch();
     const products = useSelector(getBrandDetailsDataProducts) || [];
@@ -61,4 +61,4 @@ export const ProductsInfiniteList = memo((props: ProductInfiniteListProps) => {
             />
         </VStack>
     );
-});
+};

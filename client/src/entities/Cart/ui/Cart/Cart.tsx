@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './Cart.module.scss';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { CartItem } from '../CartItem/CartItem.tsx';
 import { getCartProducts } from '../../model/slice/cartSlice.ts';
 import { removeProductCart } from '../../model/services/removeProductCart/removeProductCart.ts';
@@ -13,6 +13,7 @@ import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { getRouteCatalog } from '@/shared/const/route.ts';
 import { ReactComponent as CartIcon } from '@/shared/assets/icons/cart-icon-m.svg';
 import { useDropdown } from '@/shared/hooks/useDropdown';
+import { fetchCarts } from '../../index.ts';
 
 interface ShoppingCartProps {
     className?: string;
@@ -30,6 +31,10 @@ export const Cart = memo((props: ShoppingCartProps) => {
         onToggle: onToggleCart,
         isClosing,
     } = useDropdown({});
+
+    useEffect(() => {
+        dispatch(fetchCarts());
+    }, []);
 
     const deleteProductCart = useCallback(
         (productId: number, sizeId: number) => {

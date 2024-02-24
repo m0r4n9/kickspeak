@@ -19,7 +19,7 @@ import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { addProductCart, getCartError } from '@/entities/Cart';
 import { Loader } from '@/shared/ui/Loader';
-import { Popup } from '@/shared/ui/Popup';
+import { toast } from 'sonner';
 
 export const ProductsInfiniteList = () => {
     const dispatch = useAppDispatch();
@@ -31,13 +31,21 @@ export const ProductsInfiniteList = () => {
     const errorCart = useSelector(getCartError);
 
     const addProduct = useCallback(
-        (productId: string, sizeId: string) => {
+        async (productId: string, sizeId: string) => {
             dispatch(
                 addProductCart({
                     productId: Number(productId),
                     sizeId: Number(sizeId),
                 }),
-            );
+            ).then((res) => {
+                const status = res.meta.requestStatus;
+                if (status === 'fulfilled') {
+                    toast.success('Товар успешно добавлен в корзину.');
+                } else if (status === 'rejected') {
+                    console.log('@', errorCart);
+                    toast.error(errorCart);
+                }
+            });
         },
         [dispatch],
     );
@@ -80,19 +88,18 @@ export const ProductsInfiniteList = () => {
     }
 
     return (
-        <VStack>
-            {errorCart && (
-                <Popup content={errorCart} title="Ошибка" bgColor="bgRed" />
-            )}
-            <ProductList products={products} addToCart={addProduct} />
-            <Pagination
-                hasMore={hasMore}
-                pageNumber={page}
-                prevPage={prevPage}
-                nextPage={nextPage}
-                startPage={firstPage}
-                className={cls.productsPagination}
-            />
-        </VStack>
+        <div className={cls.content}>
+            <VStack>
+                <ProductList products={products} addToCart={addProduct} />
+                <Pagination
+                    hasMore={hasMore}
+                    pageNumber={page}
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    startPage={firstPage}
+                    className={cls.productsPagination}
+                />
+            </VStack>
+        </div>
     );
 };

@@ -12,7 +12,7 @@ export const fetchCarts = createAsyncThunk<
     const userData = getUserAuthData(getState());
 
     if (!userData) {
-        return rejectWithValue('Пользователь не найден');
+        return rejectWithValue('Пользователь не автрризован.');
     }
 
     try {

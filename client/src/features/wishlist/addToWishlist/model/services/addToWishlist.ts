@@ -2,8 +2,10 @@ import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { getUserAuthData } from '@/entities/User';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+type request = 'add' | 'delete';
+
 export const addToWishlist = createAsyncThunk<
-    void,
+    request,
     { productId: string },
     ThunkConfig<string>
 >('wishlist/addToWishlist', async ({ productId }, thunkAPI) => {
@@ -15,11 +17,13 @@ export const addToWishlist = createAsyncThunk<
     }
 
     try {
-        await extra.api.post('/wishlist', {
+        const response = await extra.api.post<request>('/wishlist', {
             userId: user.id,
             productId,
         });
+        return response.data;
     } catch (e) {
         console.log('@ - Error wishlist:', e);
+        return rejectWithValue('Error wishlist');
     }
 });

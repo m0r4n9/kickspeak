@@ -1,7 +1,10 @@
-.ProductInfitineList {
-
-}
-
 .productsPagination {
     margin-top: 6rem;
+}
+
+.content {
+    grid-area: content;
+    justify-self: center;
+    padding: 0 16px;
+    width: 100%;
 }

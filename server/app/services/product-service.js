@@ -53,9 +53,17 @@ class ProductService {
                     limit: 1,
                     order: [['id', 'ASC']],
                 },
+                {
+                    model: UserFavoriteProduct,
+                    where: {
+                        UserId: 1,
+                    },
+
+                    required: false,
+                },
             ],
             attributes: {
-                exclude: ['BrandId', 'code'],
+                exclude: ['BrandId', 'code', 'UserFavoriteProductUserId'],
             },
         });
 
@@ -66,10 +74,23 @@ class ProductService {
                 ...sexType,
             },
         });
-
         const hasMore = page * limit < amount;
+        const maxPriceDB = await Product.max('price', {
+            where: {
+                ...colorsType,
+                ...priceType,
+                ...sexType,
+            },
+        });
+        const minPriceDB = await Product.min('price', {
+            where: {
+                ...colorsType,
+                ...priceType,
+                ...sexType,
+            },
+        });
 
-        return { products, hasMore };
+        return { products, hasMore, maxPriceDB, minPriceDB };
     }
 
     async getProductDetails(id, idRecentProducts) {
@@ -233,11 +254,24 @@ class ProductService {
     }
 
     async addToWishList(UserId, ProductId) {
-        const result = await UserFavoriteProduct.create({
+        const existsWish = await UserFavoriteProduct.findOne({
+            where: {
+                UserId,
+                ProductId,
+            },
+        });
+
+        if (existsWish) {
+            existsWish.destroy();
+            return 'delete';
+        }
+
+        await UserFavoriteProduct.create({
             UserId,
             ProductId,
         });
-        return result;
+
+        return 'add';
     }
 }
 

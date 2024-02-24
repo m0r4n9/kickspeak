@@ -1,22 +1,37 @@
-import {EntityState} from "@reduxjs/toolkit";
-import {Product, ProductColor, ProductSexField} from "@/entities/Product";
-import {SortOrder} from "@/entities/Product";
+import { EntityState } from '@reduxjs/toolkit';
+import { Product, ProductColor, ProductSexField } from '@/entities/Product';
+import { SortOrder } from '@/entities/Product';
 
 export interface ProductsPageSchema extends EntityState<Product> {
     isLoading?: boolean;
     error?: string;
+    _inited: boolean;
 
     // Pagination
     page: number;
     limit: number;
     hasMore: boolean;
 
-    // Filters
-    sex: ProductSexField[];
-    priceStart: number;
-    priceEnd: number;
-    order: SortOrder;
-    color: ProductColor[];
+    maxPriceDB?: number;
+    minPriceDB?: number;
 
-    _inited: boolean;
+    UserFavoriteProducts?: {
+        userId: string;
+    };
+
+    // Filters
+    filters: {
+        sex: ProductSexField[];
+        maxPrice: number;
+        minPrice: number;
+        order: SortOrder;
+        color: (typeof ProductColor)[];
+    };
+}
+
+export interface FetchProductsData {
+    products: Product[];
+    hasMore: boolean;
+    maxPriceDB: number;
+    minPriceDB: number;
 }

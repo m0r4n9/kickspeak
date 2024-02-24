@@ -8,21 +8,31 @@ export const getProductsPageNumber = (state: StateSchema) =>
     state.productsPage?.page;
 export const getProductPageHasMore = (state: StateSchema) =>
     state.productsPage?.hasMore;
-export const getProductsStartPrice = (state: StateSchema) =>
-    state.productsPage?.priceStart || 0;
-export const getProductsEndPrice = (state: StateSchema) =>
-    state.productsPage?.priceEnd || 45200;
+export const getProductsMinPrice = (state: StateSchema) =>
+    state.productsPage?.filters?.minPrice;
+export const getProductsMaxPrice = (state: StateSchema) =>
+    state.productsPage?.filters?.maxPrice;
 export const getProductstInited = (state: StateSchema) =>
     state.productsPage?._inited;
 export const getProductsColor = (state: StateSchema) =>
-    state.productsPage?.color;
+    state.productsPage?.filters?.color;
 
 export const getProductsLimit = (state: StateSchema) =>
     state.productsPage?.limit || 10;
 export const getProductsHasMore = (state: StateSchema) =>
     state.productsPage?.hasMore;
 export const getProductsOrder = (state: StateSchema) =>
-    state.productsPage?.order || '';
+    state.productsPage?.filters?.order || '';
 
 export const getProductSex = (state: StateSchema) =>
-    state.productsPage?.sex;
+    state.productsPage?.filters?.sex;
+
+export const getProductOptionPrice = (state: StateSchema) => ({
+    min: state.productsPage?.filters?.minPrice,
+    max: state.productsPage?.filters?.maxPrice,
+});
+
+export const getProductsMinPriceDB = (state: StateSchema) =>
+    state.productsPage?.minPriceDB;
+export const getProductsMaxPriceDB = (state: StateSchema) =>
+    state.productsPage?.maxPriceDB;

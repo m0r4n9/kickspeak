@@ -4,6 +4,7 @@ import { ReactComponent as StartIcon } from '@/shared/assets/icons/star-icon-m.s
 import { Button } from '@/shared/ui/Button';
 import { addToWishlist } from '../../model/services/addToWishlist';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
+import { toast } from 'sonner';
 
 interface AddToWishListProps {
     hover: boolean;
@@ -15,7 +16,15 @@ export const AddToWishList = (props: AddToWishListProps) => {
     const dispatch = useAppDispatch();
 
     const addProductToWishList = () => {
-        dispatch(addToWishlist({ productId }));
+        dispatch(addToWishlist({ productId })).then((res) => {
+            const action = res.payload;
+            if (action === 'add') {
+                toast.success('Товар добавлен в избранное.');
+            }
+            if (action === 'delete') {
+                toast.error('Товар удален из избранного.');
+            }
+        });
     };
 
     return (

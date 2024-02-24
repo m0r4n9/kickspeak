@@ -3,7 +3,7 @@ import {
     createSlice,
     PayloadAction,
 } from '@reduxjs/toolkit';
-import {
+import type {
     Product,
     ProductColor,
     ProductSexField,
@@ -32,58 +32,63 @@ const productsPageSlice = createSlice({
         page: 1,
         limit: 10,
         hasMore: true,
+        maxPriceDB: undefined,
+        minPriceDB: undefined,
         _inited: false,
-        order: '',
-        color: [],
-        sex: [],
-        priceStart: 0,
-        priceEnd: 0,
+        filters: {
+            order: '',
+            color: [],
+            sex: [],
+            minPrice: 0,
+            maxPrice: 0,
+        },
     }),
     reducers: {
         setPage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         },
         setPriceStart: (state, action: PayloadAction<number>) => {
-            state.priceStart = action.payload;
+            state.filters.minPrice = action.payload;
         },
         setPriceEnd: (state, action: PayloadAction<number>) => {
-            state.priceEnd = action.payload;
+            state.filters.maxPrice = action.payload;
         },
         setOrder: (state, action: PayloadAction<SortOrder>) => {
-            state.order = action.payload;
+            state.filters.order = action.payload;
         },
-        setColor: (state, action: PayloadAction<ProductColor>) => {
-            state.color.push(action.payload);
+        setColor: (state, action: PayloadAction<typeof ProductColor>) => {
+            state.filters.color.push(action.payload);
         },
-        removeColor: (state, action: PayloadAction<ProductColor>) => {
-            if (state.color.includes(action.payload)) {
-                let newColors: ProductColor[] = [];
-                for (let variable of state.color) {
-                    if (variable !== action.payload) newColors.push(variable);
-                }
-                state.color = newColors;
+        removeColor: (state, action: PayloadAction<typeof ProductColor>) => {
+            if (state.filters.color.includes(action.payload)) {
+                state.filters.color = state.filters.color.reduce(
+                    (acc, color) => {
+                        if (color !== action.payload) acc.push(color);
+                        return acc;
+                    },
+                    [] as (typeof ProductColor)[],
+                );
             }
         },
         setSex: (state, action: PayloadAction<ProductSexField>) => {
-            state.sex.push(action.payload);
+            state.filters.sex.push(action.payload);
         },
         removeSex: (state, action: PayloadAction<ProductSexField>) => {
-            if (state.sex.includes(action.payload)) {
-                let newSex: ProductSexField[] = [];
-                for (let variable of state.sex) {
-                    if (variable !== action.payload) newSex.push(variable);
-                }
-                state.sex = newSex;
+            if (state.filters.sex.includes(action.payload)) {
+                state.filters.sex = state.filters.sex.reduce((acc, sex) => {
+                    if (sex !== action.payload) acc.push(sex);
+                    return acc;
+                }, [] as ProductSexField[]);
             }
         },
         setLimit: (state, action: PayloadAction<number>) => {
             state.limit = action.payload;
         },
         clearFilters: (state) => {
-            state.color = [];
-            state.priceEnd = 50000;
-            state.priceStart = 0;
-            state.sex = [];
+            state.filters.color = [];
+            state.filters.maxPrice = state.maxPriceDB || 50000;
+            state.filters.minPrice = 0;
+            state.filters.sex = [];
         },
         initState: (state) => {
             state._inited = true;
@@ -102,6 +107,11 @@ const productsPageSlice = createSlice({
             .addCase(fetchProductsList.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.hasMore = action.payload.hasMore;
+                if (!state.maxPriceDB) {
+                    state.maxPriceDB = state.filters.maxPrice =
+                        action.payload.maxPriceDB;
+                    state.minPriceDB = action.payload.minPriceDB;
+                }
 
                 if (action.meta.arg.replace) {
                     productsAdapter.setAll(state, action.payload.products);
