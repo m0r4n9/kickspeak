@@ -7,7 +7,6 @@ import { Route, Routes } from 'react-router-dom';
 import { RequireAuth } from '@/app/providers/router/ui/RequireAuth.tsx';
 import { Navbar } from '@/widgets/Navbar';
 import { checkAuth } from '@/entities/User';
-import { fetchCarts } from '@/entities/Cart';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { HStack } from '@/shared/ui/Stack';
 import { Loader } from '@/shared/ui/Loader';
@@ -19,11 +18,7 @@ const AppRoute = () => {
     useEffect(() => {
         const check = async () => {
             if (localStorage.getItem('userId')) {
-                await dispatch(checkAuth()).then((response) => {
-                    if (response.meta.requestStatus === 'fulfilled') {
-                        dispatch(fetchCarts());
-                    }
-                });
+                await dispatch(checkAuth());
             }
             setComplete(true);
         };
@@ -62,7 +57,6 @@ const AppRoute = () => {
                     </RequireAuth>
                 );
             }
-
             if (route.adminPanel) {
                 if (route.authOnly) {
                     content = (

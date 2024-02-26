@@ -7,7 +7,7 @@ import { HStack } from '@/shared/ui/Stack';
 interface ListProductsProps {
     products: Product[];
     brand?: Brand;
-    addToCart: (productId: string, sizeId: string) => void;
+    addToCart?: (productId: string, sizeId: string) => void;
 }
 
 export const ProductList = memo((props: ListProductsProps) => {

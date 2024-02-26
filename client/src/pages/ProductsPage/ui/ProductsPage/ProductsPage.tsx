@@ -42,7 +42,7 @@ const ProductsLinks: NavLinkToolbar[] = [
 const ProductsPage = (props: ProductsPageProps) => {
     const { className } = props;
     const dispatch = useAppDispatch();
-    let [searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const { isMatch } = useIsMath();
 
     useEffect(() => {

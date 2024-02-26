@@ -4,11 +4,14 @@ import { memo } from 'react';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { Input } from '@/shared/ui/Input';
 import { Text } from '@/shared/ui/Text';
+import { Label } from '@/shared/ui/Label';
 
 interface ProductFilterPriceProps {
     className?: string;
-    startPrice?: number;
-    endPrice?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    minPriceFromDb?: number;
+    maxPriceFromDB?: number;
     onChangeStartPrice?: (value: string) => void;
     onChangeEndPrice?: (value: string) => void;
 }
@@ -16,8 +19,10 @@ interface ProductFilterPriceProps {
 export const ProductFilterPrice = memo((props: ProductFilterPriceProps) => {
     const {
         className,
-        startPrice,
-        endPrice,
+        minPrice,
+        maxPrice,
+        minPriceFromDb,
+        maxPriceFromDB,
         onChangeStartPrice,
         onChangeEndPrice,
     } = props;
@@ -29,20 +34,27 @@ export const ProductFilterPrice = memo((props: ProductFilterPriceProps) => {
         >
             <Text text="Цена" />
             <HStack>
-                <Input
-                    value={startPrice}
-                    onChange={onChangeStartPrice}
-                    label={'От'}
-                    labelFlex="labelColumn"
-                    className={cls.inputPrice}
-                />
-                <Input
-                    value={endPrice}
-                    onChange={onChangeEndPrice}
-                    label={'До'}
-                    labelFlex="labelColumn"
-                    className={cls.inputPrice}
-                />
+                <VStack gap="4">
+                    <Label htmlFor="product-filter-price-start">От</Label>
+                    <Input
+                        id="product-filter-price-start"
+                        value={minPrice}
+                        placeholder={`${minPriceFromDb}`}
+                        onChange={(e) => onChangeStartPrice?.(e.target.value)}
+                        className={cls.inputPrice}
+                    />
+                </VStack>
+
+                <VStack gap="4">
+                    <Label htmlFor="product-filter-price-end">До</Label>
+                    <Input
+                        id="product-filter-price-end"
+                        value={maxPrice}
+                        placeholder={`${maxPriceFromDB}`}
+                        onChange={(e) => onChangeEndPrice?.(e.target.value)}
+                        className={cls.inputPrice}
+                    />
+                </VStack>
             </HStack>
         </VStack>
     );

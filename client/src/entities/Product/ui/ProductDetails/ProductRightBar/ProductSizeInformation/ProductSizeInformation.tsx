@@ -38,10 +38,10 @@ export const ProductSizeInformation = (props: ProductSizeInformationProps) => {
 
     const onHandlerProductCart = (productId?: number, sizeId?: number) => {
         if (productId && sizeId)
-            dispatch(addProductCart({ productId, sizeId })).then(res => {
-                if (res.meta.requestStatus === 'fulfilled') setAnimateSize(true);;
+            dispatch(addProductCart({ productId, sizeId })).then((res) => {
+                if (res.meta.requestStatus === 'fulfilled')
+                    setAnimateSize(true);
             });
-
     };
 
     if (!sizes?.length) {
@@ -85,7 +85,10 @@ export const ProductSizeInformation = (props: ProductSizeInformationProps) => {
                     [cls.animate]: animateSize,
                 })}
                 onClick={() =>
-                    onHandlerProductCart(activeSize?.productId, Number(activeSize?.id))
+                    onHandlerProductCart(
+                        Number(activeSize?.productId),
+                        Number(activeSize?.id),
+                    )
                 }
             >
                 {animateSize

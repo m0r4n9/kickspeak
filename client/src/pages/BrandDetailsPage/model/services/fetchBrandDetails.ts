@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { BrandDetailsData } from '../types/brandDetailsSchema.ts';
+import { ReturnBrandDetailsData } from '../types/brandDetailsSchema.ts';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { ErrorInterface } from '@/shared/interfaces/ApiError';
 import axios, { AxiosError } from 'axios';
@@ -9,16 +9,16 @@ import { getBrandDetailsColor } from '../selectors/getBrandDetailsColor/getBrand
 import { getBrandDetailsStartPrice } from '../selectors/getBrandDetailsStartPrice/getBrandDetailsStartPrice.ts';
 import { getBrandDetailsEndPrice } from '../selectors/getBrandDetailsEndPrice/getBrandDetailsEndPrice.ts';
 import { getBrandDetailsSex } from '../selectors/getBrandDetailsSex/getBrandDetailsSex.ts';
-import { getBrandDetailsPageNumber } from '../selectors/getBrandDetailsPageNumber/getBrandDetailsPageNumber.ts';
+import { getBrandPage } from '../selectors/getBrandPage/getBrandPage.ts';
 
 export const fetchBrandDetails = createAsyncThunk<
-    BrandDetailsData,
+    ReturnBrandDetailsData,
     string,
     ThunkConfig<ErrorInterface>
 >('BrandDetailsPage/fetchBrandDetails', async (brandId, thunkAPI) => {
     const { extra, rejectWithValue, getState } = thunkAPI;
+    const page = getBrandPage(getState());
     const limit = getBrandDetailsLimit(getState());
-    const page = getBrandDetailsPageNumber(getState());
     const order = getBrandDetailsOrder(getState());
     const color = getBrandDetailsColor(getState())?.join(',');
     const priceStart = getBrandDetailsStartPrice(getState());
@@ -26,7 +26,7 @@ export const fetchBrandDetails = createAsyncThunk<
     const sex = getBrandDetailsSex(getState())?.join(',');
 
     try {
-        const response = await extra.api.get<BrandDetailsData>(
+        const response = await extra.api.get<ReturnBrandDetailsData>(
             `/brand/${brandId}`,
             {
                 params: {

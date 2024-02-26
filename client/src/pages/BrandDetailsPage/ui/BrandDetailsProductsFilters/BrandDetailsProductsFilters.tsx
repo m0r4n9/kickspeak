@@ -16,10 +16,8 @@ import { brandDetailsActions } from '../../model/slice/brandDetailsSlice.ts';
 import { getBrandDetailsStartPrice } from '../../model/selectors/getBrandDetailsStartPrice/getBrandDetailsStartPrice.ts';
 import { getBrandDetailsEndPrice } from '../../model/selectors/getBrandDetailsEndPrice/getBrandDetailsEndPrice.ts';
 import { fetchBrandDetails } from '../../model/services/fetchBrandDetails.ts';
-import {
-    getBrandDetailsColor
-} from "../../model/selectors/getBrandDetailsColor/getBrandDetailsColor.ts";
-import {getBrandDetailsSex} from "../../model/selectors/getBrandDetailsSex/getBrandDetailsSex.ts";
+import { getBrandDetailsColor } from '../../model/selectors/getBrandDetailsColor/getBrandDetailsColor.ts';
+import { getBrandDetailsSex } from '../../model/selectors/getBrandDetailsSex/getBrandDetailsSex.ts';
 
 interface BrandDetailsProductsFiltersProps {
     className?: string;
@@ -89,7 +87,7 @@ export const BrandDetailsProductsFilters = memo(
         );
 
         const onChangeColor = useCallback(
-            (checked: boolean, color: ProductColor) => {
+            (checked: boolean, color: typeof ProductColor) => {
                 if (checked) {
                     dispatch(brandDetailsActions.setColor(color));
                 } else {
@@ -110,13 +108,16 @@ export const BrandDetailsProductsFilters = memo(
             >
                 <Text title="Фильтр" size="m" />
                 <ProductFilterPrice
-                    startPrice={startPrice}
-                    endPrice={endPrice}
+                    minPrice={startPrice}
+                    maxPrice={endPrice}
                     onChangeStartPrice={onChangeStartPrice}
                     onChangeEndPrice={onChangeEndPrice}
                 />
                 <ProductFilterSex sex={sex} onChangeSex={onChangeSex} />
-                <ProductFilterColor colors={colors} onChangeColor={onChangeColor} />
+                <ProductFilterColor
+                    colors={colors}
+                    onChangeColor={onChangeColor}
+                />
             </VStack>
         );
     },

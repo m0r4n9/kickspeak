@@ -1,26 +1,32 @@
-import {ErrorInterface} from "@/shared/interfaces/ApiError";
-import {Brand} from "@/entities/Brand";
-import {Product, ProductColor, ProductSexField, SortOrder} from "@/entities/Product";
+import { ErrorInterface } from '@/shared/interfaces/ApiError';
+import { Brand } from '@/entities/Brand';
+import {
+    Product,
+    ProductColor,
+    ProductSexField,
+    SortOrder,
+} from '@/entities/Product';
 
-export interface BrandDetailsData {
+export interface ReturnBrandDetailsData {
     brandDetails?: Brand;
     products?: Product[];
-    hasMore?: boolean;
+    totalPage: number;
 }
 
 export interface BrandDetailsSchema {
     isLoading: boolean;
-    data?: BrandDetailsData;
+    brand?: Brand;
+    products?: Product[];
     error?: ErrorInterface;
 
     // Pagination
     page: number;
     limit: number;
-    hasMore: boolean;
+    totalPage: number;
 
     // Filters
     sex: ProductSexField[];
-    color: ProductColor[];
+    color: (typeof ProductColor)[];
     order: SortOrder;
     priceStart: number;
     priceEnd: number;

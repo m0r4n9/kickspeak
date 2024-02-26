@@ -11,7 +11,6 @@ export const checkAuth = createAsyncThunk<User, void, ThunkConfig<string>>(
         try {
             const response = await extra.api.get<User>('/refresh');
             dispatch(userActions.setAuthData(response.data));
-
             return response.data;
         } catch (e: any) {
             return rejectWithValue(e?.response?.data);

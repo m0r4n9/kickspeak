@@ -14,21 +14,30 @@ export const initProductsPage = createAsyncThunk<
     const inited = getProductstInited(getState());
 
     if (!inited) {
+        console.log('initProductsPage service');
         const orderFromURL = searchParams.get('order') as SortOrder;
         const sexFromURL = searchParams
             .get('sex')
             ?.split(',') as ProductSexField[];
-        const colorsFromURL = searchParams
+        const colorsFromURL: (typeof ProductColor)[] = searchParams
             .get('colors')
-            ?.split(',') as ProductColor[];
+            ?.split(',') as any;
+        const optionPrices = searchParams.get('price')?.split(',') as string[];
 
         if (orderFromURL) dispatch(productsPageActions.setOrder(orderFromURL));
         if (sexFromURL)
             sexFromURL.map((sex) => dispatch(productsPageActions.setSex(sex)));
-        if (colorsFromURL)
+        if (colorsFromURL) {
             colorsFromURL.map((color) =>
                 dispatch(productsPageActions.setColor(color)),
             );
+        }
+        if (optionPrices) {
+            const priceStart = Number(optionPrices[0]);
+            const priceEnd = Number(optionPrices[1]);
+            dispatch(productsPageActions.setPriceStart(priceStart));
+            dispatch(productsPageActions.setPriceEnd(priceEnd));
+        }
 
         dispatch(productsPageActions.initState());
         dispatch(fetchProductsList({}));

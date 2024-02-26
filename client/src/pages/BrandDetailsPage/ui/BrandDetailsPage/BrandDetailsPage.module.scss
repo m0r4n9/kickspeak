@@ -4,5 +4,6 @@
 
 .BrandDetailsPage {
     max-width: var(--max-content-width);
+    min-height: calc(100vh - var(--navbar-height));
     margin: 0 auto;
 }

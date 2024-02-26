@@ -11,6 +11,7 @@ import { Page } from '@/widgets/Page';
 import { useSelector } from 'react-redux';
 import { ProductItem } from '@/entities/Product';
 import { addProductCart } from '@/entities/Cart';
+import { ProductList } from '@/widgets/ProductList/index.ts';
 
 const reducer: ReducerList = {
     wishList: wishListReducer,
@@ -45,14 +46,7 @@ const WishListPage = () => {
                     </HStack>
 
                     <HStack max align="stretch" className={cls.list}>
-                        df
-                        {products?.map((product) => (
-                            <ProductItem
-                                key={product.id}
-                                product={product}
-                                addProductCart={addProduct}
-                            />
-                        ))}
+                        {!!products && <ProductList products={products} />}
                     </HStack>
                 </VStack>
             </Page>
