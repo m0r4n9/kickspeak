@@ -1,5 +1,5 @@
 const { Brand, Product, Size, Image } = require('../models/models');
-const { Op } = require('sequelize');
+const { Op, literal } = require('sequelize');
 const {
     typeOrder,
     colorsFilter,
@@ -17,9 +17,18 @@ class BrandService {
                 },
             ],
             attributes: {
+                include: [
+                    [
+                        literal(
+                            'CASE WHEN "Products"."id" IS NOT NULL THEN true ELSE false END',
+                        ),
+                        'hasProducts',
+                    ],
+                ],
                 exclude: ['foundation', 'country', 'logo', 'data'],
             },
         });
+
         return brands;
     }
 
@@ -79,9 +88,9 @@ class BrandService {
             },
         });
 
-        const hasMore = limit < amount;
+        const totalPage = Math.ceil(amount / limit);
 
-        return { brandDetails: brand, products: products, hasMore };
+        return { brandDetails: brand, products: products, totalPage };
     }
 
     async createBrand(name, foundation, country, filePath, buffer) {

@@ -57,7 +57,6 @@ const AppRoute = () => {
                     </RequireAuth>
                 );
             }
-
             if (route.adminPanel) {
                 if (route.authOnly) {
                     content = (

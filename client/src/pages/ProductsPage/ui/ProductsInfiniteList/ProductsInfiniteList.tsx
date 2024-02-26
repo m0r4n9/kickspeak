@@ -6,7 +6,7 @@ import {
     productsPageActions,
 } from '../../model/slice/productsPageSlice.ts';
 import {
-    getProductPageHasMore,
+    getProductTotalPage,
     getProductsPageError,
     getProductsPageIsLoading,
     getProductsPageNumber,
@@ -15,17 +15,17 @@ import { fetchProductsList } from '../../model/services/fetchProductsList/fetchP
 import { Text } from '@/shared/ui/Text';
 import { ProductList } from '@/widgets/ProductList';
 import { HStack, VStack } from '@/shared/ui/Stack';
-import { Pagination } from '@/features/pagination';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { addProductCart, getCartError } from '@/entities/Cart';
 import { Loader } from '@/shared/ui/Loader';
 import { toast } from 'sonner';
+import { Pagination } from '@/shared/ui/Pagination';
 
 export const ProductsInfiniteList = () => {
     const dispatch = useAppDispatch();
     const products = useSelector(getProducts.selectAll);
     const page = useSelector(getProductsPageNumber);
-    const hasMore = useSelector(getProductPageHasMore);
+    const totalPage = useSelector(getProductTotalPage);
     const isLoading = useSelector(getProductsPageIsLoading);
     const error = useSelector(getProductsPageError);
     const errorCart = useSelector(getCartError);
@@ -50,22 +50,13 @@ export const ProductsInfiniteList = () => {
         [dispatch],
     );
 
-    const nextPage = useCallback(() => {
-        if (!page) return;
-        dispatch(productsPageActions.setPage(page + 1));
-        dispatch(fetchProductsList({ replace: true }));
-    }, [page]);
-
-    const firstPage = useCallback(() => {
-        dispatch(productsPageActions.setPage(1));
-        dispatch(fetchProductsList({ replace: true }));
-    }, [page]);
-
-    const prevPage = useCallback(() => {
-        if (!page) return;
-        dispatch(productsPageActions.setPage(page - 1));
-        dispatch(fetchProductsList({ replace: true }));
-    }, [page]);
+    const setPage = useCallback(
+        (page: number) => {
+            dispatch(productsPageActions.setPage(page));
+            dispatch(fetchProductsList({ replace: true }));
+        },
+        [page],
+    );
 
     if (isLoading) {
         return (
@@ -79,26 +70,27 @@ export const ProductsInfiniteList = () => {
         );
     }
 
-    if (error) {
-        return (
-            <HStack max justify="center">
-                <Text title="Произошла ошибка" color="error" />;
-            </HStack>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <HStack max justify="center">
+    //             <Text title="Произошла ошибка" color="error" />;
+    //         </HStack>
+    //     );
+    // }
 
     return (
         <div className={cls.content}>
             <VStack>
                 <ProductList products={products} addToCart={addProduct} />
-                <Pagination
-                    hasMore={hasMore}
-                    pageNumber={page}
-                    prevPage={prevPage}
-                    nextPage={nextPage}
-                    startPage={firstPage}
-                    className={cls.productsPagination}
-                />
+                <HStack max justify="center" className={cls.contentPagination}>
+                    {page && (
+                        <Pagination
+                            page={page}
+                            totalPage={totalPage || 1}
+                            onChangePage={setPage}
+                        />
+                    )}
+                </HStack>
             </VStack>
         </div>
     );

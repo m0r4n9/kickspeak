@@ -28,7 +28,6 @@ export const BrandItem = memo((props: BrandItemProps) => {
 
             <ul>
                 {brands.map((brand) => {
-                    const activeBrand = brand.hasProducts;
                     const content = brand.hasProducts ? (
                         <AppLink
                             to={getRouteBrandsDetails(brand.id)}

@@ -1,64 +1,66 @@
-import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import cls from './ProductInfiniteList.module.scss';
 import { ProductList } from '@/widgets/ProductList';
-import {
-    getBrandDetailsDataHasMore,
-    getBrandDetailsDataProducts,
-} from '../../model/selectors/getBrandDetailsData/getBrandDetailsData.ts';
-import { Brand } from '@/entities/Brand';
-import { VStack } from '@/shared/ui/Stack';
-import { getBrandDetailsPageNumber } from '../../model/selectors/getBrandDetailsPageNumber/getBrandDetailsPageNumber.ts';
-import { brandDetailsActions } from '../../model/slice/brandDetailsSlice.ts';
-import { fetchBrandDetails } from '../../model/services/fetchBrandDetails.ts';
-import { Pagination } from '@/features/pagination';
+import { getBrandDetailsProducts } from '../../model/selectors/getBrandDetailsProducts/getBrandDetailsProducts.ts';
+import { addProductCart } from '@/entities/Cart';
+
+import { HStack, VStack } from '@/shared/ui/Stack';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
+import { useCallback } from 'react';
+import { getBrandDetails } from '../../model/selectors/getBrandDetails/getBrandDetails.ts';
+import {
+    getBrandPage,
+    getBrandDetailsTotalPage,
+} from '../../model/selectors/getBrandPage/getBrandPage.ts';
+import { Pagination } from '@/shared/ui/Pagination/Pagination.tsx';
+import { brandDetailsActions } from '../../model/slice/brandDetailsSlice.ts';
 
-interface ProductInfiniteListProps {
-    addProductCart: (productId: string, sizeId: string) => void;
-    brand?: Brand;
-}
-
-export const ProductsInfiniteList = (props: ProductInfiniteListProps) => {
-    const { brand, addProductCart } = props;
+export const ProductsInfiniteList = () => {
     const dispatch = useAppDispatch();
-    const products = useSelector(getBrandDetailsDataProducts) || [];
-    const page = useSelector(getBrandDetailsPageNumber);
-    const hasMore = useSelector(getBrandDetailsDataHasMore);
+    const brand = useSelector(getBrandDetails);
+    const products = useSelector(getBrandDetailsProducts);
+    const page = useSelector(getBrandPage);
+    const totalPage = useSelector(getBrandDetailsTotalPage);
 
-    const nextPage = useCallback(() => {
-        if (!page || !brand) return;
-        dispatch(brandDetailsActions.setPage(page + 1));
-        dispatch(fetchBrandDetails(brand.id));
-    }, [page, brand]);
+    const addProduct = useCallback(
+        (productId: string, sizeId: string) => {
+            dispatch(
+                addProductCart({
+                    productId: Number(productId),
+                    sizeId: Number(sizeId),
+                }),
+            );
+        },
+        [dispatch],
+    );
 
-    const firstPage = useCallback(() => {
-        if (!brand) return;
-        dispatch(brandDetailsActions.setPage(1));
-        dispatch(fetchBrandDetails(brand.id));
-    }, [page, brand]);
+    const setPage = useCallback((page: number) => {
+        dispatch(brandDetailsActions.setPage(page));
+    }, []);
 
-    const prevPage = useCallback(() => {
-        if (!page || !brand) return;
-        dispatch(brandDetailsActions.setPage(page - 1));
-        dispatch(fetchBrandDetails(brand.id));
-    }, [page, brand]);
+    console.log('Page', page);
 
     return (
         <VStack>
             <ProductList
                 brand={brand}
-                products={products}
-                addToCart={addProductCart}
+                products={products || []}
+                addToCart={addProduct}
             />
-            <Pagination
-                hasMore={hasMore}
-                pageNumber={page}
-                prevPage={prevPage}
-                nextPage={nextPage}
-                startPage={firstPage}
-                className={cls.productsPagination}
-            />
+            <HStack
+                justify="center"
+                max
+                style={{
+                    marginTop: '4.5rem',
+                }}
+            >
+                {page && (
+                    <Pagination
+                        page={page}
+                        totalPage={totalPage || 1}
+                        onChangePage={setPage}
+                    />
+                )}
+            </HStack>
         </VStack>
     );
 };

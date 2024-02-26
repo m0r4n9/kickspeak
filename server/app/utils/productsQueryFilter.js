@@ -18,7 +18,8 @@ function typeOrder(order) {
 }
 
 function colorsFilter(colors) {
-    if (!colors) return {};
+    console.log('Colors: ', colors);
+    if (!colors || colors.length === 0) return {};
 
     let resultColors = [];
 

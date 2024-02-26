@@ -74,7 +74,8 @@ class ProductService {
                 ...sexType,
             },
         });
-        const hasMore = page * limit < amount;
+
+        const totalPage = Math.ceil(amount / limit);
         const maxPriceDB = await Product.max('price', {
             where: {
                 ...colorsType,
@@ -90,7 +91,7 @@ class ProductService {
             },
         });
 
-        return { products, hasMore, maxPriceDB, minPriceDB };
+        return { products, totalPage, maxPriceDB, minPriceDB };
     }
 
     async getProductDetails(id, idRecentProducts) {

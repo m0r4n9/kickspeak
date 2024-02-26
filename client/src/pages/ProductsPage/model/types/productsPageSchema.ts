@@ -10,7 +10,8 @@ export interface ProductsPageSchema extends EntityState<Product> {
     // Pagination
     page: number;
     limit: number;
-    hasMore: boolean;
+    //hasMore: boolean;
+    totalPage: number;
 
     maxPriceDB?: number;
     minPriceDB?: number;
@@ -31,7 +32,7 @@ export interface ProductsPageSchema extends EntityState<Product> {
 
 export interface FetchProductsData {
     products: Product[];
-    hasMore: boolean;
+    totalPage: number;
     maxPriceDB: number;
     minPriceDB: number;
 }

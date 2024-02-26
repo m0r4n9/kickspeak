@@ -31,7 +31,7 @@ const productsPageSlice = createSlice({
         entities: {},
         page: 1,
         limit: 10,
-        hasMore: true,
+        totalPage: 1,
         maxPriceDB: undefined,
         minPriceDB: undefined,
         _inited: false,
@@ -106,7 +106,7 @@ const productsPageSlice = createSlice({
             })
             .addCase(fetchProductsList.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.hasMore = action.payload.hasMore;
+                state.totalPage = action.payload.totalPage;
                 if (!state.maxPriceDB) {
                     state.maxPriceDB = state.filters.maxPrice =
                         action.payload.maxPriceDB;

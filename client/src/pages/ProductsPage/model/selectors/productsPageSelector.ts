@@ -6,8 +6,8 @@ export const getProductsPageError = (state: StateSchema) =>
     state.productsPage?.error;
 export const getProductsPageNumber = (state: StateSchema) =>
     state.productsPage?.page;
-export const getProductPageHasMore = (state: StateSchema) =>
-    state.productsPage?.hasMore;
+export const getProductTotalPage = (state: StateSchema) =>
+    state.productsPage?.totalPage;
 export const getProductsMinPrice = (state: StateSchema) =>
     state.productsPage?.filters?.minPrice;
 export const getProductsMaxPrice = (state: StateSchema) =>
@@ -19,8 +19,6 @@ export const getProductsColor = (state: StateSchema) =>
 
 export const getProductsLimit = (state: StateSchema) =>
     state.productsPage?.limit || 10;
-export const getProductsHasMore = (state: StateSchema) =>
-    state.productsPage?.hasMore;
 export const getProductsOrder = (state: StateSchema) =>
     state.productsPage?.filters?.order || '';
 

@@ -5,11 +5,10 @@ import { ProductColor, ProductSexField, SortOrder } from '@/entities/Product';
 
 const initialState: BrandDetailsSchema = {
     isLoading: false,
-    data: undefined,
+    order: '',
     page: 1,
     limit: 10,
-    hasMore: true,
-    order: '',
+    totalPage: 1,
     color: [],
     sex: [],
     priceStart: 0,
@@ -32,16 +31,18 @@ const brandDetailsSlice = createSlice({
         setOrder: (state, action: PayloadAction<SortOrder>) => {
             state.order = action.payload;
         },
-        setColor: (state, action: PayloadAction<ProductColor>) => {
+        setColor: (state, action: PayloadAction<typeof ProductColor>) => {
             state.color.push(action.payload);
         },
-        removeColor: (state, action: PayloadAction<ProductColor>) => {
+        removeColor: (state, action: PayloadAction<typeof ProductColor>) => {
             if (state.color.includes(action.payload)) {
-                let newColors: ProductColor[] = [];
-                for (let variable of state.color) {
-                    if (variable !== action.payload) newColors.push(variable);
-                }
-                state.color = newColors;
+                state.color = state.color.reduce(
+                    (acc, color) => {
+                        if (color !== action.payload) acc.push(color);
+                        return acc;
+                    },
+                    [] as (typeof ProductColor)[],
+                );
             }
         },
         setSex: (state, action: PayloadAction<ProductSexField>) => {
@@ -55,9 +56,6 @@ const brandDetailsSlice = createSlice({
                 }
                 state.sex = newSex;
             }
-        },
-        setLimit: (state, action: PayloadAction<number>) => {
-            state.limit = action.payload;
         },
         clearFilters: (state) => {
             state.color = [];
@@ -74,7 +72,9 @@ const brandDetailsSlice = createSlice({
             })
             .addCase(fetchBrandDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.data = action.payload;
+                state.brand = action.payload.brandDetails;
+                state.products = action.payload.products;
+                state.totalPage = action.payload.totalPage;
             })
             .addCase(fetchBrandDetails.rejected, (state, action) => {
                 state.isLoading = false;
