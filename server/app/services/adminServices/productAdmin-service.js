@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Op, fn, col } = require('sequelize');
-const { Brand, Product, Size, Image } = require('../../models/models');
+const { Brand, Product, Size, Image, Color } = require('../../models/models');
 const ApiError = require('../../exceptions/api-error');
 
 class ProductAdminService {
@@ -155,6 +155,26 @@ class ProductAdminService {
                 url: `/${image.path}`,
                 productId,
             });
+        }
+
+        return product;
+    }
+
+    async addColorToProduct(ProductId, ColorId) {
+        const product = await Product.findByPk(ProductId);
+        const color = await Color.findByPk(ColorId);
+        if (product && color) {
+            product.addColor(color);
+        }
+
+        return product;
+    }
+    async removeColorFromProduct(ProductId, ColorId) {
+        const product = await Product.findByPk(ProductId);
+        const color = await Color.findByPk(ColorId);
+
+        if (product && color) {
+            product.removeColor(color);
         }
 
         return product;

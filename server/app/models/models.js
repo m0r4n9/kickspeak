@@ -65,6 +65,15 @@ const Size = sequelize.define(
     { timestamps: false },
 );
 
+const Color = sequelize.define(
+    'Color',
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        name: { type: DataTypes.STRING, allowNull: false },
+    },
+    { timestamps: false },
+);
+
 const User = sequelize.define(
     'User',
     {
@@ -136,6 +145,9 @@ UserFavoriteProduct.hasMany(User);
 Product.hasMany(UserFavoriteProduct);
 UserFavoriteProduct.hasMany(Product);
 
+Product.belongsToMany(Color, { through: 'Product_Color' });
+Color.belongsToMany(Product, { through: 'Product_Color' });
+
 // Shopping cart
 // User.belongsToMany(Product, { through: Cart });
 // Product.belongsToMany(User, { through: Cart });
@@ -159,6 +171,7 @@ module.exports = {
     Brand,
     User,
     UserFavoriteProduct,
+    Color,
     Token,
     Cart,
 };

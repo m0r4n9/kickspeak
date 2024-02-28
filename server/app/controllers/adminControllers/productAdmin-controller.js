@@ -84,6 +84,32 @@ class ProductAdminController {
             next(e);
         }
     }
+
+    async addColorToProduct(req, res, next) {
+        try {
+            const { ProductId, ColorId } = req.body;
+            const result = await ProductAdminService.addColorToProduct(
+                ProductId,
+                ColorId,
+            );
+            return res.json(result);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async removeColorFromProduct(req, res, next) {
+        try {
+            const { ProductId, ColorId } = req.body;
+            const result = ProductAdminService.removeColorFromProduct(
+                ProductId,
+                ColorId,
+            );
+            return res.json(result);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new ProductAdminController();
