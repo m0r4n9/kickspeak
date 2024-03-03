@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BrandDetailsSchema } from '../types/brandDetailsSchema.ts';
 import { fetchBrandDetails } from '@/pages/BrandDetailsPage/model/services/fetchBrandDetails.ts';
-import { ProductColor, ProductSexField, SortOrder } from '@/entities/Product';
+import { ProductSexField, SortOrder } from '@/entities/Product';
 
 const initialState: BrandDetailsSchema = {
     isLoading: false,
@@ -31,17 +31,17 @@ const brandDetailsSlice = createSlice({
         setOrder: (state, action: PayloadAction<SortOrder>) => {
             state.order = action.payload;
         },
-        setColor: (state, action: PayloadAction<typeof ProductColor>) => {
+        setColor: (state, action: PayloadAction<string>) => {
             state.color.push(action.payload);
         },
-        removeColor: (state, action: PayloadAction<typeof ProductColor>) => {
+        removeColor: (state, action: PayloadAction<string>) => {
             if (state.color.includes(action.payload)) {
                 state.color = state.color.reduce(
                     (acc, color) => {
                         if (color !== action.payload) acc.push(color);
                         return acc;
                     },
-                    [] as (typeof ProductColor)[],
+                    [] as string[],
                 );
             }
         },

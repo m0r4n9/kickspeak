@@ -1,6 +1,7 @@
 .wrapperMenPage {
     background: var(--bg-color);
     min-height: calc(100vh - var(--navbar-height));
+    overflow: hidden;
 }
 
 .MenPage {
@@ -19,5 +20,4 @@
 
 .left {
     grid-area: left;
-    top: calc(var(--navbar-height) + 20px);
 }

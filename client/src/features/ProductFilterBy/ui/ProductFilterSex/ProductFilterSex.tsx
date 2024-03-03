@@ -15,7 +15,7 @@ interface ProductFilterSexProps {
 }
 
 export const ProductFilterSex = memo((props: ProductFilterSexProps) => {
-    const { className, onChangeSex, sex } = props;
+    const { className, sex, onChangeSex } = props;
 
     if (!sex) {
         return (

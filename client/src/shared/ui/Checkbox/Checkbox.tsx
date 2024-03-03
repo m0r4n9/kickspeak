@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 export interface CheckBoxItem {
     value: string;
-    content: ReactNode;
+    content?: ReactNode;
     checked?: boolean;
 }
 
@@ -26,16 +26,13 @@ export function Checkbox<T>(props: CheckboxProps<T>) {
                             type="checkbox"
                             checked={item.checked}
                             onChange={(e) => {
-                                onChange?.(
-                                    e.target.checked,
-                                    item.value as T,
-                                );
+                                onChange?.(e.target.checked, item.value as T);
                             }}
                             id={`фильтр_${item.content}`}
                             className={cls.checkbox}
                         />
                         <label htmlFor={`фильтр_${item.content}`}>
-                            {item.content}
+                            {item.content ? item.content : item.value}
                         </label>
                     </li>
                 ))}

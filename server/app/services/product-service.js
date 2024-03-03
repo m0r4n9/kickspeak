@@ -4,21 +4,26 @@ const {
     Size,
     Image,
     UserFavoriteProduct,
+    Color,
 } = require('../models/models');
 const {
     typeOrder,
     colorsFilter,
     priceFilter,
     sexFilter,
+    brandsFilter,
 } = require('../utils/productsQueryFilter');
-const { Op, fn, col, Sequelize } = require('sequelize');
+const { Op, fn, col, literal, Sequelize } = require('sequelize');
+const ApiError = require('../exceptions/api-error');
 
 class ProductService {
-    async getProducts(page, limit, order, colors, price, sex) {
+    async getProducts(page, limit, order, colors, price, sex, brands) {
         // Сортиврока по полям
         const orderType = typeOrder(order);
         // Фильтрация по цвету
-        const colorsType = colorsFilter(colors);
+        const filterColors = colorsFilter(colors);
+        // Фильтрация по бренду
+        const filterBrands = brandsFilter(brands);
         // Фильтрация по цене
         const priceType = priceFilter(price);
         // Фильтрация по полу
@@ -29,13 +34,13 @@ class ProductService {
             offset: (page - 1) * limit,
             order: [orderType],
             where: {
-                ...colorsType,
                 ...priceType,
                 ...sexType,
             },
             include: [
                 {
                     model: Brand,
+                    ...filterBrands,
                     attributes: ['id', 'name'],
                 },
                 {
@@ -49,17 +54,13 @@ class ProductService {
                     order: [['id', 'ASC']],
                 },
                 {
+                    model: Color,
+                    ...filterColors,
+                },
+                {
                     model: Image,
                     limit: 1,
                     order: [['id', 'ASC']],
-                },
-                {
-                    model: UserFavoriteProduct,
-                    where: {
-                        UserId: 1,
-                    },
-
-                    required: false,
                 },
             ],
             attributes: {
@@ -67,31 +68,50 @@ class ProductService {
             },
         });
 
+        const colorsData = await Color.findAll({
+            attributes: ['id', 'name'],
+        });
+        const brandsData = await Brand.findAll({
+            attributes: ['id', 'name'],
+        });
+
         const amount = await Product.count({
             where: {
-                ...colorsType,
                 ...priceType,
                 ...sexType,
             },
+            include: [
+                {
+                    model: Color,
+                    where: {
+                        name: 'Черный',
+                    },
+                },
+            ],
         });
 
         const totalPage = Math.ceil(amount / limit);
         const maxPriceDB = await Product.max('price', {
             where: {
-                ...colorsType,
                 ...priceType,
                 ...sexType,
             },
         });
         const minPriceDB = await Product.min('price', {
             where: {
-                ...colorsType,
                 ...priceType,
                 ...sexType,
             },
         });
 
-        return { products, totalPage, maxPriceDB, minPriceDB };
+        return {
+            products,
+            colors: colorsData,
+            brands: brandsData,
+            totalPage,
+            maxPriceDB,
+            minPriceDB,
+        };
     }
 
     async getProductDetails(id, idRecentProducts) {
@@ -236,14 +256,25 @@ class ProductService {
     }
 
     async getWishList(UserId) {
-        const favoriteProducts = Product.findAll({
+        if (!UserId) throw ApiError.UnauthorizedError();
+
+        const favoriteProducts = await UserFavoriteProduct.findAll({
+            where: {
+                UserId: 2,
+            },
+            attributes: [
+                [literal('array_agg("ProductId")'), 'arrayProductIds'],
+            ],
+            raw: true,
+        });
+
+        const arrayProductsId = favoriteProducts[0]?.arrayProductIds ?? [];
+
+        return Product.findAll({
+            where: {
+                id: arrayProductsId,
+            },
             include: [
-                {
-                    model: UserFavoriteProduct,
-                    where: {
-                        UserId,
-                    },
-                },
                 {
                     model: Image,
                     limit: 1,
@@ -251,10 +282,12 @@ class ProductService {
                 },
             ],
         });
-        return favoriteProducts;
     }
 
     async addToWishList(UserId, ProductId) {
+        if (!UserId) throw ApiError.UnauthorizedError();
+        if (!ProductId) throw ApiError.BadRequest('Продукт не найден.');
+
         const existsWish = await UserFavoriteProduct.findOne({
             where: {
                 UserId,
@@ -273,6 +306,48 @@ class ProductService {
         });
 
         return 'add';
+    }
+
+    async searchColors(query) {
+        if (!query || !query.length) return await Color.findAll();
+
+        return await Color.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${query}%`,
+                },
+            },
+        });
+    }
+
+    async searchBrands(query) {
+        if (!query || !query.length)
+            return await Brand.findAll({
+                attributes: ['id', 'name'],
+            });
+
+        return await Brand.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${query}%`,
+                },
+            },
+            attributes: ['id', 'name'],
+        });
+    }
+
+    async test() {
+        const result = await Product.findAll({
+            include: [
+                {
+                    model: Color,
+                    where: {
+                        name: 'Красный',
+                    },
+                },
+            ],
+        });
+        return result;
     }
 }
 

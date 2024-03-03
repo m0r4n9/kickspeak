@@ -39,17 +39,6 @@ adminRouter.post(
 );
 adminRouter.delete('/product/delete/:id', ProductAdminController.deleteProduct);
 
-// Colors
-
-adminRouter.post(
-    '/product-remove-color',
-    ProductAdminController.removeColorFromProduct,
-);
-adminRouter.post(
-    '/product-add-color',
-    ProductAdminController.addColorToProduct,
-);
-
 // Images
 /*
  - create

@@ -2,7 +2,6 @@ import { ErrorInterface } from '@/shared/interfaces/ApiError';
 import { Brand } from '@/entities/Brand';
 import {
     Product,
-    ProductColor,
     ProductSexField,
     SortOrder,
 } from '@/entities/Product';
@@ -26,7 +25,7 @@ export interface BrandDetailsSchema {
 
     // Filters
     sex: ProductSexField[];
-    color: (typeof ProductColor)[];
+    color: string[];
     order: SortOrder;
     priceStart: number;
     priceEnd: number;

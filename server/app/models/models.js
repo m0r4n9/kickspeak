@@ -29,7 +29,6 @@ const Product = sequelize.define(
         price: { type: DataTypes.INTEGER, allowNull: false },
         sex: { type: DataTypes.STRING(2), allowNull: true },
         code: { type: DataTypes.STRING, allowNull: false },
-        colors: { type: DataTypes.ARRAY(DataTypes.STRING), defaultValue: [] },
     },
     {
         timestamps: false,
@@ -40,6 +39,17 @@ const Product = sequelize.define(
                 fields: [sequelize.literal('name gin_trgm_ops')],
             },
         ],
+    },
+);
+
+const Color = sequelize.define(
+    'Color',
+    {
+        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        name: { type: DataTypes.STRING, allowNull: false, unique: true },
+    },
+    {
+        timestamps: false,
     },
 );
 
@@ -65,15 +75,6 @@ const Size = sequelize.define(
     { timestamps: false },
 );
 
-const Color = sequelize.define(
-    'Color',
-    {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, allowNull: false },
-    },
-    { timestamps: false },
-);
-
 const User = sequelize.define(
     'User',
     {
@@ -86,12 +87,6 @@ const User = sequelize.define(
         phoneNumber: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: {
-                is: {
-                    args: /^\+?\d{1,15}$/,
-                    msg: 'Invalid phone number format',
-                },
-            },
         },
     },
     { timestamps: false },
@@ -139,18 +134,11 @@ const Token = sequelize.define(
 
 // Favorite list of products user
 User.belongsToMany(Product, { through: UserFavoriteProduct });
-UserFavoriteProduct.belongsTo(User, { through: UserFavoriteProduct });
-User.hasMany(UserFavoriteProduct);
-UserFavoriteProduct.hasMany(User);
-Product.hasMany(UserFavoriteProduct);
-UserFavoriteProduct.hasMany(Product);
+Product.belongsToMany(User, { through: UserFavoriteProduct });
 
-Product.belongsToMany(Color, { through: 'Product_Color' });
-Color.belongsToMany(Product, { through: 'Product_Color' });
-
-// Shopping cart
-// User.belongsToMany(Product, { through: Cart });
-// Product.belongsToMany(User, { through: Cart });
+// Color Products
+Color.hasMany(Product);
+Product.belongsTo(Color);
 
 // JWT token (1 - 1)
 User.hasOne(Token);
@@ -171,7 +159,7 @@ module.exports = {
     Brand,
     User,
     UserFavoriteProduct,
-    Color,
     Token,
     Cart,
+    Color,
 };

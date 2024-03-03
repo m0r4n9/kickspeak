@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { WrapperAdminPage } from '@/widgets/WrapperAdminPage';
 import cls from './AdminProductCreatePage.module.scss';
 import { DynamicModuleLoader } from '@/shared/lib/components';
@@ -12,10 +12,13 @@ import { createProduct } from '@/pages/AdminPages/Products/AdminProductCreatePag
 import { ProductCreateFields } from '@/pages/AdminPages/Products/AdminProductCreatePage/ui/ProductCreateFields/ProductCreateFields.tsx';
 import { useNavigate } from 'react-router-dom';
 import { getRouteAdminProductDetails } from '@/shared/const/route.ts';
+import axios from 'axios';
 
 const reducer: ReducerList = {
     adminProductCreate: productCreateReducer,
 };
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 type typeSex = 'W' | 'U' | 'M';
 const AdminProductCreatePage = () => {
@@ -28,6 +31,19 @@ const AdminProductCreatePage = () => {
     const [imagesProduct, setImagesProduct] = useState<UploadFile[]>([]);
     const [brand, setBrand] = useState('');
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
+    const [colors, setColors] = useState<{ id: string; name: string }[]>([]);
+
+    useEffect(() => {
+        const fetchColors = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/catalog/colors`);
+                setColors(response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchColors();
+    }, []);
 
     const onChange: UploadProps['onChange'] = useCallback(
         ({ fileList: newFileList }: any) => {
@@ -80,7 +96,6 @@ const AdminProductCreatePage = () => {
         });
     };
 
-
     return (
         <DynamicModuleLoader reducers={reducer}>
             <WrapperAdminPage activeLink="products">
@@ -89,6 +104,7 @@ const AdminProductCreatePage = () => {
                         <h1>Добавить продукт</h1>
                     </VStack>
                     <ProductCreateFields
+                        colors={colors}
                         name={name}
                         brand={brand}
                         price={price}

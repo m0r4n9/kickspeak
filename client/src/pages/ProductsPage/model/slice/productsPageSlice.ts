@@ -3,15 +3,12 @@ import {
     createSlice,
     PayloadAction,
 } from '@reduxjs/toolkit';
-import type {
-    Product,
-    ProductColor,
-    ProductSexField,
-    SortOrder,
-} from '@/entities/Product';
+import type { Product, ProductSexField, SortOrder } from '@/entities/Product';
 import { StateSchema } from '@/app/providers/StoreProvider';
 import { ProductsPageSchema } from '../types/productsPageSchema.ts';
 import { fetchProductsList } from '../services/fetchProductsList/fetchProductsList.ts';
+import { fetchColors } from '../services/fetchColors/fetchColors.ts';
+import { fetchListBrands } from '@/pages/ProductsPage/model/services/fetchListBrands/fetchListBrands.ts';
 
 const productsAdapter = createEntityAdapter<Product>({
     selectId: (product) => product.id,
@@ -38,6 +35,7 @@ const productsPageSlice = createSlice({
         filters: {
             order: '',
             color: [],
+            brands: [],
             sex: [],
             minPrice: 0,
             maxPrice: 0,
@@ -56,19 +54,28 @@ const productsPageSlice = createSlice({
         setOrder: (state, action: PayloadAction<SortOrder>) => {
             state.filters.order = action.payload;
         },
-        setColor: (state, action: PayloadAction<typeof ProductColor>) => {
+        setColor: (state, action: PayloadAction<string>) => {
             state.filters.color.push(action.payload);
         },
-        removeColor: (state, action: PayloadAction<typeof ProductColor>) => {
+        removeColor: (state, action: PayloadAction<string>) => {
             if (state.filters.color.includes(action.payload)) {
                 state.filters.color = state.filters.color.reduce(
                     (acc, color) => {
                         if (color !== action.payload) acc.push(color);
                         return acc;
                     },
-                    [] as (typeof ProductColor)[],
+                    [] as string[],
                 );
             }
+        },
+        setBrand: (state, action: PayloadAction<string>) => {
+            state.filters.brands.push(action.payload);
+        },
+        removeBrand: (state, action: PayloadAction<string>) => {
+            state.filters.brands = state.filters.brands.reduce((acc, brand) => {
+                if (brand !== action.payload) acc.push(brand);
+                return acc;
+            }, [] as string[]);
         },
         setSex: (state, action: PayloadAction<ProductSexField>) => {
             state.filters.sex.push(action.payload);
@@ -86,6 +93,7 @@ const productsPageSlice = createSlice({
         },
         clearFilters: (state) => {
             state.filters.color = [];
+            state.filters.brands = [];
             state.filters.maxPrice = state.maxPriceDB || 50000;
             state.filters.minPrice = 0;
             state.filters.sex = [];
@@ -122,6 +130,14 @@ const productsPageSlice = createSlice({
             .addCase(fetchProductsList.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+            })
+
+            .addCase(fetchColors.fulfilled, (state, action) => {
+                state.colors = action.payload;
+            })
+
+            .addCase(fetchListBrands.fulfilled, (state, action) => {
+                state.brands = action.payload;
             });
     },
 });

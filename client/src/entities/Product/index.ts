@@ -7,6 +7,5 @@ export type {
     SizeProduct,
     ImageProduct
 } from './model/types/product.ts';
-export { ProductColor } from './model/consts/consts.ts';
 export type { ProductSexField, SortOrder } from './model/consts/consts.ts';
 export { ProductItem } from './ui/ProductItem/ProductItem.tsx';

@@ -11,7 +11,7 @@ import { VStack } from '@/shared/ui/Stack';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { useDebounce } from '@/shared/hooks/useDebounce';
-import { ProductColor, ProductSexField } from '@/entities/Product';
+import { ProductSexField } from '@/entities/Product';
 import { brandDetailsActions } from '../../model/slice/brandDetailsSlice.ts';
 import { getBrandDetailsStartPrice } from '../../model/selectors/getBrandDetailsStartPrice/getBrandDetailsStartPrice.ts';
 import { getBrandDetailsEndPrice } from '../../model/selectors/getBrandDetailsEndPrice/getBrandDetailsEndPrice.ts';
@@ -87,7 +87,7 @@ export const BrandDetailsProductsFilters = memo(
         );
 
         const onChangeColor = useCallback(
-            (checked: boolean, color: typeof ProductColor) => {
+            (checked: boolean, color: string) => {
                 if (checked) {
                     dispatch(brandDetailsActions.setColor(color));
                 } else {

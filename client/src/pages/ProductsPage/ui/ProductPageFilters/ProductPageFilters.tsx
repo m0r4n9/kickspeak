@@ -2,27 +2,39 @@ import { useCallback } from 'react';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './ProductPageFilters.module.scss';
 import {
+    ProductFilterBrand,
     ProductFilterColor,
     ProductFilterPrice,
     ProductFilterSex,
 } from '@/features/ProductFilterBy';
-import { ProductColor, ProductSexField } from '@/entities/Product';
+import { ProductSexField } from '@/entities/Product';
 import { useSelector } from 'react-redux';
 import {
-    getProductsColor,
     getProductSex,
-    getProductsMinPrice,
-    getProductsMaxPrice,
-    getProductsMaxPriceDB,
-    getProductsMinPriceDB,
     getProductsPageIsLoading,
 } from '../../model/selectors/productsPageSelector.ts';
+import {
+    getProductsMaxPrice,
+    getProductsMaxPriceDB,
+    getProductsMinPrice,
+    getProductsMinPriceDB,
+} from '../../model/selectors/getProductPrices/getProductPrices.ts';
+import {
+    getProductsColors,
+    getProductsFilterColors,
+} from '../../model/selectors/getProductsColors/getProductsColors.ts';
 import { productsPageActions } from '../../model/slice/productsPageSlice.ts';
-import { useDebounce } from '@/shared/hooks/useDebounce';
 import { fetchProductsList } from '../../model/services/fetchProductsList/fetchProductsList.ts';
+import {
+    getProductBrands,
+    getProductFilterBrands,
+} from '../../model/selectors/getProductBrands/getProductBrands.ts';
+import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 import { VStack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch';
+import { fetchColors } from '../../model/services/fetchColors/fetchColors.ts';
+import { fetchListBrands } from '../../model/services/fetchListBrands/fetchListBrands.ts';
 
 interface ProductPageFiltersProps {
     className?: string;
@@ -33,7 +45,10 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
     const dispatch = useAppDispatch();
     const isLoading = useSelector(getProductsPageIsLoading);
     const sex = useSelector(getProductSex);
-    const colors = useSelector(getProductsColor);
+    const colors = useSelector(getProductsColors) || [];
+    const activeColors = useSelector(getProductsFilterColors) || [];
+    const brands = useSelector(getProductBrands);
+    const activeBrands = useSelector(getProductFilterBrands);
     const minPriceFromDb = useSelector(getProductsMinPriceDB);
     const maxPriceFromDB = useSelector(getProductsMaxPriceDB);
     const minPrice = useSelector(getProductsMinPrice) || 0;
@@ -63,7 +78,7 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
 
     const onChangeEndPrice = (value?: string) => {
         const numberValue = Number(value);
-        if (isNaN(numberValue) || !minPriceFromDb) return;
+        if (isNaN(numberValue) || !minPriceFromDb || !minPrice) return;
 
         if (numberValue <= minPrice) {
             if (!minPrice) {
@@ -92,7 +107,7 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
     );
 
     const onChangeColor = useCallback(
-        (checked: boolean, color: typeof ProductColor) => {
+        (checked: boolean, color: string) => {
             if (checked) {
                 dispatch(productsPageActions.setColor(color));
             } else {
@@ -104,6 +119,27 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
         [dispatch, fetchProductsList],
     );
 
+    const onChangeBrand = useCallback(
+        (checked: boolean, brand: string) => {
+            if (checked) {
+                dispatch(productsPageActions.setBrand(brand));
+            } else {
+                dispatch(productsPageActions.removeBrand(brand));
+            }
+            dispatch(productsPageActions.setPage(1));
+            dispatch(fetchProductsList({ replace: true }));
+        },
+        [dispatch, fetchProductsList],
+    );
+
+    const searchColors = useCallback((query: string) => {
+        dispatch(fetchColors(query));
+    }, []);
+
+    const searchBrands = useCallback((query: string) => {
+        dispatch(fetchListBrands(query));
+    }, []);
+
     const handleClearFilters = () => {
         dispatch(productsPageActions.clearFilters());
         dispatch(fetchProductsList({ replace: true }));
@@ -114,9 +150,9 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
             gap="24"
             className={classNames(cls.ProductsFitler, {}, [className])}
         >
-            {sex?.length || colors?.length ? (
-                <div onClick={handleClearFilters}>Очистить фильтры</div>
-            ) : null}
+            {/*{sex?.length || allColors.activeColors?.length ? (*/}
+            <div onClick={handleClearFilters}>Очистить фильтры</div>
+            {/*) : null}*/}
             <Text title="Фильтр" size="m" />
 
             <ProductFilterPrice
@@ -128,7 +164,18 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
                 onChangeEndPrice={onChangeEndPrice}
             />
             <ProductFilterSex onChangeSex={onChangeSex} sex={sex} />
-            <ProductFilterColor onChangeColor={onChangeColor} colors={colors} />
+            <ProductFilterColor
+                colors={colors}
+                activeColors={activeColors}
+                onChangeColor={onChangeColor}
+                searchColors={searchColors}
+            />
+            <ProductFilterBrand
+                brands={brands}
+                activeBrands={activeBrands}
+                onChangeBrands={onChangeBrand}
+                searchBrands={searchBrands}
+            />
         </VStack>
     );
 };

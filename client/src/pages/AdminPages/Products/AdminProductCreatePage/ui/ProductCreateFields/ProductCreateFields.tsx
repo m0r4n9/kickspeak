@@ -10,6 +10,10 @@ import { CodeField } from '../ProductCreateFields/CodeField.tsx';
 import { colorsProduct } from '@/shared/const/colors.ts';
 
 interface ProductCreateFieldsProps {
+    colors: {
+        id: string;
+        name: string;
+    }[];
     name: string;
     brand: string;
     price: number;
@@ -27,6 +31,7 @@ interface ProductCreateFieldsProps {
 
 export const ProductCreateFields = memo((props: ProductCreateFieldsProps) => {
     const {
+        colors,
         name,
         brand,
         price,
@@ -41,7 +46,9 @@ export const ProductCreateFields = memo((props: ProductCreateFieldsProps) => {
         uploadImages,
     } = props;
 
-    const filteredOptions = colorsProduct.filter((o) => !selectedColors.includes(o));
+    // const filteredOptions = colors.filter(
+    //     (o) => !selectedColors.includes(o.name),
+    // );
 
     return (
         <VStack max gap="16" style={{ marginTop: 24 }}>
@@ -75,9 +82,9 @@ export const ProductCreateFields = memo((props: ProductCreateFieldsProps) => {
                     value={selectedColors}
                     onChange={onChangeColors}
                     style={{ width: 250 }}
-                    options={filteredOptions.map((item) => ({
-                        value: item,
-                        label: item,
+                    options={colors.map((color) => ({
+                        value: color.id,
+                        label: color.name,
                     }))}
                 />
             </HStack>

@@ -3,7 +3,6 @@ const ProductService = require('../services/product-service');
 class ProductController {
     async uploadImage(req, res, next) {
         try {
-            console.log(req.file);
             return res.json('Done!');
         } catch (e) {
             next(e);
@@ -18,6 +17,7 @@ class ProductController {
             const colors = req.query._color;
             const price = req.query._price || '0,50000';
             const sex = req.query._sex;
+            const brands = req.query._brands;
 
             const products = await ProductService.getProducts(
                 page,
@@ -26,6 +26,7 @@ class ProductController {
                 colors,
                 price,
                 sex,
+                brands,
             );
 
             return res.json(products);
@@ -78,6 +79,35 @@ class ProductController {
                 userId,
                 productId,
             );
+            return res.json(result);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async searchColors(req, res, next) {
+        try {
+            const { query } = req.query;
+            const colors = await ProductService.searchColors(query);
+            return res.json(colors);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async searchBrands(req, res, next) {
+        try {
+            const { query } = req.query;
+            const brands = await ProductService.searchBrands(query);
+            return res.json(brands);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async test(req, res, next) {
+        try {
+            const result = await ProductService.test();
             return res.json(result);
         } catch (e) {
             next(e);

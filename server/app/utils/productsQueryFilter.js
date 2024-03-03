@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const { Color } = require('../models/models');
 
 function typeOrder(order) {
     let atrOrder;
@@ -18,20 +19,26 @@ function typeOrder(order) {
 }
 
 function colorsFilter(colors) {
-    console.log('Colors: ', colors);
-    if (!colors || colors.length === 0) return {};
+    if (!colors || colors.length === 0) return { required: false };
 
-    let resultColors = [];
+    const colorsArray = colors.split(',');
+    return {
+        where: {
+            name: colorsArray,
+        },
+    };
+}
 
-    let arrayColors = colors.split(',');
+function brandsFilter(brands) {
+    console.log('Brands:', brands);
+    if (!brands || brands.length === 0) return { required: false };
 
-    for (let color of arrayColors) {
-        resultColors.push({
-            [Op.contains]: [color],
-        });
-    }
-
-    return { colors: { [Op.or]: resultColors } };
+    const brandsArray = brands.split(',');
+    return {
+        where: {
+            name: brandsArray,
+        },
+    };
 }
 
 function priceFilter(price) {
@@ -47,17 +54,10 @@ function sexFilter(sex) {
     return { sex: sexFields };
 }
 
-function brandFilter(brandId) {
-    if (!brandId) return {};
-    return {
-        BrandId: brandId,
-    };
-}
-
 module.exports = {
     typeOrder,
     colorsFilter,
     priceFilter,
     sexFilter,
-    brandFilter,
+    brandsFilter,
 };

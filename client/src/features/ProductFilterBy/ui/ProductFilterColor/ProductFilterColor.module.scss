@@ -1,8 +1,24 @@
 .ProductFilterColor {
-  height: 320px;
-  width: inherit;
+    max-height: 320px;
+    width: inherit;
+    overflow: hidden;
 }
 
-.cardColor {
+.wrapperCheckbox {
+    overflow-y: auto;
+}
 
+.colorsList {
+    width: calc(100% - 16px);
+    max-height: 100%;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+    }
 }

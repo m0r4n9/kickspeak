@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import cls from './ProductsPage.module.scss';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import { productsPageReducer } from '../../model/slice/productsPageSlice.ts';
@@ -17,7 +17,7 @@ import {
 } from '@/shared/lib/components/DynamicModuleLoader.tsx';
 import { ProductPageFilters } from '../ProductPageFilters/ProductPageFilters.tsx';
 import { ProductPageOrder } from '../ProductPageOrder/ProductPageOrder.tsx';
-import { ProductsPageMobileHeader } from '@/pages/ProductsPage/ui/ProductsPageMobileHeader/ProductsPageMobileHeader.tsx';
+import { ProductsPageMobileHeader } from '../ProductsPageMobileHeader/ProductsPageMobileHeader.tsx';
 import { useIsMath } from '@/shared/hooks/useIsMath';
 
 interface ProductsPageProps {
@@ -54,28 +54,27 @@ const ProductsPage = (props: ProductsPageProps) => {
             <Page className={classNames(cls.wrapperMenPage, {}, [className])}>
                 <div className={cls.MenPage}>
                     {isMatch ? (
-                        <ProductsPageMobileHeader />
-                    ) : (
-                        <HStack max justify="between" style={{ padding: 20 }}>
-                            <NavToolbar links={ProductsLinks} />
-                            <ProductPageOrder isMobile={isMatch} />
-                        </HStack>
-                    )}
-
-                    {isMatch ? (
-                        <div style={{ paddingTop: 70 }}>
-                            <ProductsInfiniteList />
-                        </div>
-                    ) : (
-                        <div className={cls.wrapperContent}>
-                            <div className={cls.left}>
-                                <ProductPageFilters />
-                            </div>
-
-                            <div className={cls.content}>
+                        <>
+                            <ProductsPageMobileHeader />
+                            <div style={{ paddingTop: 70 }}>
                                 <ProductsInfiniteList />
                             </div>
-                        </div>
+                        </>
+                    ) : (
+                        <>
+                            <HStack
+                                max
+                                justify="between"
+                                style={{ padding: 20 }}
+                            >
+                                <NavToolbar links={ProductsLinks} />
+                                <ProductPageOrder isMobile={isMatch} />
+                            </HStack>
+                            <div className={cls.wrapperContent}>
+                                <ProductPageFilters />
+                                <ProductsInfiniteList />
+                            </div>
+                        </>
                     )}
                 </div>
             </Page>
@@ -83,4 +82,4 @@ const ProductsPage = (props: ProductsPageProps) => {
     );
 };
 
-export default memo(ProductsPage);
+export default ProductsPage;

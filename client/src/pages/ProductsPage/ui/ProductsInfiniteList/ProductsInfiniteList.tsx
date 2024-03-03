@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import cls from './ProductsInfiniteList.module.scss';
 import {
@@ -12,7 +12,6 @@ import {
     getProductsPageNumber,
 } from '../../model/selectors/productsPageSelector.ts';
 import { fetchProductsList } from '../../model/services/fetchProductsList/fetchProductsList.ts';
-import { Text } from '@/shared/ui/Text';
 import { ProductList } from '@/widgets/ProductList';
 import { HStack, VStack } from '@/shared/ui/Stack';
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch';

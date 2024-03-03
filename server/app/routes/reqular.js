@@ -33,11 +33,15 @@ router.get('/brand/:id', BrandController.getBrandDetails);
 
 // Products
 router.post('/images', upload.single('test'), ProductController.uploadImage);
-router.get('/products', ProductController.getProducts);
+router.get('/catalog', ProductController.getProducts);
 router.get('/goods/:id', ProductController.getProductDetails);
 router.get('/search', ProductController.searchProducts);
 router.get('/wishlist', ProductController.getWishList);
 router.post('/wishlist', ProductController.addToWishList);
+router.get('/catalog/colors', ProductController.searchColors);
+router.get('/catalog/brands', ProductController.searchBrands);
+
+router.get('/test', ProductController.test);
 
 // fil
 router.get('/fill-database', FillDataBaseController.fillDataBase);

@@ -28,7 +28,7 @@ export const createProduct = createAsyncThunk<
     formData.append('price', data.price.toString());
     formData.append('code', data.code);
     formData.append('sex', data.sex);
-    formData.append('colors', data.colors.toString());
+    formData.append('ColorId', data.colors[0]);
     data.images.forEach((image) => {
         if (image.originFileObj) formData.append(`images`, image.originFileObj);
     });
