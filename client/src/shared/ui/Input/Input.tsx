@@ -20,6 +20,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         variant = 'clear',
         readOnly = false,
         className,
+        type = 'text',
         ...otherProps
     } = props;
 
@@ -29,6 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
     return (
         <input
+            type={type}
             ref={ref}
             readOnly={readOnly}
             className={classNames(cls.Input, mods, [className, cls[variant]])}

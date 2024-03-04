@@ -98,6 +98,12 @@ const productsPageSlice = createSlice({
             state.filters.minPrice = 0;
             state.filters.sex = [];
         },
+        resetColors: (state) => {
+            state.filters.color = [];
+        },
+        resetBrands: (state) => {
+            state.filters.brands = [];
+        },
         initState: (state) => {
             state._inited = true;
         },

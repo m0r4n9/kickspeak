@@ -140,6 +140,16 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
         dispatch(fetchListBrands(query));
     }, []);
 
+    const resetColors = useCallback(() => {
+        dispatch(productsPageActions.resetColors());
+        dispatch(fetchProductsList({ replace: true }));
+    }, []);
+
+    const resetBrands = useCallback(() => {
+        dispatch(productsPageActions.resetBrands());
+        dispatch(fetchProductsList({ replace: true }));
+    }, []);
+
     const handleClearFilters = () => {
         dispatch(productsPageActions.clearFilters());
         dispatch(fetchProductsList({ replace: true }));
@@ -151,7 +161,7 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
             className={classNames(cls.ProductsFitler, {}, [className])}
         >
             {/*{sex?.length || allColors.activeColors?.length ? (*/}
-            <div onClick={handleClearFilters}>Очистить фильтры</div>
+            {/*<div onClick={handleClearFilters}>Сбросить фильтр</div>*/}
             {/*) : null}*/}
             <Text title="Фильтр" size="m" />
 
@@ -169,12 +179,14 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
                 activeColors={activeColors}
                 onChangeColor={onChangeColor}
                 searchColors={searchColors}
+                resetColors={resetColors}
             />
             <ProductFilterBrand
                 brands={brands}
                 activeBrands={activeBrands}
                 onChangeBrands={onChangeBrand}
                 searchBrands={searchBrands}
+                resetBrands={resetBrands}
             />
         </VStack>
     );

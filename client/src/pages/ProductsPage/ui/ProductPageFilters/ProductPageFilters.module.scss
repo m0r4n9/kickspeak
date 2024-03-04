@@ -1,10 +1,6 @@
 .ProductsFitler {
     width: var(--filter-toolbar);
     overflow: hidden;
-    padding: 16px 16px 16px 14px;
+    padding: 16px 16px 16px 0;
     margin-right: 16px;
-    margin-left: 20px;
-
-    // Для отслежки границ
-    //border: 1px solid black;
 }

@@ -8,6 +8,15 @@
     overflow-y: auto;
 }
 
+.resetBtn {
+    color: var(--primary-40);
+    cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
+}
+
 .colorsList {
     width: calc(100% - 16px);
     max-height: 100%;
@@ -21,4 +30,24 @@
         background-color: rgba(0, 0, 0, 0.1);
         border-radius: 4px;
     }
+}
+
+.inputWrapper {
+    flex-direction: row-reverse;
+
+    .magnifyingGlassIcon {
+        color: #b3b3b3;
+    }
+
+    .searchColor:focus + .magnifyingGlassIcon {
+        color: black;
+    }
+
+}
+
+.searchFailed {
+    font-size: 12px;
+    color: var(--primary-40);
+    text-align: center;
+    padding: 0.8rem 0.4rem 0;
 }

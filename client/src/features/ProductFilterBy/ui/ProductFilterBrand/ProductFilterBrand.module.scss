@@ -1,0 +1,28 @@
+.inputWrapper {
+    flex-direction: row-reverse;
+
+    .magnifyingGlassIcon {
+        color: #b3b3b3;
+    }
+
+    .searchBrands:focus + .magnifyingGlassIcon {
+        color: black;
+    }
+
+}
+
+.searchFailed {
+    font-size: 12px;
+    color: var(--primary-40);
+    text-align: center;
+    padding: 0.8rem 0.4rem 0;
+}
+
+.resetBtn {
+    color: var(--primary-40);
+    cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
+}

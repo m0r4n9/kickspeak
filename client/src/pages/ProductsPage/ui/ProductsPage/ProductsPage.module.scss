@@ -1,13 +1,13 @@
 .wrapperMenPage {
     background: var(--bg-color);
     min-height: calc(100vh - var(--navbar-height));
-    overflow: hidden;
 }
 
 .MenPage {
     position: relative;
     max-width: var(--max-content-width);
     margin: 0 auto;
+    padding: 0 3rem;
 }
 
 .wrapperContent {
