@@ -7,6 +7,11 @@ export interface ColorsFilter {
     name: string;
 }
 
+export interface SizesFilter {
+    id: string;
+    name: string;
+}
+
 export interface BrandsFilter {
     id: string;
     name: string;
@@ -19,6 +24,7 @@ export interface ProductsPageSchema extends EntityState<Product> {
 
     colors?: ColorsFilter[];
     brands?: BrandsFilter[];
+    sizes?: SizesFilter[];
 
     // Pagination
     page: number;
@@ -35,14 +41,13 @@ export interface ProductsPageSchema extends EntityState<Product> {
         minPrice: number;
         color: string[];
         brands: string[];
+        sizes: string[];
         order: SortOrder;
     };
 }
 
 export interface FetchProductsData {
     products: Product[];
-    colors: ColorsFilter[];
-    brands: BrandsFilter[];
     totalPage: number;
     maxPriceDB: number;
     minPriceDB: number;

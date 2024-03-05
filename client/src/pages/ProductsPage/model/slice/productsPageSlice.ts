@@ -9,6 +9,7 @@ import { ProductsPageSchema } from '../types/productsPageSchema.ts';
 import { fetchProductsList } from '../services/fetchProductsList/fetchProductsList.ts';
 import { fetchColors } from '../services/fetchColors/fetchColors.ts';
 import { fetchListBrands } from '@/pages/ProductsPage/model/services/fetchListBrands/fetchListBrands.ts';
+import { fetchSizes } from '@/pages/ProductsPage/model/services/fetchSizes/fetchSizes.ts';
 
 const productsAdapter = createEntityAdapter<Product>({
     selectId: (product) => product.id,
@@ -37,6 +38,7 @@ const productsPageSlice = createSlice({
             color: [],
             brands: [],
             sex: [],
+            sizes: [],
             minPrice: 0,
             maxPrice: 0,
         },
@@ -60,6 +62,20 @@ const productsPageSlice = createSlice({
         removeColor: (state, action: PayloadAction<string>) => {
             if (state.filters.color.includes(action.payload)) {
                 state.filters.color = state.filters.color.reduce(
+                    (acc, color) => {
+                        if (color !== action.payload) acc.push(color);
+                        return acc;
+                    },
+                    [] as string[],
+                );
+            }
+        },
+        setSize: (state, action: PayloadAction<string>) => {
+            state.filters.sizes.push(action.payload);
+        },
+        removeSize: (state, action: PayloadAction<string>) => {
+            if (state.filters.sizes.includes(action.payload)) {
+                state.filters.sizes = state.filters.sizes.reduce(
                     (acc, color) => {
                         if (color !== action.payload) acc.push(color);
                         return acc;
@@ -100,6 +116,9 @@ const productsPageSlice = createSlice({
         },
         resetColors: (state) => {
             state.filters.color = [];
+        },
+        resetSizes: (state) => {
+            state.filters.sizes = [];
         },
         resetBrands: (state) => {
             state.filters.brands = [];
@@ -144,6 +163,9 @@ const productsPageSlice = createSlice({
 
             .addCase(fetchListBrands.fulfilled, (state, action) => {
                 state.brands = action.payload;
+            })
+            .addCase(fetchSizes.fulfilled, (state, action) => {
+                state.sizes = action.payload;
             });
     },
 });

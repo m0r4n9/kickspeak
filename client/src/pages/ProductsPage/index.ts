@@ -3,6 +3,7 @@ export type {
     ProductsPageSchema,
     ColorsFilter,
     BrandsFilter,
+    SizesFilter,
 } from './model/types/productsPageSchema.ts';
 export { getProducts } from './model/slice/productsPageSlice.ts';
 export { fetchProductsList } from './model/services/fetchProductsList/fetchProductsList.ts';

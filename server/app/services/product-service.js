@@ -12,18 +12,20 @@ const {
     priceFilter,
     sexFilter,
     brandsFilter,
+    sizesFilter,
 } = require('../utils/productsQueryFilter');
-const { Op, fn, col, literal, Sequelize } = require('sequelize');
+const { Op, fn, col, literal, cast, Sequelize } = require('sequelize');
 const ApiError = require('../exceptions/api-error');
 
 class ProductService {
-    async getProducts(page, limit, order, colors, price, sex, brands) {
+    async getProducts(page, limit, order, colors, price, sex, brands, sizes) {
         // Сортиврока по полям
         const orderType = typeOrder(order);
         // Фильтрация по цвету
         const filterColors = colorsFilter(colors);
         // Фильтрация по бренду
         const filterBrands = brandsFilter(brands);
+        const filterSizes = sizesFilter(sizes);
         // Фильтрация по цене
         const priceType = priceFilter(price);
         // Фильтрация по полу
@@ -32,7 +34,7 @@ class ProductService {
         const products = await Product.findAll({
             limit: limit,
             offset: (page - 1) * limit,
-            order: [orderType],
+            order: [orderType, [Size, 'name', 'ASC']],
             where: {
                 ...priceType,
                 ...sexType,
@@ -43,16 +45,7 @@ class ProductService {
                     ...filterBrands,
                     attributes: ['id', 'name'],
                 },
-                {
-                    model: Size,
-                    where: {
-                        quantity: {
-                            [Op.ne]: 0,
-                        },
-                    },
-                    required: false,
-                    order: [['id', 'ASC']],
-                },
+                ...filterSizes,
                 {
                     model: Color,
                     ...filterColors,
@@ -64,15 +57,8 @@ class ProductService {
                 },
             ],
             attributes: {
-                exclude: ['BrandId', 'code', 'UserFavoriteProductUserId'],
+                exclude: ['BrandId', 'code'],
             },
-        });
-
-        const colorsData = await Color.findAll({
-            attributes: ['id', 'name'],
-        });
-        const brandsData = await Brand.findAll({
-            attributes: ['id', 'name'],
         });
 
         const amount = await Product.count({
@@ -83,9 +69,7 @@ class ProductService {
             include: [
                 {
                     model: Color,
-                    where: {
-                        name: 'Черный',
-                    },
+                    ...filterColors,
                 },
             ],
         });
@@ -106,12 +90,61 @@ class ProductService {
 
         return {
             products,
-            colors: colorsData,
-            brands: brandsData,
             totalPage,
             maxPriceDB,
             minPriceDB,
         };
+    }
+
+    async searchColors(query) {
+        if (!query || !query.length) return await Color.findAll();
+
+        return await Color.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${query}%`,
+                },
+            },
+        });
+    }
+
+    async searchBrands(query) {
+        if (!query || !query.length)
+            return await Brand.findAll({
+                attributes: ['id', 'name'],
+            });
+
+        return await Brand.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${query}%`,
+                },
+            },
+            attributes: ['id', 'name'],
+        });
+    }
+
+    async searchSizes(query) {
+        if (!query || !query.length) {
+            return await Size.findAll({
+                attributes: [
+                    [Sequelize.fn('DISTINCT', Sequelize.col('name')), 'name'],
+                ],
+                order: [['name', 'ASC']],
+            });
+        }
+
+        return await Size.findAll({
+            where: Sequelize.where(
+                Sequelize.cast(Sequelize.col('name'), 'varchar'),
+                { [Op.iLike]: `%${query}%` },
+            ),
+            order: [['name', 'ASC']],
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('name')), 'name'],
+                // 'id',
+            ],
+        });
     }
 
     async getProductDetails(id, idRecentProducts) {
@@ -306,34 +339,6 @@ class ProductService {
         });
 
         return 'add';
-    }
-
-    async searchColors(query) {
-        if (!query || !query.length) return await Color.findAll();
-
-        return await Color.findAll({
-            where: {
-                name: {
-                    [Op.iLike]: `%${query}%`,
-                },
-            },
-        });
-    }
-
-    async searchBrands(query) {
-        if (!query || !query.length)
-            return await Brand.findAll({
-                attributes: ['id', 'name'],
-            });
-
-        return await Brand.findAll({
-            where: {
-                name: {
-                    [Op.iLike]: `%${query}%`,
-                },
-            },
-            attributes: ['id', 'name'],
-        });
     }
 
     async test() {

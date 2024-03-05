@@ -5,7 +5,8 @@ import { fetchProductsList } from '../fetchProductsList/fetchProductsList.ts';
 import { ProductSexField, SortOrder } from '@/entities/Product';
 import { ThunkConfig } from '@/app/providers/StoreProvider';
 import { fetchColors } from '../fetchColors/fetchColors.ts';
-import { fetchListBrands } from '@/pages/ProductsPage/model/services/fetchListBrands/fetchListBrands.ts';
+import { fetchListBrands } from '../fetchListBrands/fetchListBrands.ts';
+import { fetchSizes } from '../fetchSizes/fetchSizes.ts';
 
 export const initProductsPage = createAsyncThunk<
     void,
@@ -50,5 +51,6 @@ export const initProductsPage = createAsyncThunk<
         dispatch(fetchProductsList({}));
         dispatch(fetchColors());
         dispatch(fetchListBrands());
+        dispatch(fetchSizes());
     }
 });

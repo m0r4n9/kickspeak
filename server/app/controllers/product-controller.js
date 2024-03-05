@@ -18,6 +18,7 @@ class ProductController {
             const price = req.query._price || '0,50000';
             const sex = req.query._sex;
             const brands = req.query._brands;
+            const sizes = req.query._sizes;
 
             const products = await ProductService.getProducts(
                 page,
@@ -27,6 +28,7 @@ class ProductController {
                 price,
                 sex,
                 brands,
+                sizes,
             );
 
             return res.json(products);
@@ -100,6 +102,16 @@ class ProductController {
             const { query } = req.query;
             const brands = await ProductService.searchBrands(query);
             return res.json(brands);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async searchSizes(req, res, next) {
+        try {
+            const { query } = req.query;
+            const sizes = await ProductService.searchSizes(query);
+            return res.json(sizes);
         } catch (e) {
             next(e);
         }

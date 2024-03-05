@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
-const { Color } = require('../models/models');
+const { Op, literal } = require('sequelize');
+const { Size } = require('../models/models');
 
 function typeOrder(order) {
     let atrOrder;
@@ -19,7 +19,10 @@ function typeOrder(order) {
 }
 
 function colorsFilter(colors) {
-    if (!colors || colors.length === 0) return { required: false };
+    if (!colors || colors.length === 0)
+        return {
+            required: false,
+        };
 
     const colorsArray = colors.split(',');
     return {
@@ -30,7 +33,6 @@ function colorsFilter(colors) {
 }
 
 function brandsFilter(brands) {
-    console.log('Brands:', brands);
     if (!brands || brands.length === 0) return { required: false };
 
     const brandsArray = brands.split(',');
@@ -39,6 +41,35 @@ function brandsFilter(brands) {
             name: brandsArray,
         },
     };
+}
+
+function sizesFilter(sizes) {
+    if (!sizes || sizes.length === 0)
+        return [
+            {
+                model: Size,
+                attributes: ['id', 'name'],
+                required: false,
+                where: {
+                    quantity: {
+                        [Op.ne]: 0,
+                    },
+                },
+            },
+        ];
+
+    const sizesArray = sizes.split(',');
+
+    return [
+        {
+            model: Size,
+            attributes: ['id', 'name'],
+            required: true,
+            where: {
+                name: sizesArray,
+            },
+        },
+    ];
 }
 
 function priceFilter(price) {
@@ -60,4 +91,5 @@ module.exports = {
     priceFilter,
     sexFilter,
     brandsFilter,
+    sizesFilter,
 };

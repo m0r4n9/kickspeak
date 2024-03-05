@@ -6,6 +6,7 @@ import {
     ProductFilterColor,
     ProductFilterPrice,
     ProductFilterSex,
+    ProductFilterSize,
 } from '@/features/ProductFilterBy';
 import { ProductSexField } from '@/entities/Product';
 import { useSelector } from 'react-redux';
@@ -35,6 +36,11 @@ import { VStack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
 import { fetchColors } from '../../model/services/fetchColors/fetchColors.ts';
 import { fetchListBrands } from '../../model/services/fetchListBrands/fetchListBrands.ts';
+import {
+    getProductFilterSizes,
+    getProductSizes,
+} from '@/pages/ProductsPage/model/selectors/getProductSizes/getProductSizes.ts';
+import { fetchSizes } from '@/pages/ProductsPage/model/services/fetchSizes/fetchSizes.ts';
 
 interface ProductPageFiltersProps {
     className?: string;
@@ -45,8 +51,10 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
     const dispatch = useAppDispatch();
     const isLoading = useSelector(getProductsPageIsLoading);
     const sex = useSelector(getProductSex);
-    const colors = useSelector(getProductsColors) || [];
-    const activeColors = useSelector(getProductsFilterColors) || [];
+    const colors = useSelector(getProductsColors);
+    const activeColors = useSelector(getProductsFilterColors);
+    const sizes = useSelector(getProductSizes);
+    const activeSizes = useSelector(getProductFilterSizes);
     const brands = useSelector(getProductBrands);
     const activeBrands = useSelector(getProductFilterBrands);
     const minPriceFromDb = useSelector(getProductsMinPriceDB);
@@ -119,6 +127,19 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
         [dispatch, fetchProductsList],
     );
 
+    const onChangeSize = useCallback(
+        (checked: boolean, size: string) => {
+            if (checked) {
+                dispatch(productsPageActions.setSize(size));
+            } else {
+                dispatch(productsPageActions.removeSize(size));
+            }
+            dispatch(productsPageActions.setPage(1));
+            dispatch(fetchProductsList({ replace: true }));
+        },
+        [dispatch, fetchProductsList],
+    );
+
     const onChangeBrand = useCallback(
         (checked: boolean, brand: string) => {
             if (checked) {
@@ -140,8 +161,17 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
         dispatch(fetchListBrands(query));
     }, []);
 
+    const searchSizes = useCallback((query: string) => {
+        dispatch(fetchSizes(query));
+    }, []);
+
     const resetColors = useCallback(() => {
         dispatch(productsPageActions.resetColors());
+        dispatch(fetchProductsList({ replace: true }));
+    }, []);
+
+    const resetSizes = useCallback(() => {
+        dispatch(productsPageActions.resetSizes());
         dispatch(fetchProductsList({ replace: true }));
     }, []);
 
@@ -180,6 +210,13 @@ export const ProductPageFilters = (props: ProductPageFiltersProps) => {
                 onChangeColor={onChangeColor}
                 searchColors={searchColors}
                 resetColors={resetColors}
+            />
+            <ProductFilterSize
+                sizes={sizes}
+                activeSizes={activeSizes}
+                onChangeSize={onChangeSize}
+                searchSizes={searchSizes}
+                resetSizes={resetSizes}
             />
             <ProductFilterBrand
                 brands={brands}

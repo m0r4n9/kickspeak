@@ -41,7 +41,6 @@ export const ProductsInfiniteList = () => {
                 if (status === 'fulfilled') {
                     toast.success('Товар успешно добавлен в корзину.');
                 } else if (status === 'rejected') {
-                    console.log('@', errorCart);
                     toast.error(errorCart);
                 }
             });
@@ -76,6 +75,16 @@ export const ProductsInfiniteList = () => {
     //         </HStack>
     //     );
     // }
+
+    if (!products.length) {
+        return (
+            <div className={cls.content}>
+                <VStack align="center">
+                    <h1 className={cls.emptyList}>Продукты не найдены</h1>
+                </VStack>
+            </div>
+        );
+    }
 
     return (
         <div className={cls.content}>

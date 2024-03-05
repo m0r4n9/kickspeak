@@ -14,6 +14,7 @@ import {
     getProductsMinPrice,
 } from '@/pages/ProductsPage/model/selectors/getProductPrices/getProductPrices.ts';
 import { getProductFilterBrands } from '@/pages/ProductsPage/model/selectors/getProductBrands/getProductBrands.ts';
+import { getProductFilterSizes } from '@/pages/ProductsPage/model/selectors/getProductSizes/getProductSizes.ts';
 
 interface FetchProductsListProps {
     replace?: boolean;
@@ -30,6 +31,7 @@ export const fetchProductsList = createAsyncThunk<
     const order = getProductsOrder(getState());
     const colors = getProductsFilterColors(getState())?.join(',');
     const brands = getProductFilterBrands(getState())?.join(',');
+    const sizes = getProductFilterSizes(getState())?.join(',');
     const sex = getProductSex(getState())?.join(',');
 
     const min = getProductsMinPrice(getState());
@@ -40,6 +42,7 @@ export const fetchProductsList = createAsyncThunk<
             sex,
             colors,
             brands,
+            sizes,
             order,
         });
         const response = await extra.api.get<FetchProductsData>('/catalog', {
@@ -51,6 +54,7 @@ export const fetchProductsList = createAsyncThunk<
                 _color: colors,
                 _sex: sex,
                 _brands: brands,
+                _sizes: sizes,
             },
         });
         return response.data;

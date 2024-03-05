@@ -6,7 +6,6 @@ const UserController = require('../controllers/user-controller');
 const FillDataBaseController = require('../controllers/filldb-controller');
 
 const router = new Router();
-const upload = require('../middlewares/uploadImg');
 
 // User
 router.put('/profile/:id', UserController.updateProfileData);
@@ -23,23 +22,18 @@ router.delete('/remove-from-cart', CartController.removeProductCart);
 router.put('/update-cart', CartController.updateProductCart);
 
 // Brands routes
-router.post(
-    '/create/brand',
-    upload.single('file'),
-    BrandController.createBrand,
-);
 router.get('/brands', BrandController.getBrands);
 router.get('/brand/:id', BrandController.getBrandDetails);
 
 // Products
-router.post('/images', upload.single('test'), ProductController.uploadImage);
 router.get('/catalog', ProductController.getProducts);
+router.get('/catalog/colors', ProductController.searchColors);
+router.get('/catalog/brands', ProductController.searchBrands);
+router.get('/catalog/sizes', ProductController.searchSizes);
 router.get('/goods/:id', ProductController.getProductDetails);
 router.get('/search', ProductController.searchProducts);
 router.get('/wishlist', ProductController.getWishList);
 router.post('/wishlist', ProductController.addToWishList);
-router.get('/catalog/colors', ProductController.searchColors);
-router.get('/catalog/brands', ProductController.searchBrands);
 
 router.get('/test', ProductController.test);
 

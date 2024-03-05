@@ -65,7 +65,7 @@ const Size = sequelize.define(
     'Size',
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, allowNull: false },
+        name: { type: DataTypes.DECIMAL(3, 1), allowNull: false },
         quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
